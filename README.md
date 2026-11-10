@@ -1,58 +1,176 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📚 EcoPoint - Sistema de Mapeamento de Coleta de Livros e Apostilas Acadêmicas
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Guia oficial de arquitetura, estrutura inicial e orientações para a equipe de desenvolvimento.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🎯 1. Objetivo do Projeto
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+O **EcoPoint** é uma plataforma acadêmica desenvolvida em **PHP (Laravel) e MySQL** com foco no mapeamento e divulgação de pontos de coleta para doação e redistribuição de livros didáticos, acadêmicos e apostilas escolares/vestibulares.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Perfis de Acesso
 
-## Learning Laravel
+| Perfil | Acesso | Principais Responsabilidades |
+| :--- | :--- | :--- |
+| **Visitante / Público** | Livre (sem login) | Consultar pontos de coleta no mapa/lista, visualizar horários, materiais aceitos e dados institucionais das ONGs. |
+| **ONG (Institucional)** | Autenticado | Cadastrar, editar e excluir seus próprios pontos de coleta; atualizar informações de seu perfil institucional. |
+| **Administrador** | Autenticado | Gerenciamento geral da plataforma; cadastrar ONGs; consultar, editar e ativar/desativar organizações cadastradas. |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🏗️ 2. Arquitetura e Organização de Pastas
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+O projeto adota o padrão **MVC (Model-View-Controller)** com separação explícita de contextos por perfil de usuário:
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```text
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Admin/                    # Ações exclusivas do Administrador
+│   │   │   │   ├── DashboardController.php
+│   │   │   │   └── OngController.php
+│   │   │   ├── Auth/                     # Login e Logout
+│   │   │   │   └── LoginController.php
+│   │   │   ├── Ong/                      # Ações da ONG autenticada
+│   │   │   │   ├── DashboardController.php
+│   │   │   │   ├── PerfilController.php
+│   │   │   │   └── PontoDeColetaController.php
+│   │   │   └── Publico/                  # Ações abertas para visitantes
+│   │   │       ├── HomeController.php
+│   │   │       ├── OngController.php
+│   │   │       └── PontoDeColetaController.php
+│   │   └── Middleware/
+│   │       └── VerificarPerfil.php       # Proteção de rotas ('perfil:admin' e 'perfil:ong')
+│   └── Models/
+│       ├── User.php                      # Model de autenticação com campo 'role'
+│       ├── Ong.php                       # Dados institucionais da ONG
+│       ├── PontoDeColeta.php             # Local físico de coleta
+│       └── MaterialAceito.php            # Tipos de materiais recolhidos
+├── database/
+│   ├── migrations/                       # Esquema das tabelas do MySQL
+│   └── seeders/
+│       ├── DatabaseSeeder.php            # Seeder mestre (Admin, Materiais e ONG padrão)
+│       ├── AdminUserSeeder.php           # Administrador inicial
+│       ├── MaterialAceitoSeeder.php      # Categorias iniciais de livros/apostilas
+│       └── OngSeeder.php                 # ONG inicial para testes (ong@ecopoint.com)
+├── public/
+│   └── css/                              # Estilos CSS modulares separados por área
+│       ├── admin/
+│       ├── auth/
+│       ├── ong/                          # CSS da ONG (dashboard, pontos, perfil)
+│       └── publico/
+├── resources/
+│   └── views/
+│       ├── layouts/
+│       │   └── app.blade.php             # Template base padrão
+│       ├── admin/                        # Telas do Administrador
+│       ├── auth/                         # Telas de Login
+│       ├── ong/                          # Telas da ONG (Dashboard, Pontos, Perfil)
+│       └── publico/                      # Telas públicas de consulta
+└── routes/
+    └── web.php                           # Mapeamento organizado das rotas
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+## 🗄️ 3. Banco de Dados e Modelagem (MySQL)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Diagrama de Relacionamentos (ER)
 
-## Code of Conduct
+```
+[ users ]
+   │ 1
+   │ 
+   │ 1 (role = 'ong')
+[ ongs ]
+   │ 1
+   │
+   │ N
+[ pontos_de_coleta ]
+   │ N
+   │
+   │ N (via material_ponto_coleta)
+[ materiais_aceitos ]
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 🏢 4. Módulo da ONG (Implementado)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1. Painel Inicial (Dashboard)
+- **Rota:** `GET /ong/dashboard` (`route('ong.dashboard')`)
+- **Controller:** `App\Http\Controllers\Ong\DashboardController@index`
+- **View:** `resources/views/ong/dashboard.blade.php`
+- **CSS:** `public/css/ong/dashboard.css`
+- **Recursos:** Métricas de pontos totais e ativos, status da organização, tabela de pontos recentes e atalhos rápidos.
 
-## License
+### 2. Gerenciamento de Pontos de Coleta (CRUD)
+- **Rotas:**
+  - `GET /ong/pontos` (`route('ong.pontos.index')`): Lista paginada dos pontos de coleta da própria ONG.
+  - `GET /ong/pontos/criar` (`route('ong.pontos.create')`): Formulário de cadastro com seleção de materiais aceitos.
+  - `POST /ong/pontos` (`route('ong.pontos.store')`): Salva o ponto associado à ONG e sincroniza a pivot `material_ponto_coleta`.
+  - `GET /ong/pontos/{ponto}/editar` (`route('ong.pontos.edit')`): Formulário de edição com dados existentes e materiais marcados.
+  - `PUT /ong/pontos/{ponto}` (`route('ong.pontos.update')`): Atualiza os dados e sincroniza os materiais aceitos.
+  - `DELETE /ong/pontos/{ponto}` (`route('ong.pontos.destroy')`): Exclui o ponto de coleta.
+- **Segurança e Isolamento:** Cada ONG só pode gerenciar estritamente os pontos que pertençam à sua própria organização (`ong_id === auth()->user()->ong->id`). Qualquer tentativa de manipular ponto de outra instituição retorna erro `403 Forbidden`.
+- **View:** `resources/views/ong/pontos/` (`index.blade.php`, `create.blade.php`, `edit.blade.php`)
+- **CSS:** `public/css/ong/pontos.css`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3. Perfil Institucional
+- **Rotas:**
+  - `GET /ong/perfil` (`route('ong.perfil.edit')`): Visualização do perfil da instituição.
+  - `PUT /ong/perfil` (`route('ong.perfil.update')`): Atualização de nome, CNPJ, telefone, e-mail público, descrição e alteração de senha.
+- **View:** `resources/views/ong/perfil/edit.blade.php`
+- **CSS:** `public/css/ong/perfil-edit.css`
+
+---
+
+## 🧪 5. Como Executar os Testes Automatizados
+
+O projeto conta com suíte completa de testes em PHPUnit / Laravel Feature Tests (27 testes passando):
+
+```bash
+# Executar todos os testes da aplicação:
+php artisan test
+
+# Executar apenas os testes da área da ONG:
+php artisan test --filter=OngPontoDeColetaTest
+
+# Executar os testes da área do Administrador:
+php artisan test --filter=AdminOngTest
+
+# Executar os testes de Autenticação (Login/Logout):
+php artisan test --filter=AuthTest
+```
+
+---
+
+## 🚀 6. Como Rodar o Projeto Localmente
+
+### Pré-requisitos
+- **PHP 8.2+** (ou Laragon PHP 8.3).
+- **MySQL** rodando (ex.: XAMPP, Laragon ou Docker).
+- **Composer** instalado.
+
+### Passo a Passo
+
+1. **Configurar o Banco de Dados:**
+   No MySQL, crie a base de dados:
+   ```sql
+   CREATE DATABASE ecopoint CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   ```
+
+2. **Executar Migrations e Seeders:**
+   No terminal:
+   ```bash
+   php artisan migrate --seed
+   ```
+   Credenciais padrão cadastradas para teste:
+   - **Administrador:** `admin@ecopoint.com` | Senha: `admin123`
+   - **ONG:** `ong@ecopoint.com` | Senha: `ong123`
+
+3. **Iniciar o Servidor:**
+   ```bash
+   php artisan serve
+   ```
+   Acesse no navegador: `http://127.0.0.1:8000`

@@ -146,7 +146,62 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'perfil:admin'])->gr
 
 ---
 
-## 🚀 6. Como Rodar o Projeto Localmente
+## 🏢 6. Módulo da ONG (Implementado)
+
+### 1. Painel Inicial (Dashboard)
+- **Rota:** `GET /ong/dashboard` (`route('ong.dashboard')`)
+- **Controller:** `App\Http\Controllers\Ong\DashboardController@index`
+- **View:** `resources/views/ong/dashboard.blade.php`
+- **CSS:** `public/css/ong/dashboard.css`
+- **Recursos Exibidos:**
+  - Quantidade total de pontos de coleta cadastrados pela instituição.
+  - Quantidade de pontos de coleta ativos no momento.
+  - Status institucional (Ativa / Inativa).
+  - Tabela com os últimos pontos de coleta cadastrados pela ONG.
+  - Acessos rápidos para novo ponto, gerenciamento de pontos e perfil institucional.
+
+### 2. Gerenciamento de Pontos de Coleta (CRUD)
+- **Rotas:**
+  - `GET /ong/pontos` (`route('ong.pontos.index')`): Lista paginada dos pontos de coleta da própria ONG.
+  - `GET /ong/pontos/criar` (`route('ong.pontos.create')`): Formulário de cadastro com seleção de materiais aceitos.
+  - `POST /ong/pontos` (`route('ong.pontos.store')`): Salva o ponto associado à ONG e sincroniza a pivot `material_ponto_coleta`.
+  - `GET /ong/pontos/{ponto}/editar` (`route('ong.pontos.edit')`): Formulário de edição com dados existentes e materiais marcados.
+  - `PUT /ong/pontos/{ponto}` (`route('ong.pontos.update')`): Atualiza os dados e sincroniza os materiais aceitos.
+  - `DELETE /ong/pontos/{ponto}` (`route('ong.pontos.destroy')`): Exclui o ponto de coleta.
+- **Segurança e Isolamento:** Cada ONG só pode visualizar, editar ou excluir os pontos que pertençam à sua própria organização (`ong_id === auth()->user()->ong->id`). Qualquer tentativa de gerenciar pontos de outra instituição retorna erro `403 Forbidden`.
+- **View:** `resources/views/ong/pontos/` (`index.blade.php`, `create.blade.php`, `edit.blade.php`)
+- **CSS:** `public/css/ong/pontos.css`
+
+### 3. Perfil Institucional
+- **Rotas:**
+  - `GET /ong/perfil` (`route('ong.perfil.edit')`): Visualização do perfil da instituição.
+  - `PUT /ong/perfil` (`route('ong.perfil.update')`): Atualização de nome, CNPJ, telefone, e-mail público, descrição e alteração de senha.
+- **View:** `resources/views/ong/perfil/edit.blade.php`
+- **CSS:** `public/css/ong/perfil-edit.css`
+
+---
+
+## 🧪 7. Como Executar os Testes Automatizados
+
+O projeto conta com suíte de testes em PHPUnit / Laravel Feature Tests:
+
+```bash
+# Executar todos os testes da aplicação:
+php artisan test
+
+# Executar apenas os testes da área da ONG:
+php artisan test --filter=OngPontoDeColetaTest
+
+# Executar os testes da área do Administrador:
+php artisan test --filter=AdminOngTest
+
+# Executar os testes de Autenticação (Login/Logout):
+php artisan test --filter=AuthTest
+```
+
+---
+
+## 🚀 8. Como Rodar o Projeto Localmente
 
 ### Pré-requisitos
 - **PHP 8.2+** instalado.
