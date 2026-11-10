@@ -1,0 +1,18 @@
+/* ============================================================
+   EcoPoint — Página Pública: Detalhes da ONG
+   public/css/publico/ongs-show.css
+   ============================================================ */
+
+/* Divider */
+.ong-show-divider {
+    margin: 1rem 0;
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Placeholder note */
+.ong-show-placeholder {
+    color: #718096;
+    font-style: italic;
+}
+

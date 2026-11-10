@@ -1,0 +1,243 @@
+/**
+ * EcoPoint - Estilos para Tela de Login com Diferenciação de Perfil
+ * public/css/auth/login.css
+ */
+
+.login-container {
+    max-width: 480px;
+    margin: 2rem auto 3rem;
+}
+
+.login-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 2.25rem 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.login-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-top: 0.75rem;
+}
+
+.login-subtitle {
+    color: #718096;
+    font-size: 0.875rem;
+    margin-top: 0.35rem;
+    min-height: 2.5rem;
+    line-height: 1.4;
+}
+
+/* Seletor Segmentado de Perfil (Admin vs ONG) */
+.role-selector {
+    display: flex;
+    background-color: #edf2f7;
+    padding: 0.3rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    gap: 0.35rem;
+}
+
+.role-pill {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #718096;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    text-align: center;
+}
+
+.role-pill input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.role-pill:hover {
+    color: #2d3748;
+}
+
+.role-pill.active {
+    background-color: #ffffff;
+    color: #2f855a;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.role-pill.role-admin.active {
+    color: #9b2c2c;
+}
+
+.role-pill.role-ong.active {
+    color: #22543d;
+}
+
+/* Formulário de Login */
+.login-form-group {
+    margin-bottom: 1.25rem;
+}
+
+.login-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 0.35rem;
+}
+
+.login-input {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    font-size: 0.95rem;
+    color: #2d3748;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    outline: none;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.login-input:focus {
+    border-color: #2f855a;
+    box-shadow: 0 0 0 3px rgba(47, 133, 90, 0.15);
+}
+
+.login-remember {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #4a5568;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+}
+
+.login-btn-submit {
+    width: 100%;
+    background-color: #2f855a;
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.login-btn-submit:hover {
+    background-color: #276749;
+}
+
+/* Caixa de Credenciais de Demonstração (Seeders) */
+.login-credentials-box {
+    margin-top: 1.75rem;
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1.15rem;
+    font-size: 0.85rem;
+    color: #4a5568;
+}
+
+.login-credentials-title {
+    font-weight: 700;
+    margin-bottom: 0.65rem;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.credentials-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.credential-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 0.65rem 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.credential-item:hover {
+    border-color: #cbd5e0;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.credential-item-title {
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-bottom: 0.2rem;
+}
+
+.credential-item-code {
+    font-family: monospace;
+    font-size: 0.78rem;
+    color: #4a5568;
+}
+
+.btn-fill-hint {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.72rem;
+    color: #2f855a;
+    font-weight: 600;
+}
+
+/* ---- Alert boxes inside login form ---- */
+.login-alert-success {
+    background-color: #c6f6d5;
+    color: #22543d;
+    border: 1px solid #9ae6b4;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+}
+
+.login-alert-error {
+    background-color: #fed7d7;
+    color: #9b2c2c;
+    border: 1px solid #feb2b2;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+}
+
+.login-alert-list {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+/* ---- Credential item title variants ---- */
+.credential-admin {
+    color: #9b2c2c;
+}
+
+.credential-ong {
+    color: #22543d;
+}

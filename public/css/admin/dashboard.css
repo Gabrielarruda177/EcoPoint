@@ -1,0 +1,133 @@
+.admin-dashboard-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.dashboard-header-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    margin-bottom: 1.75rem;
+}
+
+.dashboard-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.dashboard-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-top: 0.5rem;
+}
+
+.dashboard-welcome {
+    color: #4a5568;
+    font-size: 0.95rem;
+    margin-top: 0.25rem;
+}
+
+.dashboard-btn-create {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: #2f855a;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+}
+
+.dashboard-btn-create:hover {
+    background-color: #276749;
+    text-decoration: none;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.module-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.module-card:hover {
+    border-color: #cbd5e0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.module-card-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.35rem;
+}
+
+.module-card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 0.35rem;
+}
+
+.module-card-desc {
+    color: #718096;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+}
+
+.module-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #2f855a;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: gap 0.15s ease;
+}
+
+.module-card-link:hover {
+    gap: 0.6rem;
+    text-decoration: none;
+}
+
+@media (max-width: 640px) {
+    .dashboard-header-card {
+        padding: 1.25rem;
+    }
+
+    .dashboard-header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dashboard-btn-create {
+        width: 100%;
+        justify-content: center;
+    }
+}
+

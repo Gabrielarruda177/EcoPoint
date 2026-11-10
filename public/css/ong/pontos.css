@@ -1,0 +1,45 @@
+/* ============================================================
+   EcoPoint — ONG Pontos (index / create / edit shared base)
+   public/css/ong/pontos.css
+   ============================================================ */
+
+/* Section heading */
+.pontos-title {
+    margin-top: 0.5rem;
+}
+
+/* Button — new ponto */
+.btn-new-ponto {
+    display: inline-block;
+    background: #2f855a;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.15s ease;
+}
+
+.btn-new-ponto:hover {
+    background: #276749;
+    text-decoration: none;
+}
+
+/* Paragraph wrapping the button */
+.pontos-action-row {
+    margin: 1rem 0;
+}
+
+/* Divider */
+.pontos-divider {
+    margin: 1rem 0;
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Placeholder note */
+.pontos-placeholder {
+    color: #718096;
+    font-style: italic;
+}
+

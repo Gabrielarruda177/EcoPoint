@@ -1,0 +1,23 @@
+/* ============================================================
+   EcoPoint — ONG Perfil Edit
+   public/css/ong/perfil-edit.css
+   ============================================================ */
+
+/* Section heading */
+.perfil-edit-title {
+    margin-top: 0.5rem;
+}
+
+/* Divider */
+.perfil-edit-divider {
+    margin: 1rem 0;
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Placeholder note */
+.perfil-edit-placeholder {
+    color: #718096;
+    font-style: italic;
+}
+
