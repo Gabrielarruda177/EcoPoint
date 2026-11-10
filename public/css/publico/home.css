@@ -1,0 +1,28 @@
+/* ============================================================
+   EcoPoint — Página Pública: Home
+   public/css/publico/home.css
+   ============================================================ */
+
+/* Divider */
+.home-divider {
+    margin: 1rem 0;
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* CTA link */
+.home-cta-link {
+    color: #2f855a;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.home-cta-link:hover {
+    text-decoration: underline;
+}
+
+/* CTA paragraph */
+.home-cta-row {
+    margin-top: 1rem;
+}
+

@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Importação dos Controllers de Autenticação
+use App\Http\Controllers\Auth\LoginController;
+
 // Importação dos Controllers organizados por perfil
 use App\Http\Controllers\Publico\HomeController as PublicoHomeController;
 use App\Http\Controllers\Publico\PontoDeColetaController as PublicoPontoDeColetaController;
@@ -16,7 +19,19 @@ use App\Http\Controllers\Admin\OngController as AdminOngController;
 
 /*
 |--------------------------------------------------------------------------
-| 1. Rotas Públicas (Visitante / Usuário Comum - Sem necessidade de Login)
+| 1. Rotas de Autenticação (Login / Logout)
+|--------------------------------------------------------------------------
+*/
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login'])->name('login.attempt');
+});
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+
+/*
+|--------------------------------------------------------------------------
+| 2. Rotas Públicas (Visitante / Usuário Comum - Sem necessidade de Login)
 |--------------------------------------------------------------------------
 */
 Route::name('publico.')->group(function () {
@@ -33,12 +48,10 @@ Route::name('publico.')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| 2. Rotas do Perfil ONG (Área autenticada da instituição)
+| 3. Rotas do Perfil ONG (Área autenticada da instituição)
 |--------------------------------------------------------------------------
-| Nota: Quando implementar o login, adicione a proteção de perfil com o middleware:
-| Route::prefix('ong')->name('ong.')->middleware(['auth', 'perfil:ong'])->group(function () { ... });
 */
-Route::prefix('ong')->name('ong.')->group(function () {
+Route::prefix('ong')->name('ong.')->middleware(['auth', 'perfil:ong'])->group(function () {
     // Dashboard da ONG
     Route::get('/dashboard', [OngDashboardController::class, 'index'])->name('dashboard');
 
@@ -57,20 +70,16 @@ Route::prefix('ong')->name('ong.')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| 3. Rotas do Perfil Administrador (Gestão geral do sistema)
+| 4. Rotas do Perfil Administrador (Gestão geral do sistema)
 |--------------------------------------------------------------------------
-| Nota: Futuramente você pode adicionar o middleware auth e verificação de admin.
-| Exemplo: Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(...)
 */
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'perfil:admin'])->group(function () {
     // Dashboard do Administrador
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-    // Gerenciamento de ONGs cadastradas
-    Route::get('/ongs', [AdminOngController::class, 'index'])->name('ongs.index');
-    Route::get('/ongs/criar', [AdminOngController::class, 'create'])->name('ongs.create');
-    Route::post('/ongs', [AdminOngController::class, 'store'])->name('ongs.store');
-    Route::get('/ongs/{ong}/editar', [AdminOngController::class, 'edit'])->name('ongs.edit');
-    Route::put('/ongs/{ong}', [AdminOngController::class, 'update'])->name('ongs.update');
-    Route::patch('/ongs/{ong}/status', [AdminOngController::class, 'toggleStatus'])->name('ongs.toggle-status');
+    // Gerenciamento de ONGs cadastradas (CRUD Resource)
+    Route::resource('ongs', AdminOngController::class)->except(['show']);
+
+    // Alternar status ativo/inativo da ONG
+    Route::patch('/ongs/{ong}/status', [AdminOngController::class, 'toggleStatus'])->name('ongs.toggleStatus');
 });

@@ -7,9 +7,7 @@ use Illuminate\Database\Seeder;
 
 class MaterialAceitoSeeder extends Seeder
 {
-    /**
-     * Cadastra categorias iniciais de livros e apostilas acadêmicas.
-     */
+   
     public function run(): void
     {
         $materiais = [

@@ -1,0 +1,36 @@
+/* ============================================================
+   EcoPoint — ONG Dashboard
+   public/css/ong/dashboard.css
+   ============================================================ */
+
+/* Page heading */
+.ong-dashboard-title {
+    margin-top: 0.5rem;
+    color: #1a202c;
+}
+
+/* Welcome paragraph */
+.ong-dashboard-welcome {
+    color: #4a5568;
+}
+
+/* Description paragraph */
+.ong-dashboard-desc {
+    color: #718096;
+    font-size: 0.95rem;
+    margin-top: 0.25rem;
+}
+
+/* Divider */
+.ong-dashboard-divider {
+    margin: 1rem 0;
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Nav list */
+.ong-dashboard-links {
+    margin-left: 1.5rem;
+    line-height: 1.8;
+}
+

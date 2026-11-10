@@ -1,0 +1,18 @@
+/* ============================================================
+   EcoPoint — Página Pública: Detalhes do Ponto de Coleta
+   public/css/publico/pontos-show.css
+   ============================================================ */
+
+/* Divider */
+.ponto-show-divider {
+    margin: 1rem 0;
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Placeholder note */
+.ponto-show-placeholder {
+    color: #718096;
+    font-style: italic;
+}
+
