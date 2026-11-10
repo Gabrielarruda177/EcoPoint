@@ -3,34 +3,279 @@
    public/css/ong/dashboard.css
    ============================================================ */
 
-/* Page heading */
-.ong-dashboard-title {
-    margin-top: 0.5rem;
+.ong-dashboard-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Header principal */
+.dashboard-header-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.dashboard-title {
+    font-size: 1.5rem;
+    font-weight: 700;
     color: #1a202c;
+    margin-top: 0.5rem;
 }
 
-/* Welcome paragraph */
-.ong-dashboard-welcome {
+.dashboard-welcome {
     color: #4a5568;
-}
-
-/* Description paragraph */
-.ong-dashboard-desc {
-    color: #718096;
     font-size: 0.95rem;
     margin-top: 0.25rem;
 }
 
-/* Divider */
-.ong-dashboard-divider {
-    margin: 1rem 0;
-    border: 0;
-    border-top: 1px solid #e2e8f0;
+.dashboard-btn-create {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: #2f855a;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
 }
 
-/* Nav list */
-.ong-dashboard-links {
-    margin-left: 1.5rem;
-    line-height: 1.8;
+.dashboard-btn-create:hover {
+    background-color: #276749;
+    text-decoration: none;
 }
 
+/* Métricas em destaque */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background: #e6fffa;
+    color: #2f855a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.stat-icon--active {
+    background: #ebf8ff;
+    color: #3182ce;
+}
+
+.stat-icon--org {
+    background: #faf5ff;
+    color: #805ad5;
+}
+
+.stat-number {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #1a202c;
+    line-height: 1.1;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: #718096;
+    font-weight: 500;
+    margin-top: 0.2rem;
+}
+
+/* Módulos de atalho */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+}
+
+.module-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.module-card:hover {
+    border-color: #cbd5e0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.module-card-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.35rem;
+    display: inline-block;
+}
+
+.module-card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 0.35rem;
+}
+
+.module-card-desc {
+    color: #718096;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+}
+
+.module-card-link {
+    color: #2f855a;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.module-card-link:hover {
+    color: #276749;
+    text-decoration: underline;
+}
+
+/* Card de Pontos Recentes */
+.recent-pontos-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.recent-pontos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.recent-pontos-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.recent-pontos-link {
+    color: #2f855a;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.recent-pontos-link:hover {
+    text-decoration: underline;
+}
+
+.recent-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.recent-table th {
+    text-align: left;
+    padding: 0.65rem 0.75rem;
+    background: #f7fafc;
+    color: #4a5568;
+    font-weight: 600;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.recent-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #edf2f7;
+    color: #2d3748;
+}
+
+.recent-table tr:last-child td {
+    border-bottom: none;
+}
+
+.status-pill {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-active {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.status-inactive {
+    background: #fed7d7;
+    color: #9b2c2c;
+}
+
+.materiais-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+.badge-material {
+    background: #edf2f7;
+    color: #4a5568;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #718096;
+}
+
+.empty-state p {
+    margin-bottom: 0.75rem;
+}

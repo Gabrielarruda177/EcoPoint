@@ -1,45 +1,466 @@
 /* ============================================================
-   EcoPoint — ONG Pontos (index / create / edit shared base)
+   EcoPoint — ONG Pontos de Coleta (Index, Create & Edit)
    public/css/ong/pontos.css
    ============================================================ */
 
-/* Section heading */
-.pontos-title {
-    margin-top: 0.5rem;
+.pontos-container {
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-/* Button — new ponto */
+/* Header Card */
+.pontos-header-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.pontos-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-top: 0.35rem;
+}
+
+.pontos-subtitle {
+    color: #4a5568;
+    font-size: 0.95rem;
+    margin-top: 0.25rem;
+}
+
 .btn-new-ponto {
-    display: inline-block;
-    background: #2f855a;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: #2f855a;
+    color: #ffffff !important;
+    font-size: 0.9rem;
     font-weight: 600;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    text-decoration: none;
     transition: background-color 0.15s ease;
 }
 
 .btn-new-ponto:hover {
-    background: #276749;
+    background-color: #276749;
     text-decoration: none;
 }
 
-/* Paragraph wrapping the button */
-.pontos-action-row {
-    margin: 1rem 0;
+/* Tabela de Listagem */
+.pontos-table-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
 }
 
-/* Divider */
-.pontos-divider {
-    margin: 1rem 0;
-    border: 0;
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.pontos-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    text-align: left;
+}
+
+.pontos-table th {
+    background: #f7fafc;
+    color: #4a5568;
+    font-weight: 600;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    white-space: nowrap;
+}
+
+.pontos-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #edf2f7;
+    vertical-align: middle;
+}
+
+.pontos-table tr:hover {
+    background-color: #fcfdfd;
+}
+
+.ponto-nome-cell {
+    font-weight: 700;
+    color: #1a202c;
+    font-size: 0.98rem;
+    margin-bottom: 0.2rem;
+}
+
+.ponto-subtext {
+    font-size: 0.82rem;
+    color: #718096;
+}
+
+.status-pill {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.status-active {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.status-inactive {
+    background: #fed7d7;
+    color: #9b2c2c;
+}
+
+.materiais-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    max-width: 320px;
+}
+
+.badge-material {
+    background: #edf2f7;
+    color: #2d3748;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    border: 1px solid #e2e8f0;
+}
+
+/* Grupo de Ações */
+.actions-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.actions-group--end {
+    justify-content: flex-end;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.75rem;
+    border-radius: 5px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-action-edit {
+    background: #edf2f7;
+    color: #2d3748;
+    border: 1px solid #cbd5e0;
+}
+
+.btn-action-edit:hover {
+    background: #e2e8f0;
+    color: #1a202c;
+}
+
+.btn-action-delete {
+    background: #fff5f5;
+    color: #c53030;
+    border: 1px solid #feb2b2;
+}
+
+.btn-action-delete:hover {
+    background: #fed7d7;
+    color: #9b2c2c;
+}
+
+.form-inline {
+    display: inline;
+    margin: 0;
+}
+
+/* Estado Vazio */
+.empty-state {
+    text-align: center;
+    padding: 3.5rem 1.5rem;
+    color: #718096;
+}
+
+.empty-state p {
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+}
+
+/* Paginação */
+.pagination-wrapper {
+    padding: 1rem 1.5rem;
     border-top: 1px solid #e2e8f0;
 }
 
-/* Placeholder note */
-.pontos-placeholder {
-    color: #718096;
-    font-style: italic;
+/* ============================================================
+   Formulários (Create / Edit)
+   ============================================================ */
+
+.ponto-form-container {
+    max-width: 860px;
+    margin: 0 auto;
 }
 
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #4a5568;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    transition: color 0.15s ease;
+}
+
+.back-link:hover {
+    color: #2f855a;
+    text-decoration: underline;
+}
+
+.ponto-form-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.ponto-form-header {
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.75rem;
+}
+
+.form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0;
+}
+
+.form-section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 0.25rem;
+}
+
+.form-section-subtitle {
+    font-size: 0.85rem;
+    color: #718096;
+    margin-bottom: 1.25rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #2d3748;
+    margin-bottom: 0.35rem;
+}
+
+.required-mark {
+    color: #e53e3e;
+    margin-left: 0.2rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #2d3748;
+    background: #ffffff;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #2f855a;
+    box-shadow: 0 0 0 3px rgba(47, 133, 90, 0.15);
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+}
+
+.form-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.25rem;
+}
+
+.form-hint {
+    font-size: 0.8rem;
+    color: #718096;
+    margin-top: 0.3rem;
+    display: block;
+}
+
+/* Checkbox Toggle de Ativo */
+.checkbox-toggle-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: #2d3748;
+}
+
+.checkbox-toggle-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #2f855a;
+    cursor: pointer;
+}
+
+/* Checkboxes de Materiais Aceitos */
+.materiais-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+.material-checkbox-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    background: #f7fafc;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.material-checkbox-card:hover {
+    border-color: #cbd5e0;
+    background: #ffffff;
+}
+
+.material-checkbox-card input[type="checkbox"] {
+    margin-top: 0.2rem;
+    width: 17px;
+    height: 17px;
+    accent-color: #2f855a;
+    cursor: pointer;
+}
+
+.material-info {
+    flex: 1;
+}
+
+.material-nome {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2d3748;
+    display: block;
+}
+
+.material-desc {
+    font-size: 0.78rem;
+    color: #718096;
+    margin-top: 0.15rem;
+    line-height: 1.35;
+    display: block;
+}
+
+/* Botões do Formulário */
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn-submit {
+    background-color: #2f855a;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.7rem 1.6rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.btn-submit:hover {
+    background-color: #276749;
+}
+
+.btn-cancel {
+    background-color: transparent;
+    color: #4a5568;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.7rem 1.25rem;
+    border-radius: 6px;
+    border: 1px solid #cbd5e0;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.btn-cancel:hover {
+    background-color: #edf2f7;
+    color: #1a202c;
+    text-decoration: none;
+}
+
+/* Erros de Validação */
+.alert-errors {
+    background-color: #fff5f5;
+    border: 1px solid #feb2b2;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    color: #c53030;
+    font-size: 0.9rem;
+}
+
+.alert-errors-title {
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+}
+
+.alert-errors ul {
+    margin-left: 1.25rem;
+    line-height: 1.5;
+}
