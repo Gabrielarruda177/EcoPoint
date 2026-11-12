@@ -3,11 +3,14 @@
 @section('titulo', 'Gerenciamento de ONGs')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/admin/ongs-index.css') }}?v=1.1">
+    <link rel="stylesheet" href="{{ asset('css/admin/ongs-index.css') }}?v=2.0">
 @endsection
 
 @section('conteudo')
 <div class="ongs-index-container">
+    {{-- ============================================================
+         HEADER CARD
+         ============================================================ --}}
     <div class="ongs-header-card">
         <div>
             <span class="badge badge-admin">Perfil: Administrador</span>
@@ -23,45 +26,61 @@
         </div>
     </div>
 
+    {{-- ============================================================
+         TABELA DE ONGS
+         ============================================================ --}}
     <div class="ongs-table-card">
         <div class="table-responsive">
             <table class="ongs-table">
                 <thead>
                     <tr>
-                        <th>Instituição</th>
-                        <th>CNPJ / Telefone</th>
-                        <th>Usuário de Acesso</th>
-                        <th>Status</th>
+                        <th class="col-instituicao">Instituição</th>
+                        <th class="col-localizacao">Localização</th>
+                        <th class="col-cnpj">CNPJ / Telefone</th>
+                        <th class="col-usuario">Usuário de Acesso</th>
+                        <th class="col-status">Status</th>
                         <th class="th-actions">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($ongs as $ong)
                         <tr>
-                            <td>
+                            <td class="col-instituicao">
                                 <div class="ong-nome-cell">{{ $ong->nome }}</div>
                                 @if ($ong->email_contato)
                                     <div class="ong-subtext">{{ $ong->email_contato }}</div>
                                 @endif
                             </td>
-                            <td>
+                            <td class="col-localizacao">
+                                @if ($ong->cidade || $ong->estado)
+                                    <div class="local-cidade">
+                                        {{ $ong->cidade ?: '—' }}{{ $ong->estado ? ' / ' . $ong->estado : '' }}
+                                    </div>
+                                    @if ($ong->endereco)
+                                        <div class="ong-subtext">{{ $ong->endereco }}{{ $ong->numero ? ', ' . $ong->numero : '' }}</div>
+                                    @endif
+                                @else
+                                    <span class="ong-subtext">Não informada</span>
+                                @endif
+                            </td>
+                            <td class="col-cnpj">
                                 <div>{{ $ong->cnpj ?: 'Não informado' }}</div>
                                 @if ($ong->telefone)
                                     <div class="ong-subtext">{{ $ong->telefone }}</div>
                                 @endif
                             </td>
-                            <td>
+                            <td class="col-usuario">
                                 <div>{{ $ong->user->email ?? 'Sem usuário' }}</div>
                             </td>
-                            <td>
+                            <td class="col-status">
                                 @if ($ong->ativo)
                                     <span class="status-pill status-active">Ativo</span>
                                 @else
                                     <span class="status-pill status-inactive">Inativo</span>
                                 @endif
                             </td>
-                            <td>
-                                <div class="actions-group actions-group--end">
+                            <td class="th-actions">
+                                <div class="actions-group">
                                     <a href="{{ route('admin.ongs.edit', $ong) }}" class="btn-action btn-action-edit">
                                         Editar
                                     </a>
@@ -86,7 +105,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5">
+                            <td colspan="6">
                                 <div class="empty-state">
                                     <p>Nenhuma ONG cadastrada até o momento.</p>
                                     <div class="empty-state-action">
@@ -102,8 +121,11 @@
             </table>
         </div>
 
+        {{-- ============================================================
+             PAGINAÇÃO ESTILIZADA
+             ============================================================ --}}
         @if ($ongs->hasPages())
-            <div class="table-pagination">
+            <div class="pagination-wrapper">
                 {{ $ongs->links() }}
             </div>
         @endif

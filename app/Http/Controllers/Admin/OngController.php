@@ -14,7 +14,9 @@ use Illuminate\View\View;
 
 class OngController extends Controller
 {
- 
+    /**
+     * Lista todas as ONGs com paginação e status.
+     */
     public function index(): View
     {
         $ongs = Ong::with('user')
@@ -24,16 +26,19 @@ class OngController extends Controller
         return view('admin.ongs.index', compact('ongs'));
     }
 
-   
+    /**
+     * Exibe o formulário de cadastro de uma nova ONG.
+     */
     public function create(): View
     {
         return view('admin.ongs.create');
     }
 
-   
+    /**
+     * Armazena uma nova ONG no banco de dados e cria seu usuário de acesso.
+     */
     public function store(Request $request): RedirectResponse
     {
-
         $dados = $request->validate([
             'nome' => ['required', 'string', 'max:255'],
             'cnpj' => ['nullable', 'string', 'max:18'],
@@ -42,10 +47,16 @@ class OngController extends Controller
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'senha' => ['required', 'string', 'min:8', 'confirmed'],
             'descricao' => ['nullable', 'string'],
+            'cep' => ['nullable', 'string', 'max:9'],
+            'endereco' => ['nullable', 'string', 'max:255'],
+            'numero' => ['nullable', 'string', 'max:20'],
+            'complemento' => ['nullable', 'string', 'max:100'],
+            'bairro' => ['nullable', 'string', 'max:100'],
+            'cidade' => ['nullable', 'string', 'max:100'],
+            'estado' => ['nullable', 'string', 'max:2'],
         ]);
 
         DB::transaction(function () use ($dados) {
-
             $usuario = User::create([
                 'name' => $dados['nome'],
                 'email' => $dados['email'],
@@ -60,6 +71,13 @@ class OngController extends Controller
                 'telefone' => $dados['telefone'] ?? null,
                 'email_contato' => $dados['email_contato'] ?? null,
                 'descricao' => $dados['descricao'] ?? null,
+                'cep' => $dados['cep'] ?? null,
+                'endereco' => $dados['endereco'] ?? null,
+                'numero' => $dados['numero'] ?? null,
+                'complemento' => $dados['complemento'] ?? null,
+                'bairro' => $dados['bairro'] ?? null,
+                'cidade' => $dados['cidade'] ?? null,
+                'estado' => $dados['estado'] ?? null,
                 'ativo' => true,
             ]);
         });
@@ -69,7 +87,9 @@ class OngController extends Controller
             ->with('success', 'ONG cadastrada com sucesso!');
     }
 
-  
+    /**
+     * Exibe o formulário de edição de uma ONG.
+     */
     public function edit(Ong $ong): View
     {
         $ong->load('user');
@@ -77,7 +97,9 @@ class OngController extends Controller
         return view('admin.ongs.edit', compact('ong'));
     }
 
-    
+    /**
+     * Atualiza os dados de uma ONG e suas credenciais.
+     */
     public function update(Request $request, Ong $ong): RedirectResponse
     {
         $dados = $request->validate([
@@ -93,6 +115,13 @@ class OngController extends Controller
             ],
             'senha' => ['nullable', 'string', 'min:8', 'confirmed'],
             'descricao' => ['nullable', 'string'],
+            'cep' => ['nullable', 'string', 'max:9'],
+            'endereco' => ['nullable', 'string', 'max:255'],
+            'numero' => ['nullable', 'string', 'max:20'],
+            'complemento' => ['nullable', 'string', 'max:100'],
+            'bairro' => ['nullable', 'string', 'max:100'],
+            'cidade' => ['nullable', 'string', 'max:100'],
+            'estado' => ['nullable', 'string', 'max:2'],
         ]);
 
         DB::transaction(function () use ($dados, $ong) {
@@ -115,6 +144,13 @@ class OngController extends Controller
                 'telefone' => $dados['telefone'] ?? null,
                 'email_contato' => $dados['email_contato'] ?? null,
                 'descricao' => $dados['descricao'] ?? null,
+                'cep' => $dados['cep'] ?? null,
+                'endereco' => $dados['endereco'] ?? null,
+                'numero' => $dados['numero'] ?? null,
+                'complemento' => $dados['complemento'] ?? null,
+                'bairro' => $dados['bairro'] ?? null,
+                'cidade' => $dados['cidade'] ?? null,
+                'estado' => $dados['estado'] ?? null,
             ]);
         });
 
@@ -123,7 +159,9 @@ class OngController extends Controller
             ->with('success', 'ONG atualizada com sucesso!');
     }
 
- 
+    /**
+     * Remove uma ONG do sistema.
+     */
     public function destroy(Ong $ong): RedirectResponse
     {
         DB::transaction(function () use ($ong) {
@@ -143,6 +181,9 @@ class OngController extends Controller
             ->with('success', 'ONG excluída com sucesso!');
     }
 
+    /**
+     * Alterna o status de ativação da ONG.
+     */
     public function toggleStatus(Ong $ong): RedirectResponse
     {
         $ong->update([

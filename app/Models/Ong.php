@@ -26,6 +26,13 @@ class Ong extends Model
         'telefone',
         'email_contato',
         'descricao',
+        'cep',
+        'endereco',
+        'numero',
+        'complemento',
+        'bairro',
+        'cidade',
+        'estado',
         'ativo',
     ];
 
@@ -55,4 +62,3 @@ class Ong extends Model
         return $this->hasMany(PontoDeColeta::class);
     }
 }
-

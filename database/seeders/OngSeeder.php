@@ -6,42 +6,29 @@ use App\Models\MaterialAceito;
 use App\Models\Ong;
 use App\Models\PontoDeColeta;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class OngSeeder extends Seeder
 {
-    
+    /**
+     * Popula o banco de dados com dados realistas simulando um sistema em produção.
+     */
     public function run(): void
     {
-        $usuario = User::updateOrCreate(
-            ['email' => 'ong@ecopoint.com'],
-            [
-                'name' => 'ONG Esperança Viva',
-                'password' => Hash::make('ong123'),
-                'role' => 'ong',
-            ]
-        );
+        $materiais = MaterialAceito::all();
 
-        $ong = Ong::updateOrCreate(
-            ['user_id' => $usuario->id],
+        // 12 ONGs distribuídas por várias cidades e estados com datas variadas em 2026
+        $ongsData = [
             [
                 'nome' => 'ONG Esperança Viva',
+                'email' => 'ong@ecopoint.com',
+                'senha' => 'ong123',
                 'cnpj' => '12.345.678/0001-90',
                 'telefone' => '(11) 98765-4321',
                 'email_contato' => 'contato@esperancaviva.org',
-                'descricao' => 'Instituição sem fins lucrativos dedicada à arrecadação e redistribuição de livros escolares e acadêmicos para estudantes.',
-                'ativo' => true,
-            ]
-        );
-
-        $ponto = PontoDeColeta::updateOrCreate(
-            [
-                'ong_id' => $ong->id,
-                'nome' => 'Ponto Central - Biblioteca Comunitária',
-            ],
-            [
-                'descricao' => 'Ponto principal de doação e retirada de materiais didáticos.',
+                'descricao' => 'Instituição pioneira dedicada à arrecadação e redistribuição de livros escolares e didáticos para estudantes da rede pública.',
                 'cep' => '01310-100',
                 'endereco' => 'Avenida Paulista',
                 'numero' => '1000',
@@ -49,18 +36,711 @@ class OngSeeder extends Seeder
                 'bairro' => 'Bela Vista',
                 'cidade' => 'São Paulo',
                 'estado' => 'SP',
-                'latitude' => -23.56573400,
-                'longitude' => -46.65125700,
-                'horario_funcionamento' => 'Segunda a Sexta, das 09h às 17h',
-                'telefone_contato' => '(11) 98765-4321',
                 'ativo' => true,
-            ]
-        );
+                'created_at' => Carbon::create(2026, 2, 14, 10, 30),
+                'pontos' => [
+                    [
+                        'nome' => 'Ponto Central - Biblioteca Comunitária Paulista',
+                        'descricao' => 'Ponto principal de doação e retirada de materiais didáticos e apostilas.',
+                        'cep' => '01310-100',
+                        'endereco' => 'Avenida Paulista',
+                        'numero' => '1000',
+                        'complemento' => 'Térreo Cultural',
+                        'bairro' => 'Bela Vista',
+                        'cidade' => 'São Paulo',
+                        'estado' => 'SP',
+                        'latitude' => -23.565734,
+                        'longitude' => -46.651257,
+                        'horario_funcionamento' => 'Segunda a Sexta, das 09h às 18h',
+                        'telefone_contato' => '(11) 98765-4321',
+                        'materiais_indices' => [0, 1, 2, 3],
+                    ],
+                    [
+                        'nome' => 'EcoBox - Metrô Paraíso',
+                        'descricao' => 'Caixa de coleta rápida para livros de ensino fundamental e médio.',
+                        'cep' => '04101-000',
+                        'endereco' => 'Rua Vergueiro',
+                        'numero' => '1450',
+                        'complemento' => 'Acesso B',
+                        'bairro' => 'Paraíso',
+                        'cidade' => 'São Paulo',
+                        'estado' => 'SP',
+                        'latitude' => -23.578320,
+                        'longitude' => -46.640150,
+                        'horario_funcionamento' => 'Segunda a Sábado, das 06h às 22h',
+                        'telefone_contato' => '(11) 98765-4321',
+                        'materiais_indices' => [0, 1, 3],
+                    ],
+                    [
+                        'nome' => 'Núcleo Cultural Vila Mariana',
+                        'descricao' => 'Espaço aberto para troca e doação de livros de literatura e dicionários.',
+                        'cep' => '04012-002',
+                        'endereco' => 'Rua Domingos de Morais',
+                        'numero' => '820',
+                        'complemento' => 'Galpão 3',
+                        'bairro' => 'Vila Mariana',
+                        'cidade' => 'São Paulo',
+                        'estado' => 'SP',
+                        'latitude' => -23.585410,
+                        'longitude' => -46.638200,
+                        'horario_funcionamento' => 'Terça a Domingo, das 10h às 19h',
+                        'telefone_contato' => '(11) 98765-4322',
+                        'materiais_indices' => [0, 3, 4],
+                    ],
+                ],
+            ],
 
-        $materiais = MaterialAceito::pluck('id');
-        if ($materiais->isNotEmpty()) {
-            $ponto->materiaisAceitos()->sync($materiais);
+            [
+                'nome' => 'Instituto Saber Sem Fronteiras',
+                'email' => 'contato@sabersemfronteiras.org',
+                'senha' => 'saber123',
+                'cnpj' => '23.456.789/0001-01',
+                'telefone' => '(19) 99123-4567',
+                'email_contato' => 'apoio@sabersemfronteiras.org',
+                'descricao' => 'Promove o acesso a materiais didáticos e obras acadêmicas em cidades do interior paulista.',
+                'cep' => '13010-000',
+                'endereco' => 'Rua Barão de Jaguara',
+                'numero' => '950',
+                'complemento' => 'Andar 4',
+                'bairro' => 'Centro',
+                'cidade' => 'Campinas',
+                'estado' => 'SP',
+                'ativo' => true,
+                'created_at' => Carbon::create(2026, 3, 8, 14, 0),
+                'pontos' => [
+                    [
+                        'nome' => 'Ponto Universitário Barão Geraldo',
+                        'descricao' => 'Especializado na recepção de livros universitários de exatas e engenharias.',
+                        'cep' => '13083-852',
+                        'endereco' => 'Avenida Romeu Tórtima',
+                        'numero' => '420',
+                        'complemento' => 'Loja 1',
+                        'bairro' => 'Barão Geraldo',
+                        'cidade' => 'Campinas',
+                        'estado' => 'SP',
+                        'latitude' => -22.825610,
+                        'longitude' => -47.078420,
+                        'horario_funcionamento' => 'Segunda a Sexta, das 08h às 20h',
+                        'telefone_contato' => '(19) 99123-4567',
+                        'materiais_indices' => [1, 2],
+                    ],
+                    [
+                        'nome' => 'Estação Saber Taquaral',
+                        'descricao' => 'Ponto familiar de coleta e incentivo à leitura infanto-juvenil.',
+                        'cep' => '13076-000',
+                        'endereco' => 'Avenida Heitor Penteado',
+                        'numero' => '1600',
+                        'complemento' => 'Portão 5',
+                        'bairro' => 'Taquaral',
+                        'cidade' => 'Campinas',
+                        'estado' => 'SP',
+                        'latitude' => -22.873200,
+                        'longitude' => -47.054100,
+                        'horario_funcionamento' => 'Sábado e Domingo, das 08h às 17h',
+                        'telefone_contato' => '(19) 99123-4568',
+                        'materiais_indices' => [0, 3, 4],
+                    ],
+                ],
+            ],
+
+            [
+                'nome' => 'Rede Livro Aberto Rio',
+                'email' => 'contato@livroabertorio.org',
+                'senha' => 'livro123',
+                'cnpj' => '34.567.890/0001-12',
+                'telefone' => '(21) 98456-7890',
+                'email_contato' => 'doacoes@livroabertorio.org',
+                'descricao' => 'Organização carioca focada na distribuição gratuita de apostilas pré-vestibular e literatura clássica para comunidades.',
+                'cep' => '20040-002',
+                'endereco' => 'Avenida Rio Branco',
+                'numero' => '156',
+                'complemento' => 'Conjunto 804',
+                'bairro' => 'Centro',
+                'cidade' => 'Rio de Janeiro',
+                'estado' => 'RJ',
+                'ativo' => true,
+                'created_at' => Carbon::create(2026, 4, 18, 11, 15),
+                'pontos' => [
+                    [
+                        'nome' => 'Ponto Carioca - Cinelândia',
+                        'descricao' => 'Ponto de fácil acesso ao lado do Metrô Cinelândia.',
+                        'cep' => '20031-050',
+                        'endereco' => 'Praça Floriano',
+                        'numero' => '19',
+                        'complemento' => 'Hall Entrada',
+                        'bairro' => 'Centro',
+                        'cidade' => 'Rio de Janeiro',
+                        'estado' => 'RJ',
+                        'latitude' => -22.910350,
+                        'longitude' => -43.176420,
+                        'horario_funcionamento' => 'Segunda a Sexta, das 09h às 19h',
+                        'telefone_contato' => '(21) 98456-7890',
+                        'materiais_indices' => [0, 1, 3],
+                    ],
+                    [
+                        'nome' => 'Espaço Educativo Botafogo',
+                        'descricao' => 'Recepção de apostilas ENEM e livros acadêmicos da zona sul.',
+                        'cep' => '22270-000',
+                        'endereco' => 'Rua Voluntários da Pátria',
+                        'numero' => '230',
+                        'complemento' => 'Sala A',
+                        'bairro' => 'Botafogo',
+                        'cidade' => 'Rio de Janeiro',
+                        'estado' => 'RJ',
+                        'latitude' => -22.951200,
+                        'longitude' => -43.184300,
+                        'horario_funcionamento' => 'Segunda a Sexta, das 10h às 18h',
+                        'telefone_contato' => '(21) 98456-7891',
+                        'materiais_indices' => [1, 2, 4],
+                    ],
+                    [
+                        'nome' => 'Coleta Solidária Barra da Tijuca',
+                        'descricao' => 'Ponto de coleta no shopping com estacionamento e acesso facilitado.',
+                        'cep' => '22640-100',
+                        'endereco' => 'Avenida das Américas',
+                        'numero' => '4666',
+                        'complemento' => 'Piso L2',
+                        'bairro' => 'Barra da Tijuca',
+                        'cidade' => 'Rio de Janeiro',
+                        'estado' => 'RJ',
+                        'latitude' => -22.999800,
+                        'longitude' => -43.361500,
+                        'horario_funcionamento' => 'Todos os dias, das 10h às 22h',
+                        'telefone_contato' => '(21) 98456-7892',
+                        'materiais_indices' => [0, 1, 2, 3, 4],
+                    ],
+                ],
+            ],
+
+            [
+                'nome' => 'Fundação Páginas Mineiras',
+                'email' => 'contato@paginasmineiras.org',
+                'senha' => 'paginas123',
+                'cnpj' => '45.678.901/0001-23',
+                'telefone' => '(31) 99876-5432',
+                'email_contato' => 'livros@paginasmineiras.org',
+                'descricao' => 'Fortalecendo bibliotecas comunitárias e salas de leitura em Belo Horizonte e região metropolitana.',
+                'cep' => '30130-100',
+                'endereco' => 'Avenida Afonso Pena',
+                'numero' => '1212',
+                'complemento' => 'Sala 301',
+                'bairro' => 'Centro',
+                'cidade' => 'Belo Horizonte',
+                'estado' => 'MG',
+                'ativo' => true,
+                'created_at' => Carbon::create(2026, 5, 20, 16, 45),
+                'pontos' => [
+                    [
+                        'nome' => 'Ponto Cultural Savassi',
+                        'descricao' => 'Ponto de doação permanente no coração da Savassi.',
+                        'cep' => '30140-071',
+                        'endereco' => 'Rua Pernambuco',
+                        'numero' => '1000',
+                        'complemento' => 'Galeria Savassi',
+                        'bairro' => 'Savassi',
+                        'cidade' => 'Belo Horizonte',
+                        'estado' => 'MG',
+                        'latitude' => -19.937800,
+                        'longitude' => -43.935600,
+                        'horario_funcionamento' => 'Segunda a Sábado, das 09h às 20h',
+                        'telefone_contato' => '(31) 99876-5432',
+                        'materiais_indices' => [0, 2, 3],
+                    ],
+                    [
+                        'nome' => 'Estação Pampulha do Livro',
+                        'descricao' => 'Atendimento a estudantes universitários e comunidade da Pampulha.',
+                        'cep' => '31270-901',
+                        'endereco' => 'Avenida Presidente Antônio Carlos',
+                        'numero' => '6627',
+                        'complemento' => 'Setor Norte',
+                        'bairro' => 'Pampulha',
+                        'cidade' => 'Belo Horizonte',
+                        'estado' => 'MG',
+                        'latitude' => -19.869400,
+                        'longitude' => -43.963200,
+                        'horario_funcionamento' => 'Segunda a Sexta, das 08h às 19h',
+                        'telefone_contato' => '(31) 99876-5433',
+                        'materiais_indices' => [1, 2],
+                    ],
+                ],
+            ],
+
+            [
+                'nome' => 'Associação Leitura Curitibana',
+                'email' => 'contato@leituracuritiba.org',
+                'senha' => 'curitiba123',
+                'cnpj' => '56.789.012/0001-34',
+                'telefone' => '(41) 98765-1234',
+                'email_contato' => 'coleta@leituracuritiba.org',
+                'descricao' => 'Rede de pontos verdes instalados em praças e centros cívicos para reciclagem e reaproveitamento de livros.',
+                'cep' => '80020-310',
+                'endereco' => 'Rua XV de Novembro',
+                'numero' => '780',
+                'complemento' => 'Loja 4',
+                'bairro' => 'Centro',
+                'cidade' => 'Curitiba',
+                'estado' => 'PR',
+                'ativo' => true,
+                'created_at' => Carbon::create(2026, 6, 11, 9, 20),
+                'pontos' => [
+                    [
+                        'nome' => 'Bonde da Leitura - Rua das Flores',
+                        'descricao' => 'Ponto turístico e de arrecadação cultural no calçadão.',
+                        'cep' => '80020-310',
+                        'endereco' => 'Rua XV de Novembro',
+                        'numero' => '500',
+                        'complemento' => 'Bonde Central',
+                        'bairro' => 'Centro',
+                        'cidade' => 'Curitiba',
+                        'estado' => 'PR',
+                        'latitude' => -25.430800,
+                        'longitude' => -49.271500,
+                        'horario_funcionamento' => 'Segunda a Sábado, das 09h às 18h',
+                        'telefone_contato' => '(41) 98765-1234',
+                        'materiais_indices' => [0, 3, 4],
+                    ],
+                    [
+                        'nome' => 'EcoPonto Batel',
+                        'descricao' => 'Coleta expressa com foco em literatura e apostilas.',
+                        'cep' => '80420-000',
+                        'endereco' => 'Avenida do Batel',
+                        'numero' => '1200',
+                        'complemento' => 'Piso Térreo',
+                        'bairro' => 'Batel',
+                        'cidade' => 'Curitiba',
+                        'estado' => 'PR',
+                        'latitude' => -25.441100,
+                        'longitude' => -49.288200,
+                        'horario_funcionamento' => 'Segunda a Sexta, das 10h às 20h',
+                        'telefone_contato' => '(41) 98765-1235',
+                        'materiais_indices' => [0, 1, 2],
+                    ],
+                ],
+            ],
+
+            [
+                'nome' => 'Instituto Livros do Sul',
+                'email' => 'contato@livrosdosul.org',
+                'senha' => 'sul12345',
+                'cnpj' => '67.890.123/0001-45',
+                'telefone' => '(51) 99123-9876',
+                'email_contato' => 'doar@livrosdosul.org',
+                'descricao' => 'Reconstruindo e abastecendo bibliotecas escolares atingidas por enchentes e em áreas vulneráveis do RS.',
+                'cep' => '90010-150',
+                'endereco' => 'Rua dos Andradas',
+                'numero' => '1001',
+                'complemento' => 'Andar 2',
+                'bairro' => 'Centro Histórico',
+                'cidade' => 'Porto Alegre',
+                'estado' => 'RS',
+                'ativo' => true,
+                'created_at' => Carbon::create(2026, 7, 3, 13, 0),
+                'pontos' => [
+                    [
+                        'nome' => 'Espaço Solidário Gasômetro',
+                        'descricao' => 'Ponto de arrecadação cultural em frente à orla.',
+                        'cep' => '90010-420',
+                        'endereco' => 'Avenida Presidente João Goulart',
+                        'numero' => '551',
+                        'complemento' => 'Anexo 1',
+                        'bairro' => 'Centro Histórico',
+                        'cidade' => 'Porto Alegre',
+                        'estado' => 'RS',
+                        'latitude' => -30.033900,
+                        'longitude' => -51.241500,
+                        'horario_funcionamento' => 'Terça a Domingo, das 10h às 19h',
+                        'telefone_contato' => '(51) 99123-9876',
+                        'materiais_indices' => [0, 1, 2, 3, 4],
+                    ],
+                    [
+                        'nome' => 'Ponto Universitário Moinhos de Vento',
+                        'descricao' => 'Recepção de material acadêmico e apostilas pré-vestibular.',
+                        'cep' => '90570-020',
+                        'endereco' => 'Rua 24 de Outubro',
+                        'numero' => '680',
+                        'complemento' => 'Loja 2',
+                        'bairro' => 'Moinhos de Vento',
+                        'cidade' => 'Porto Alegre',
+                        'estado' => 'RS',
+                        'latitude' => -30.025600,
+                        'longitude' => -51.205200,
+                        'horario_funcionamento' => 'Segunda a Sexta, das 09h às 18h',
+                        'telefone_contato' => '(51) 99123-9877',
+                        'materiais_indices' => [1, 2],
+                    ],
+                ],
+            ],
+
+            [
+                'nome' => 'Coletivo Bahia Literária',
+                'email' => 'contato@bahialiteraria.org',
+                'senha' => 'bahia123',
+                'cnpj' => '78.901.234/0001-56',
+                'telefone' => '(71) 98877-6655',
+                'email_contato' => 'salvador@bahialiteraria.org',
+                'descricao' => 'Incentivo à leitura popular e arrecadação de material didático em Salvador e no Recôncavo Baiano.',
+                'cep' => '40020-000',
+                'endereco' => 'Ladeira do Carmo',
+                'numero' => '45',
+                'complemento' => 'Casarão Cultural',
+                'bairro' => 'Pelourinho',
+                'cidade' => 'Salvador',
+                'estado' => 'BA',
+                'ativo' => true,
+                'created_at' => Carbon::create(2026, 8, 15, 15, 30),
+                'pontos' => [
+                    [
+                        'nome' => 'Ponto Cultural Pelourinho',
+                        'descricao' => 'Ponto histórico de valorização da literatura baiana e livros escolares.',
+                        'cep' => '40020-000',
+                        'endereco' => 'Terreiro de Jesus',
+                        'numero' => '12',
+                        'complemento' => 'Térreo',
+                        'bairro' => 'Pelourinho',
+                        'cidade' => 'Salvador',
+                        'estado' => 'BA',
+                        'latitude' => -12.972300,
+                        'longitude' => -38.508500,
+                        'horario_funcionamento' => 'Todos os dias, das 09h às 18h',
+                        'telefone_contato' => '(71) 98877-6655',
+                        'materiais_indices' => [0, 3, 4],
+                    ],
+                    [
+                        'nome' => 'EcoBox Barra Farol',
+                        'descricao' => 'Caixa de entrega voluntária de livros e apostilas de vestibular.',
+                        'cep' => '40140-650',
+                        'endereco' => 'Largo do Farol da Barra',
+                        'numero' => 'S/N',
+                        'complemento' => 'Ponto de Apoio',
+                        'bairro' => 'Barra',
+                        'cidade' => 'Salvador',
+                        'estado' => 'BA',
+                        'latitude' => -13.010100,
+                        'longitude' => -38.532400,
+                        'horario_funcionamento' => 'Segunda a Domingo, 24 horas',
+                        'telefone_contato' => '(71) 98877-6656',
+                        'materiais_indices' => [0, 1],
+                    ],
+                ],
+            ],
+
+            [
+                'nome' => 'Instituto Livro no Cerrado',
+                'email' => 'contato@livronocerrado.org',
+                'senha' => 'cerrado123',
+                'cnpj' => '89.012.345/0001-67',
+                'telefone' => '(61) 99234-5678',
+                'email_contato' => 'brasilia@livronocerrado.org',
+                'descricao' => 'Ações integradas de arrecadação no Distrito Federal com foco em estudantes de concursos e pré-vestibulares.',
+                'cep' => '70070-010',
+                'endereco' => 'Setor Bancário Sul',
+                'numero' => 'Quadra 2 Bloco A',
+                'complemento' => 'Edifício Prime',
+                'bairro' => 'Asa Sul',
+                'cidade' => 'Brasília',
+                'estado' => 'DF',
+                'ativo' => true,
+                'created_at' => Carbon::create(2026, 9, 5, 8, 45),
+                'pontos' => [
+                    [
+                        'nome' => 'Ponto Asa Sul - Estação Concurso',
+                        'descricao' => 'Recepção prioritária de apostilas para concursos públicos e ENEM.',
+                        'cep' => '70390-020',
+                        'endereco' => 'CLS 204 Bloco B',
+                        'numero' => 'Loja 14',
+                        'complemento' => 'Comércio Local',
+                        'bairro' => 'Asa Sul',
+                        'cidade' => 'Brasília',
+                        'estado' => 'DF',
+                        'latitude' => -15.808200,
+                        'longitude' => -47.893100,
+                        'horario_funcionamento' => 'Segunda a Sábado, das 08h às 21h',
+                        'telefone_contato' => '(61) 99234-5678',
+                        'materiais_indices' => [1, 2],
+                    ],
+                    [
+                        'nome' => 'Biblioteca Aberta Asa Norte',
+                        'descricao' => 'Local de convivência e doação de livros didáticos e literatura.',
+                        'cep' => '70750-510',
+                        'endereco' => 'CLN 108 Bloco D',
+                        'numero' => 'Subsolo',
+                        'complemento' => 'Espaço Cidadão',
+                        'bairro' => 'Asa Norte',
+                        'cidade' => 'Brasília',
+                        'estado' => 'DF',
+                        'latitude' => -15.772400,
+                        'longitude' => -47.884500,
+                        'horario_funcionamento' => 'Segunda a Sexta, das 09h às 19h',
+                        'telefone_contato' => '(61) 99234-5679',
+                        'materiais_indices' => [0, 3, 4],
+                    ],
+                ],
+            ],
+
+            [
+                'nome' => 'Projeto Freire & Cidadania',
+                'email' => 'contato@freirecidadania.org',
+                'senha' => 'recife123',
+                'cnpj' => '90.123.456/0001-78',
+                'telefone' => '(81) 98765-4320',
+                'email_contato' => 'doacoes@freirecidadania.org',
+                'descricao' => 'Incentivo à educação básica e leitura comunitária na Região Metropolitana do Recife.',
+                'cep' => '50030-260',
+                'endereco' => 'Rua do Bom Jesus',
+                'numero' => '180',
+                'complemento' => 'Galeria Antiga',
+                'bairro' => 'Recife Antigo',
+                'cidade' => 'Recife',
+                'estado' => 'PE',
+                'ativo' => true,
+                'created_at' => Carbon::create(2026, 9, 28, 14, 10),
+                'pontos' => [
+                    [
+                        'nome' => 'Ponto Recife Antigo - Marco Zero',
+                        'descricao' => 'Ponto de arrecadação junto aos centros culturais da ilha histórica.',
+                        'cep' => '50030-000',
+                        'endereco' => 'Praça Barão do Rio Branco',
+                        'numero' => 'S/N',
+                        'complemento' => 'Térreo de Atendimento',
+                        'bairro' => 'Recife Antigo',
+                        'cidade' => 'Recife',
+                        'estado' => 'PE',
+                        'latitude' => -8.063100,
+                        'longitude' => -34.871100,
+                        'horario_funcionamento' => 'Terça a Domingo, das 10h às 19h',
+                        'telefone_contato' => '(81) 98765-4320',
+                        'materiais_indices' => [0, 1, 3],
+                    ],
+                ],
+            ],
+
+            [
+                'nome' => 'Rede Litoral Sustentável',
+                'email' => 'contato@litoralsustentavel.org',
+                'senha' => 'santos123',
+                'cnpj' => '91.234.567/0001-89',
+                'telefone' => '(13) 99765-1122',
+                'email_contato' => 'contato@litoralsustentavel.org',
+                'descricao' => 'Campanhas de arrecadação de material didático escolar na Baixada Santista.',
+                'cep' => '11013-000',
+                'endereco' => 'Rua XV de Novembro',
+                'numero' => '110',
+                'complemento' => 'Conjunto 22',
+                'bairro' => 'Centro',
+                'cidade' => 'Santos',
+                'estado' => 'SP',
+                'ativo' => true,
+                'created_at' => Carbon::create(2026, 10, 12, 11, 0),
+                'pontos' => [
+                    [
+                        'nome' => 'Ponto Praia Gonzaga',
+                        'descricao' => 'Ponto turístico e comunitário para doação rápida de livros.',
+                        'cep' => '11060-001',
+                        'endereco' => 'Avenida Ana Costa',
+                        'numero' => '480',
+                        'complemento' => 'Shopping Pátio Iporanga',
+                        'bairro' => 'Gonzaga',
+                        'cidade' => 'Santos',
+                        'estado' => 'SP',
+                        'latitude' => -23.968700,
+                        'longitude' => -46.332500,
+                        'horario_funcionamento' => 'Segunda a Domingo, das 10h às 21h',
+                        'telefone_contato' => '(13) 99765-1122',
+                        'materiais_indices' => [0, 3],
+                    ],
+                    [
+                        'nome' => 'EcoBox Porto de Santos',
+                        'descricao' => 'Ponto destinado a trabalhadores e moradores da região portuária.',
+                        'cep' => '11015-002',
+                        'endereco' => 'Avenida Conselheiro Nébias',
+                        'numero' => '200',
+                        'complemento' => 'Térreo Comercial',
+                        'bairro' => 'Vila Nova',
+                        'cidade' => 'Santos',
+                        'estado' => 'SP',
+                        'latitude' => -23.942100,
+                        'longitude' => -46.326800,
+                        'horario_funcionamento' => 'Segunda a Sexta, das 07h às 17h',
+                        'telefone_contato' => '(13) 99765-1123',
+                        'materiais_indices' => [0, 1, 4],
+                    ],
+                ],
+            ],
+
+            [
+                'nome' => 'Ação Educativa Vale do Paraíba',
+                'email' => 'contato@acaovale.org',
+                'senha' => 'saojose123',
+                'cnpj' => '92.345.678/0001-99',
+                'telefone' => '(12) 98822-3344',
+                'email_contato' => 'sjc@acaovale.org',
+                'descricao' => 'Foco na arrecadação de manuais técnicos e científicos para estudantes do Vale do Paraíba.',
+                'cep' => '12245-000',
+                'endereco' => 'Avenida Nove de Julho',
+                'numero' => '350',
+                'complemento' => 'Sala 12',
+                'bairro' => 'Vila Adyana',
+                'cidade' => 'São José dos Campos',
+                'estado' => 'SP',
+                'ativo' => false, // ONG inativa para testes do status
+                'created_at' => Carbon::create(2026, 10, 29, 17, 30),
+                'pontos' => [
+                    [
+                        'nome' => 'Ponto Tecnológico Vila Adyana',
+                        'descricao' => 'Recepção de livros de engenharia, computação e tecnologia.',
+                        'cep' => '12245-000',
+                        'endereco' => 'Avenida Nove de Julho',
+                        'numero' => '350',
+                        'complemento' => 'Hall Entrada',
+                        'bairro' => 'Vila Adyana',
+                        'cidade' => 'São José dos Campos',
+                        'estado' => 'SP',
+                        'latitude' => -23.199400,
+                        'longitude' => -45.892500,
+                        'horario_funcionamento' => 'Segunda a Sexta, das 09h às 18h',
+                        'telefone_contato' => '(12) 98822-3344',
+                        'materiais_indices' => [2],
+                    ],
+                ],
+            ],
+
+            [
+                'nome' => 'Instituto Nova Esperança Fluminense',
+                'email' => 'contato@esperancafluminense.org',
+                'senha' => 'niteroi123',
+                'cnpj' => '93.456.789/0001-10',
+                'telefone' => '(21) 97711-2233',
+                'email_contato' => 'niteroi@esperancafluminense.org',
+                'descricao' => 'Instituição temporariamente em reformulação de cadastro para novos convênios municipais.',
+                'cep' => '24020-004',
+                'endereco' => 'Rua Gavião Peixoto',
+                'numero' => '182',
+                'complemento' => 'Sala 501',
+                'bairro' => 'Icaraí',
+                'cidade' => 'Niterói',
+                'estado' => 'RJ',
+                'ativo' => false, // Segunda ONG inativa para gráfico de status
+                'created_at' => Carbon::create(2026, 11, 4, 10, 15),
+                'pontos' => [],
+            ],
+
+            [
+                'nome' => 'Associação EcoLeitura Amazônia',
+                'email' => 'contato@ecoleituraamazonia.org',
+                'senha' => 'norte123',
+                'cnpj' => '94.567.890/0001-21',
+                'telefone' => '(91) 98123-4455',
+                'email_contato' => 'belem@ecoleituraamazonia.org',
+                'descricao' => 'Incentivo à leitura e preservação ambiental levando livros e apostilas às comunidades ribeirinhas e polos do Norte.',
+                'cep' => '66015-050',
+                'endereco' => 'Avenida Presidente Vargas',
+                'numero' => '400',
+                'complemento' => 'Sala 302',
+                'bairro' => 'Campina',
+                'cidade' => 'Belém',
+                'estado' => 'PA',
+                'ativo' => true,
+                'created_at' => Carbon::create(2026, 11, 6, 14, 20),
+                'pontos' => [
+                    [
+                        'nome' => 'Ponto Estação das Docas',
+                        'descricao' => 'Coleta voluntária de livros infantis e didáticos no complexo cultural.',
+                        'cep' => '66010-000',
+                        'endereco' => 'Boulevard Castilhos França',
+                        'numero' => 'S/N',
+                        'complemento' => 'Armazém 2',
+                        'bairro' => 'Campina',
+                        'cidade' => 'Belém',
+                        'estado' => 'PA',
+                        'latitude' => -1.450200,
+                        'longitude' => -48.502300,
+                        'horario_funcionamento' => 'Terça a Domingo, das 10h às 22h',
+                        'telefone_contato' => '(91) 98123-4455',
+                        'materiais_indices' => [0, 1, 3],
+                    ],
+                    [
+                        'nome' => 'EcoBox Teatro da Paz',
+                        'descricao' => 'Recepção expressa de livros didáticos e literatura clássica.',
+                        'cep' => '66017-000',
+                        'endereco' => 'Praça da República',
+                        'numero' => 'S/N',
+                        'complemento' => 'Posto Cultural',
+                        'bairro' => 'Centro',
+                        'cidade' => 'Belém',
+                        'estado' => 'PA',
+                        'latitude' => -1.453300,
+                        'longitude' => -48.494100,
+                        'horario_funcionamento' => 'Segunda a Sexta, das 08h às 18h',
+                        'telefone_contato' => '(91) 98123-4456',
+                        'materiais_indices' => [0, 3, 4],
+                    ],
+                ],
+            ],
+        ];
+
+        foreach ($ongsData as $data) {
+            $pontos = $data['pontos'] ?? [];
+            unset($data['pontos']);
+
+            $emailUser = $data['email'];
+            $senhaUser = $data['senha'];
+            $createdAt = $data['created_at'];
+
+            unset($data['email'], $data['senha'], $data['created_at']);
+
+            $usuario = User::updateOrCreate(
+                ['email' => $emailUser],
+                [
+                    'name' => $data['nome'],
+                    'password' => Hash::make($senhaUser),
+                    'role' => 'ong',
+                    'created_at' => $createdAt,
+                    'updated_at' => $createdAt,
+                ]
+            );
+
+            $data['user_id'] = $usuario->id;
+            $data['created_at'] = $createdAt;
+            $data['updated_at'] = $createdAt;
+
+            $ong = Ong::updateOrCreate(
+                ['user_id' => $usuario->id],
+                $data
+            );
+
+            // Garante created_at customizado no banco
+            $ong->created_at = $createdAt;
+            $ong->save();
+
+            // Cadastra os pontos de coleta da ONG
+            foreach ($pontos as $pontoData) {
+                $materiaisIndices = $pontoData['materiais_indices'] ?? [];
+                unset($pontoData['materiais_indices']);
+
+                $pontoData['ong_id'] = $ong->id;
+                $pontoData['created_at'] = $createdAt;
+                $pontoData['updated_at'] = $createdAt;
+
+                $ponto = PontoDeColeta::updateOrCreate(
+                    [
+                        'ong_id' => $ong->id,
+                        'nome' => $pontoData['nome'],
+                    ],
+                    $pontoData
+                );
+
+                if (!empty($materiaisIndices) && $materiais->isNotEmpty()) {
+                    $materiaisIds = [];
+                    foreach ($materiaisIndices as $idx) {
+                        if (isset($materiais[$idx])) {
+                            $materiaisIds[] = $materiais[$idx]->id;
+                        }
+                    }
+                    if (!empty($materiaisIds)) {
+                        $ponto->materiaisAceitos()->sync($materiaisIds);
+                    }
+                }
+            }
         }
     }
 }
-
