@@ -1,8 +1,3 @@
-/* ============================================================
-   EcoPoint — Global Base Styles
-   Loaded by layouts/app.blade.php for every page.
-   ============================================================ */
-
 /* Reset */
 * {
     box-sizing: border-box;
@@ -16,24 +11,42 @@ body {
     background-color: #f7fafc;
     color: #2d3748;
     line-height: 1.6;
+    background: #D4EEAD;
 }
 
 /* ---- Header ---- */
 header {
-    background: #2f855a;
-    color: white;
-    padding: 1rem 2rem;
+    background: #D4EEAD;
+    color: rgb(255, 255, 255);
+    padding: 0 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header .nav-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    max-width: 1100px;
-    margin: 0 auto;
+    max-width: 100%;
     flex-wrap: wrap;
+    margin: 0 auto;
     gap: 1rem;
+}
+
+header .nav-container div {
+    width: 20%;
+    justify-content: start;
+}
+
+header .nav-container .nav-brand {
+    margin-left: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+
+header .nav-container nav {
+    width: 60%;
+    justify-content: end;
 }
 
 header a {
@@ -47,24 +60,74 @@ header a:hover {
     text-decoration: underline;
 }
 
+header a img {
+    width: 200px;
+}
+
 /* ---- Nav ---- */
 .nav-links {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     gap: 0.5rem;
+    color: #000;
 }
 
-.nav-brand {
-    margin-left: 0;
-    font-size: 1.25rem;
-    font-weight: 700;
+.nav-links a {
+    height: 4rem;
+    width: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #506345;
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: 13px;
 }
 
-.nav-btn-panel {
-    background: rgba(0, 0, 0, 0.2);
+.nav-links a:hover {
+    color: #1777A9;
+    text-decoration: none;
+    animation: pula 0.5s ease;
+}
+
+@keyframes pula {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+        font-size: 14px;
+    }
+    100% {
+        transform:translateY(0);
+    }
+}
+
+.nav-links .nav-btn-panel {
+    margin: 2px;
+    width: 11rem;
+    height: 2.6rem;
+    padding: 50px;
+    background: #80654A;
+    color: rgb(221, 221, 221);
     padding: 0.35rem 0.65rem;
-    border-radius: 4px;
+    border-radius: 180px;
+    animation: none;
+    font-size: 12px;
+}
+
+.nav-links .nav-btn-panel:hover {
+    background: #80654A;
+    color: rgb(255, 255, 255);
+    padding: 0.35rem 0.65rem;
+    border-radius: 180px;
+    animation: none;
+}
+
+.nav-links .nav-btn-panel:hover p {
+    animation: pula 0.5s ease;
 }
 
 .nav-user-name {
@@ -80,28 +143,75 @@ header a:hover {
 
 .nav-logout-btn {
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    border: 1.3px solid rgba(255, 255, 255);
     color: white;
-    padding: 0.3rem 0.65rem;
-    border-radius: 4px;
+    padding: 0.5rem 0.8rem;
+    border-radius: 180px;
     cursor: pointer;
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: bolder;
+    width: 5rem;
+    height: 2.6rem;
 }
 
-.nav-btn-login {
-    background: #276749;
+.nav-logout-btn:hover p {
+    color: #3e453a;
+    animation: pula 0.5s ease;
+}
+
+.nav-logout-btn p {
+    color: #506345;
+}
+
+#nav-btn-login {
+    width: auto;
+    height: auto;
+    color: rgb(221, 221, 221);
+    background: #80654A;
     padding: 0.35rem 0.85rem;
-    border-radius: 4px;
+    border-radius: 180px;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: none;
+    font-size: 12px;
+}
+
+#nav-btn-login:hover {
+    width: auto;
+    height: auto;
+    color: #ffffff;
+    background: #80654A;
+    padding: 0.35rem 0.85rem;
+    border-radius: 180px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: none;
+    font-size: 12px;
 }
 
 /* ---- Main ---- */
 main {
-    max-width: 1100px;
+    max-width: 100%;
     margin: 2rem auto;
     padding: 0 1rem;
     min-height: 75vh;
+    
+}
+
+main #begin {
+    display: flex;
+    gap: 0.75rem;
+}
+
+main #resume {
+    border: 1px solid #000;
+    width: 55%;
+    height: 70vh;
+    margin: 0 5rem;
+}
+
+main #simple-map {
+    border: 1px solid #000;
+    width: 45%;
+    height: 60vh;
 }
 
 /* ---- Card ---- */
@@ -120,7 +230,7 @@ footer {
     color: #718096;
     font-size: 0.9rem;
     border-top: 1px solid #e2e8f0;
-    background: #edf2f7;
+    background: #80654A;
 }
 
 /* ---- Badges ---- */
