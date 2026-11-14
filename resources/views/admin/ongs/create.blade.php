@@ -208,56 +208,34 @@
 
             <hr class="form-divider">
 
-            <div class="form-section">
-                <h2 class="form-section-title">Acesso ao Sistema</h2>
-                <p class="form-section-subtitle">Credenciais que a ONG utilizará para entrar na plataforma</p>
+<div class="form-section">
+    <h2 class="form-section-title">Acesso ao Sistema</h2>
 
-                <div class="form-group">
-                    <label for="email" class="form-label">
-                        E-mail de Login <span class="required-mark">*</span>
-                    </label>
-                    <input 
-                        type="email" 
-                        name="email" 
-                        id="email" 
-                        class="form-control"
-                        value="{{ old('email') }}" 
-                        placeholder="login@ong.org"
-                        required
-                    >
-                    <span class="form-hint">Usuário único cadastrado com o perfil de acesso 'ong'.</span>
-                </div>
+    <p class="form-section-subtitle">
+        As credenciais de acesso serão geradas automaticamente
+        e enviadas para o e-mail informado.
+    </p>
 
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="senha" class="form-label">
-                            Senha de Acesso <span class="required-mark">*</span>
-                        </label>
-                        <input 
-                            type="password" 
-                            name="senha" 
-                            id="senha" 
-                            class="form-control"
-                            placeholder="Mínimo 8 caracteres"
-                            required
-                        >
-                    </div>
+    <div class="form-group">
+        <label for="email" class="form-label">
+            E-mail de Login <span class="required-mark">*</span>
+        </label>
 
-                    <div class="form-group">
-                        <label for="senha_confirmation" class="form-label">
-                            Confirmar Senha <span class="required-mark">*</span>
-                        </label>
-                        <input 
-                            type="password" 
-                            name="senha_confirmation" 
-                            id="senha_confirmation" 
-                            class="form-control"
-                            placeholder="Repita a senha"
-                            required
-                        >
-                    </div>
-                </div>
-            </div>
+        <input
+            type="email"
+            name="email"
+            id="email"
+            class="form-control"
+            value="{{ old('email') }}"
+            placeholder="login@ong.org"
+            required
+        >
+
+        <span class="form-hint">
+            Uma senha temporária será gerada e enviada para este endereço.
+        </span>
+    </div>
+</div>
 
             <div class="form-actions">
                 <a href="{{ route('admin.ongs.index') }}" class="btn-cancel">

@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use App\Mail\OngCredenciaisMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use Throwable;
 
 class OngController extends Controller
 {
@@ -37,6 +42,7 @@ class OngController extends Controller
     /**
      * Armazena uma nova ONG no banco de dados e cria seu usuário de acesso.
      */
+    
     public function store(Request $request): RedirectResponse
     {
         $dados = $request->validate([
@@ -45,7 +51,6 @@ class OngController extends Controller
             'telefone' => ['nullable', 'string', 'max:20'],
             'email_contato' => ['nullable', 'email', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'senha' => ['required', 'string', 'min:8', 'confirmed'],
             'descricao' => ['nullable', 'string'],
             'cep' => ['nullable', 'string', 'max:9'],
             'endereco' => ['nullable', 'string', 'max:255'],
@@ -56,35 +61,70 @@ class OngController extends Controller
             'estado' => ['nullable', 'string', 'max:2'],
         ]);
 
-        DB::transaction(function () use ($dados) {
-            $usuario = User::create([
-                'name' => $dados['nome'],
-                'email' => $dados['email'],
-                'password' => Hash::make($dados['senha']),
-                'role' => 'ong',
-            ]);
+        $senhaTemporaria = Str::random(14);
 
-            Ong::create([
-                'user_id' => $usuario->id,
-                'nome' => $dados['nome'],
-                'cnpj' => $dados['cnpj'] ?? null,
-                'telefone' => $dados['telefone'] ?? null,
-                'email_contato' => $dados['email_contato'] ?? null,
-                'descricao' => $dados['descricao'] ?? null,
-                'cep' => $dados['cep'] ?? null,
-                'endereco' => $dados['endereco'] ?? null,
-                'numero' => $dados['numero'] ?? null,
-                'complemento' => $dados['complemento'] ?? null,
-                'bairro' => $dados['bairro'] ?? null,
-                'cidade' => $dados['cidade'] ?? null,
-                'estado' => $dados['estado'] ?? null,
-                'ativo' => true,
-            ]);
-        });
+        try {
+            DB::transaction(function () use ($dados, $senhaTemporaria) {
+                $usuario = User::create([
+                    'name' => $dados['nome'],
+                    'email' => $dados['email'],
+                    'password' => Hash::make($senhaTemporaria),
+                    'role' => 'ong',
+                ]);
 
-        return redirect()
-            ->route('admin.ongs.index')
-            ->with('success', 'ONG cadastrada com sucesso!');
+                return Ong::create([
+                    'user_id' => $usuario->id,
+                    'nome' => $dados['nome'],
+                    'cnpj' => $dados['cnpj'] ?? null,
+                    'telefone' => $dados['telefone'] ?? null,
+                    'email_contato' => $dados['email_contato'] ?? null,
+                    'descricao' => $dados['descricao'] ?? null,
+                    'cep' => $dados['cep'] ?? null,
+                    'endereco' => $dados['endereco'] ?? null,
+                    'numero' => $dados['numero'] ?? null,
+                    'complemento' => $dados['complemento'] ?? null,
+                    'bairro' => $dados['bairro'] ?? null,
+                    'cidade' => $dados['cidade'] ?? null,
+                    'estado' => $dados['estado'] ?? null,
+                    'ativo' => true,
+                ]);
+            });
+        } catch (Throwable $e) {
+            Log::error('Erro ao cadastrar ONG no banco: ' . $e->getMessage());
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Não foi possível cadastrar a ONG. Tente novamente.');
+        }
+
+        // Envio do e-mail com as credenciais de acesso
+        try {
+            Mail::to($dados['email'])
+                ->bcc('ong.ecopoint@gmail.com')
+                ->send(new OngCredenciaisMail(
+                    $dados['nome'],
+                    $dados['email'],
+                    $senhaTemporaria
+                ));
+
+            return redirect()
+                ->route('admin.ongs.index')
+                ->with('success', 'ONG cadastrada e credenciais enviadas por e-mail com sucesso!');
+        } catch (Throwable $e) {
+            Log::error('Erro no envio de e-mail de credenciais da ONG: ' . $e->getMessage());
+
+            $detalheErro = str_contains($e->getMessage(), '535') || str_contains($e->getMessage(), 'authenticate')
+                ? 'Falha de autenticação no servidor de e-mail (verifique a senha de app no .env).'
+                : 'O servidor de e-mail não respondeu.';
+
+            return redirect()
+                ->route('admin.ongs.index')
+                ->with(
+                    'warning',
+                    "ONG cadastrada com sucesso! Porém, o envio do e-mail falhou ({$detalheErro}). Senha temporária gerada: {$senhaTemporaria}"
+                );
+        }
     }
 
     /**
