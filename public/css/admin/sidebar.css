@@ -324,6 +324,17 @@ body.admin-body {
     box-shadow: var(--shadow-sm);
 }
 
+.alert-flash-warning {
+    background-color: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    color: #92400e;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+}
+
 .alert-flash-error {
     background-color: #fee2e2;
     border-left: 4px solid #ef4444;

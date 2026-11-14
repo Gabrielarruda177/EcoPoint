@@ -89,6 +89,12 @@
             </div>
         @endif
 
+        @if (session('warning'))
+            <div class="alert-flash-warning">
+                {{ session('warning') }}
+            </div>
+        @endif
+
         @if (session('error'))
             <div class="alert-flash-error">
                 {{ session('error') }}

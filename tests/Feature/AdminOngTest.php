@@ -2,12 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Mail\OngCredenciaisMail;
 use App\Models\Ong;
 use App\Models\PontoDeColeta;
 use App\Models\User;
 use Database\Seeders\AdminUserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class AdminOngTest extends TestCase
@@ -35,6 +37,8 @@ class AdminOngTest extends TestCase
      */
     public function test_administrador_pode_cadastrar_nova_ong_e_usuario(): void
     {
+        Mail::fake();
+
         $this->seed(AdminUserSeeder::class);
         $admin = User::where('email', 'admin@ecopoint.com')->first();
 
@@ -45,12 +49,10 @@ class AdminOngTest extends TestCase
             'telefone' => '(11) 97777-6666',
             'email_contato' => 'atendimento@esperanca.org',
             'descricao' => 'ONG voltada para redistribuição de livros escolares.',
-            'senha' => 'senha12345',
-            'senha_confirmation' => 'senha12345',
         ]);
 
         $response->assertRedirect(route('admin.ongs.index'));
-        $response->assertSessionHas('success', 'ONG cadastrada com sucesso!');
+        $response->assertSessionHas('success');
 
         $this->assertDatabaseHas('users', [
             'email' => 'contato@esperanca.org',
@@ -64,6 +66,30 @@ class AdminOngTest extends TestCase
             'telefone' => '(11) 97777-6666',
             'ativo' => 1,
         ]);
+
+        Mail::assertSent(OngCredenciaisMail::class, function ($mail) {
+            return $mail->hasTo('contato@esperanca.org')
+                && $mail->nome === 'ONG Esperança'
+                && !empty($mail->senhaTemporaria);
+        });
+    }
+
+    /**
+     * Testa se o e-mail de credenciais da ONG renderiza seu template com os dados corretos.
+     */
+    public function test_email_de_credenciais_renderiza_corretamente(): void
+    {
+        $mailable = new OngCredenciaisMail(
+            'Instituto Saber Viva',
+            'saber@instituto.org',
+            'senhaTemporaria123'
+        );
+
+        $mailable->assertHasSubject('Bem-vindo ao EcoPoint - Seus dados de acesso');
+        $mailable->assertSeeInHtml('Instituto Saber Viva');
+        $mailable->assertSeeInHtml('saber@instituto.org');
+        $mailable->assertSeeInHtml('senhaTemporaria123');
+        $mailable->assertSeeInHtml('EcoPoint');
     }
 
     /**
