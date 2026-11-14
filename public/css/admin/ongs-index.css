@@ -1,88 +1,114 @@
+/* ========================================================
+   GERENCIAMENTO DE ONGS - LISTAGEM & TABELA
+   Paleta Oficial EcoPoint & Fonte Anton
+   ======================================================== */
 
 .ongs-index-container {
-    max-width: 1100px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
+/* ========================================================
+   HEADER CARD
+   ======================================================== */
 .ongs-header-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 1.5rem 2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-    margin-bottom: 1.5rem;
+    background: var(--bg-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: var(--radius-lg);
+    padding: 1.8rem 2.2rem;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 1.8rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.2rem;
 }
 
 .ongs-title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #1a202c;
-    margin-top: 0.35rem;
+    font-family: var(--font-anton);
+    font-size: 2.3rem;
+    letter-spacing: 0.04em;
+    color: var(--primary-blue);
+    text-transform: uppercase;
+    margin: 0.4rem 0 0.2rem;
+    line-height: 1.1;
 }
 
 .ongs-subtitle {
-    color: #718096;
-    font-size: 0.9rem;
-    margin-top: 0.2rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin: 0;
 }
 
 .btn-new-ong {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    background-color: #2f855a;
+    gap: 0.5rem;
+    background-color: var(--primary-blue);
     color: #ffffff;
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: 0.6rem 1.25rem;
-    border-radius: 6px;
+    font-family: var(--font-anton);
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.6rem;
+    border-radius: 40px;
     text-decoration: none;
-    transition: background-color 0.15s ease;
+    box-shadow: 0 4px 12px rgba(6, 24, 185, 0.25);
+    transition: all 0.2s ease;
 }
 
 .btn-new-ong:hover {
-    background-color: #276749;
+    background-color: var(--primary-blue-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(4, 16, 138, 0.35);
+    color: #ffffff;
     text-decoration: none;
 }
 
+/* ========================================================
+   CARD DA TABELA
+   ======================================================== */
 .ongs-table-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
+    background: var(--bg-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--shadow-md);
 }
 
 .table-responsive {
     width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
+/* ========================================================
+   ESTRUTURA DA TABELA
+   ======================================================== */
 .ongs-table {
     width: 100%;
+    min-width: 1020px;
     border-collapse: collapse;
     text-align: left;
     font-size: 0.9rem;
 }
 
 .ongs-table th {
-    background-color: #f7fafc;
-    color: #4a5568;
-    font-weight: 600;
-    padding: 0.85rem 1.25rem;
-    border-bottom: 1px solid #e2e8f0;
+    background-color: var(--bg-card);
+    color: var(--primary-blue-dark);
+    font-family: var(--font-anton);
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    font-weight: 400;
+    padding: 1.1rem 1.4rem;
+    border-bottom: 1px solid rgba(6, 24, 185, 0.15);
     text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
+    white-space: nowrap;
 }
 
 .ongs-table td {
-    padding: 1rem 1.25rem;
+    padding: 1.1rem 1.4rem;
     border-bottom: 1px solid #edf2f7;
     color: #2d3748;
     vertical-align: middle;
@@ -92,119 +118,265 @@
     border-bottom: none;
 }
 
-.ongs-table tr:hover td {
-    background-color: #fcfdfd;
+.ongs-table tbody tr {
+    transition: background-color 0.15s ease;
 }
 
+.ongs-table tbody tr:hover td {
+    background-color: #f8faff;
+}
+
+/* ========================================================
+   CÉLULAS ESPECÍFICAS
+   ======================================================== */
 .ong-nome-cell {
-    font-weight: 600;
-    color: #1a202c;
+    font-weight: 700;
+    color: #111827;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
 }
 
 .ong-subtext {
     font-size: 0.8rem;
-    color: #718096;
+    color: #6b7280;
+    line-height: 1.35;
+}
+
+.col-localizacao {
+    min-width: 170px;
+}
+
+.local-cidade {
+    font-weight: 600;
+    color: #1f2937;
+    white-space: nowrap;
+}
+
+.col-cnpj {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.col-usuario {
+    max-width: 200px;
+    word-break: break-all;
+}
+
+/* Status Pill */
+.col-status {
+    text-align: center;
+    white-space: nowrap;
+    width: 100px;
 }
 
 .status-pill {
     display: inline-block;
-    padding: 0.25rem 0.65rem;
+    padding: 0.3rem 0.75rem;
     border-radius: 9999px;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
 }
 
 .status-active {
-    background-color: #c6f6d5;
-    color: #22543d;
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
 .status-inactive {
-    background-color: #fed7d7;
-    color: #9b2c2c;
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* ========================================================
+   AÇÕES
+   ======================================================== */
+.th-actions {
+    text-align: right;
+    white-space: nowrap;
+    width: 220px;
 }
 
 .actions-group {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.45rem;
+    justify-content: flex-end;
+    white-space: nowrap;
+}
+
+.form-inline {
+    display: inline;
+    margin: 0;
 }
 
 .btn-action {
-    padding: 0.35rem 0.65rem;
-    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.78rem;
     font-weight: 600;
-    border-radius: 4px;
+    border-radius: 6px;
     border: 1px solid transparent;
     text-decoration: none;
     cursor: pointer;
     background: transparent;
     transition: all 0.15s ease;
+    line-height: 1;
 }
 
 .btn-action-edit {
-    color: #2b6cb0;
-    border-color: #bee3f8;
-    background-color: #ebf8ff;
+    color: #0618b9;
+    border-color: #c7d2fe;
+    background-color: #eef2ff;
 }
 
 .btn-action-edit:hover {
-    background-color: #bee3f8;
+    background-color: #0618b9;
+    color: #ffffff;
+    border-color: #0618b9;
 }
 
 .btn-action-toggle {
-    color: #4a5568;
-    border-color: #e2e8f0;
-    background-color: #f7fafc;
+    color: #374151;
+    border-color: #e5e7eb;
+    background-color: #f9fafb;
 }
 
 .btn-action-toggle:hover {
-    background-color: #e2e8f0;
+    background-color: #e5e7eb;
+    color: #111827;
 }
 
 .btn-action-delete {
-    color: #c53030;
-    border-color: #fed7d7;
-    background-color: #fff5f5;
+    color: #dc2626;
+    border-color: #fecaca;
+    background-color: #fef2f2;
 }
 
 .btn-action-delete:hover {
-    background-color: #fed7d7;
+    background-color: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
 }
 
+/* ========================================================
+   ESTADO VAZIO (EMPTY STATE)
+   ======================================================== */
 .empty-state {
-    padding: 3rem 1.5rem;
+    padding: 3.5rem 1.5rem;
     text-align: center;
-    color: #718096;
+    color: #6b7280;
 }
 
 .empty-state p {
-    margin-top: 0.5rem;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    margin: 0 0 1rem;
 }
 
-
-/* ---- Actions column alignment ---- */
-.th-actions {
-    text-align: right;
-}
-
-.actions-group--end {
-    justify-content: flex-end;
-}
-
-/* ---- Inline forms (toggle/delete inside table) ---- */
-.form-inline {
-    display: inline;
-}
-
-/* ---- Empty-state action area ---- */
-.empty-state-action {
-    margin-top: 1rem;
-}
-
-/* ---- Pagination wrapper ---- */
-.table-pagination {
-    padding: 1rem 1.5rem;
+/* ========================================================
+   PAGINAÇÃO (CORREÇÃO DAS SETAS GIGANTES E ESTILIZAÇÃO)
+   ======================================================== */
+.pagination-wrapper {
+    padding: 1.2rem 1.6rem;
     border-top: 1px solid #edf2f7;
+    background: var(--bg-white);
+}
+
+/* Domina e limita qualquer SVG dentro da paginação */
+.pagination-wrapper svg {
+    width: 1.15rem !important;
+    height: 1.15rem !important;
+    max-width: 1.15rem !important;
+    max-height: 1.15rem !important;
+    display: inline-block !important;
+    vertical-align: middle;
+}
+
+/* Estrutura flex da navegação */
+.pagination-wrapper nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.pagination-wrapper nav > div:first-child {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+}
+
+.pagination-wrapper nav > div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.pagination-wrapper a,
+.pagination-wrapper span[aria-disabled="true"] span,
+.pagination-wrapper span[aria-current="page"] span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.2rem;
+    height: 2.2rem;
+    padding: 0 0.65rem;
+    border-radius: var(--radius-sm, 8px);
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #374151;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.pagination-wrapper a:hover {
+    background-color: var(--bg-card);
+    border-color: var(--primary-blue-light);
+    color: var(--primary-blue);
+}
+
+.pagination-wrapper span[aria-current="page"] span {
+    background-color: var(--primary-blue) !important;
+    border-color: var(--primary-blue) !important;
+    color: #ffffff !important;
+    font-weight: 700;
+}
+
+.pagination-wrapper span[aria-disabled="true"] span {
+    color: #9ca3af;
+    background-color: #f9fafb;
+    border-color: #e5e7eb;
+    cursor: not-allowed;
+}
+
+/* ========================================================
+   RESPONSIVO
+   ======================================================== */
+@media (max-width: 768px) {
+    .ongs-header-card {
+        padding: 1.4rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .ongs-title {
+        font-size: 1.9rem;
+    }
+
+    .btn-new-ong {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .pagination-wrapper nav {
+        flex-direction: column;
+        align-items: center;
+    }
 }

@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('titulo', 'Cadastrar ONG')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/admin/ongs-create.css') }}?v=1.1">
+    <link rel="stylesheet" href="{{ asset('css/admin/ongs-create.css') }}?v=1.2">
 @endsection
 
 @section('conteudo')
@@ -103,6 +103,106 @@
                         class="form-control"
                         placeholder="Breve resumo da missão e das atividades da ONG..."
                     >{{ old('descricao') }}</textarea>
+                </div>
+            </div>
+
+            <hr class="form-divider">
+
+            <div class="form-section">
+                <h2 class="form-section-title">Localização da Sede</h2>
+                <p class="form-section-subtitle">Endereço institucional e estado da organização</p>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="cep" class="form-label">CEP (Opcional)</label>
+                        <input 
+                            type="text" 
+                            name="cep" 
+                            id="cep" 
+                            class="form-control"
+                            value="{{ old('cep') }}" 
+                            placeholder="00000-000"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="estado" class="form-label">Estado / UF (Opcional)</label>
+                        <input 
+                            type="text" 
+                            name="estado" 
+                            id="estado" 
+                            class="form-control"
+                            value="{{ old('estado') }}" 
+                            placeholder="SP"
+                            maxlength="2"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="cidade" class="form-label">Cidade (Opcional)</label>
+                        <input 
+                            type="text" 
+                            name="cidade" 
+                            id="cidade" 
+                            class="form-control"
+                            value="{{ old('cidade') }}" 
+                            placeholder="São Paulo"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bairro" class="form-label">Bairro (Opcional)</label>
+                        <input 
+                            type="text" 
+                            name="bairro" 
+                            id="bairro" 
+                            class="form-control"
+                            value="{{ old('bairro') }}" 
+                            placeholder="Centro"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="endereco" class="form-label">Endereço / Logradouro (Opcional)</label>
+                        <input 
+                            type="text" 
+                            name="endereco" 
+                            id="endereco" 
+                            class="form-control"
+                            value="{{ old('endereco') }}" 
+                            placeholder="Av. Paulista, Rua das Flores..."
+                        >
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="numero" class="form-label">Número (Opcional)</label>
+                        <input 
+                            type="text" 
+                            name="numero" 
+                            id="numero" 
+                            class="form-control"
+                            value="{{ old('numero') }}" 
+                            placeholder="123 ou S/N"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="complemento" class="form-label">Complemento (Opcional)</label>
+                        <input 
+                            type="text" 
+                            name="complemento" 
+                            id="complemento" 
+                            class="form-control"
+                            value="{{ old('complemento') }}" 
+                            placeholder="Sala 101, Bloco B"
+                        >
+                    </div>
                 </div>
             </div>
 

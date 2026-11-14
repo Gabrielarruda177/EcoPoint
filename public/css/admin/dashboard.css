@@ -1,133 +1,630 @@
+/* ========================================================
+   DASHBOARD DO ADMINISTRADOR
+   Paleta Oficial & Fonte Anton
+   ========================================================
+
+   ÍNDICE:
+   1. Container Principal
+   2. Banner de Boas-Vindas
+   3. Títulos de Seção
+   4. Grid de Métricas (Cards)
+   5. Seção do Mapa do Brasil (Cobertura Regional)
+   6. Grid de Gráficos (Charts)
+   7. Grid de Módulos de Ação
+   8. Responsivo
+   ======================================================== */
+
+
+/* ========================================================
+   1. CONTAINER PRINCIPAL
+   ======================================================== */
 .admin-dashboard-container {
-    max-width: 1100px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
+
+/* ========================================================
+   2. BANNER DE BOAS-VINDAS
+   ======================================================== */
 .dashboard-header-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 1.75rem 2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-    margin-bottom: 1.75rem;
+    position: relative;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+    color: var(--bg-white);
+    border-radius: var(--radius-xl);
+    padding: 6.2rem 2.8rem;
+    box-shadow: var(--shadow-xl);
+    margin-bottom: 2.2rem;
+    overflow: hidden;
+}
+
+.dashboard-header-card::before {
+    content: "";
+    position: absolute;
+    top: -60%;
+    right: -10%;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    pointer-events: none;
 }
 
 .dashboard-header-content {
+    position: relative;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.5rem;
+}
+
+.badge-admin {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .dashboard-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #1a202c;
-    margin-top: 0.5rem;
+    font-family: var(--font-anton);
+    font-size: 3.1rem;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+    margin: 0.7rem 0 0.4rem;
+    line-height: 1.1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .dashboard-welcome {
-    color: #4a5568;
-    font-size: 0.95rem;
-    margin-top: 0.25rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.dashboard-welcome strong {
+    color: #ffffff;
 }
 
 .dashboard-btn-create {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    background-color: #2f855a;
-    color: #ffffff;
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: 0.6rem 1.25rem;
-    border-radius: 6px;
+    gap: 0.5rem;
+    background-color: var(--bg-white);
+    color: var(--primary-blue-dark);
+    font-family: var(--font-anton);
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.8rem;
+    border-radius: 40px;
     text-decoration: none;
-    transition: background-color 0.15s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
 }
 
 .dashboard-btn-create:hover {
-    background-color: #276749;
+    background-color: var(--bg-card);
+    color: var(--primary-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
     text-decoration: none;
 }
 
-.dashboard-grid {
+
+/* ========================================================
+   3. TÍTULOS DE SEÇÃO
+   ======================================================== */
+.section-title {
+    font-family: var(--font-anton);
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin: 0 0 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* ========================================================
+   4. GRID DE MÉTRICAS (CARDS)
+   ======================================================== */
+.metrics-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.4rem;
+    margin-bottom: 2.5rem;
+}
+
+.metric-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(6, 24, 185, 0.12);
+    border-radius: var(--radius-lg);
+    padding: 1.6rem 1.8rem;
+    box-shadow: var(--shadow-md);
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-blue-light);
+}
+
+.metric-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+}
+
+.metric-card-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0;
+}
+
+.metric-value-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+}
+
+.metric-value {
+    font-family: var(--font-anton);
+    font-size: 3.2rem;
+    color: var(--primary-blue);
+    line-height: 1;
+    margin: 0.2rem 0;
+    letter-spacing: 0.02em;
+}
+
+.metric-mini-mapa {
+    width: 60px;
+    height: auto;
+    max-height: 56px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 6px rgba(6, 24, 185, 0.25));
+    transition: transform 0.25s ease;
+}
+
+.metric-card:hover .metric-mini-mapa {
+    transform: scale(1.1);
+}
+
+.metric-card-footer {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin-top: 0.6rem;
+    font-weight: 500;
+}
+
+
+/* ========================================================
+   5. SEÇÃO DO MAPA DO BRASIL - REGIONAL PERFORMANCE
+   ======================================================== */
+.mapa-brasil-card {
+    background: var(--bg-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: var(--radius-lg);
+    padding: 2.2rem 2.4rem;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 2.5rem;
+    transition: all 0.25s ease;
+}
+
+.mapa-brasil-card:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-blue-light);
+}
+
+.mapa-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.mapa-card-title {
+    font-family: var(--font-anton);
+    font-size: 1.6rem;
+    letter-spacing: 0.03em;
+    color: var(--primary-blue);
+    text-transform: uppercase;
+    margin: 0.4rem 0 0.2rem;
+}
+
+.mapa-card-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    margin: 0;
+}
+
+.mapa-card-body {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 2.2rem;
+    align-items: center;
+}
+
+.mapa-svg-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #f8faff 0%, #edf2ff 100%);
+    border-radius: var(--radius-md);
+    padding: 1.6rem;
+    border: 1px solid rgba(6, 24, 185, 0.08);
+}
+
+.mapa-brasil-svg {
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+    filter: drop-shadow(0 6px 14px rgba(6, 24, 185, 0.12));
+}
+
+.mapa-regiao {
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.regiao-path {
+    stroke: #ffffff;
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+    transition: all 0.25s ease;
+}
+
+.mapa-regiao:hover .regiao-path {
+    filter: brightness(1.2);
+    stroke-width: 3.5;
+    stroke: #ffffff;
+}
+
+.regiao-label {
+    font-family: var(--font-anton);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    fill: #ffffff;
+    text-anchor: middle;
+    pointer-events: none;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+}
+
+.regiao-badge {
+    font-size: 12px;
+    font-weight: 700;
+    fill: #ffffff;
+    text-anchor: middle;
+    pointer-events: none;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* Tooltip do mapa */
+.mapa-tooltip {
+    position: absolute;
+    display: none;
+    background: rgba(17, 24, 39, 0.95);
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    pointer-events: none;
+    box-shadow: var(--shadow-lg);
+    z-index: 10;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transform: translate(-50%, -120%);
+    transition: opacity 0.15s ease;
+}
+
+/* Legendas laterais */
+.mapa-legendas-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.legendas-title {
+    font-family: var(--font-anton);
+    font-size: 1.15rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin: 0 0 0.4rem;
+}
+
+.legendas-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.legenda-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.1rem;
+    background: var(--bg-gray-50);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+}
+
+.legenda-card:hover {
+    background: var(--bg-card);
+    border-color: var(--primary-blue-light);
+    transform: translateX(4px);
+}
+
+.legenda-card-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.legenda-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legenda-nome {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--text-primary);
+}
+
+.legenda-ufs {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.legenda-card-right {
+    text-align: right;
+}
+
+.legenda-total {
+    font-family: var(--font-anton);
+    font-size: 1.3rem;
+    color: var(--primary-blue);
+    line-height: 1;
+}
+
+.legenda-percent {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* Rodapé do mapa: KPIs rápidos */
+.mapa-card-footer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.8rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid #edf2f7;
+}
+
+.mapa-stat-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0.9rem 1.2rem;
+    background: var(--bg-card);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(6, 24, 185, 0.1);
+}
+
+.mapa-stat-label {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+.mapa-stat-value {
+    font-family: var(--font-anton);
+    font-size: 1.9rem;
+    color: var(--primary-blue);
+    line-height: 1;
+}
+
+
+/* ========================================================
+   6. GRID DE GRÁFICOS (CHARTS)
+   ======================================================== */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.4rem;
+    margin-bottom: 2.5rem;
+}
+
+.chart-card {
+    background: var(--bg-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: var(--radius-lg);
+    padding: 1.6rem 1.8rem;
+    box-shadow: var(--shadow-md);
+    transition: all 0.25s ease;
+}
+
+.chart-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-blue-light);
+}
+
+.chart-titulo {
+    font-family: var(--font-anton);
+    font-size: 1.15rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--primary-blue);
+    margin: 0 0 0.3rem;
+}
+
+.chart-descricao {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin: 0 0 1rem;
+}
+
+.chart-container {
+    position: relative;
+    height: 260px;
+}
+
+.chart-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    font-style: italic;
+    background: var(--bg-gray-50);
+    border-radius: var(--radius-sm);
+    border: 1px dashed rgba(0, 0, 0, 0.12);
+}
+
+
+/* ========================================================
+   7. GRID DE MÓDULOS DE AÇÃO
+   ======================================================== */
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.4rem;
     margin-bottom: 2rem;
 }
 
 .module-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 1.5rem;
-    transition: all 0.2s ease;
+    background: var(--bg-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    transition: all 0.25s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
 .module-card:hover {
-    border-color: #cbd5e0;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary-blue-light);
 }
 
 .module-card-tag {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #718096;
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--primary-blue);
+    background: var(--bg-card);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.35rem;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.8rem;
 }
 
 .module-card-title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #2d3748;
-    margin-bottom: 0.35rem;
+    font-family: var(--font-anton);
+    font-size: 1.6rem;
+    letter-spacing: 0.03em;
+    color: var(--text-primary);
+    margin: 0 0 0.6rem;
+    text-transform: uppercase;
 }
 
 .module-card-desc {
-    color: #718096;
-    font-size: 0.875rem;
-    line-height: 1.5;
-    margin-bottom: 1.25rem;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0 0 1.6rem;
 }
 
 .module-card-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    color: #2f855a;
-    font-size: 0.9rem;
-    font-weight: 600;
+    gap: 0.5rem;
+    color: var(--primary-blue);
+    font-family: var(--font-anton);
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     text-decoration: none;
-    transition: gap 0.15s ease;
+    transition: gap 0.2s ease, color 0.2s ease;
 }
 
 .module-card-link:hover {
-    gap: 0.6rem;
+    gap: 0.8rem;
+    color: var(--primary-blue-dark);
     text-decoration: none;
 }
 
-@media (max-width: 640px) {
+
+/* ========================================================
+   8. RESPONSIVO
+   ======================================================== */
+@media (max-width: 900px) {
+    .mapa-card-body {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
     .dashboard-header-card {
-        padding: 1.25rem;
+        padding: 1.6rem;
     }
 
-    .dashboard-header-content {
-        flex-direction: column;
-        align-items: flex-start;
+    .dashboard-title {
+        font-size: 1.8rem;
     }
 
     .dashboard-btn-create {
         width: 100%;
         justify-content: center;
     }
-}
 
+    .metrics-grid,
+    .charts-grid,
+    .modules-grid,
+    .mapa-card-footer {
+        grid-template-columns: 1fr;
+    }
+}

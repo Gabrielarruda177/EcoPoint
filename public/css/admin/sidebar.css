@@ -1,0 +1,351 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --primary-blue: #0618b9;
+    --primary-blue-dark: #04108a;
+    --primary-blue-light: #4554db;
+    --bg-white: #FFFFFF;
+    --bg-gray-50: #F9FAFB;
+    --bg-card: #E9ECFF;
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 6px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 15px;
+    --radius-xl: 20px;
+
+    --font-anton: 'Anton', sans-serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --sidebar-collapsed-width: 76px;
+    --sidebar-expanded-width: 270px;
+}
+
+body.admin-body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+    background-color: var(--bg-gray-50);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* ========================================================
+   SIDEBAR DO ADMINISTRADOR (RECOLHIDA E EXPANSÍVEL NO HOVER)
+   ======================================================== */
+.admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: var(--sidebar-collapsed-width);
+    background: linear-gradient(180deg, var(--primary-blue-dark) 0%, #020942 100%);
+    color: #ffffff;
+    z-index: 9999;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: width 0.32s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.32s ease;
+    box-shadow: 4px 0 20px rgba(4, 16, 138, 0.28);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Quando o cursor do mouse estiver por cima, a sidebar abre */
+.admin-sidebar:hover {
+    width: var(--sidebar-expanded-width);
+    box-shadow: 10px 0 35px rgba(4, 16, 138, 0.45);
+}
+
+/* BARRA DE ROLAGEM SUAVE DA SIDEBAR */
+.admin-sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+.admin-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* CABEÇALHO / LOGO DA SIDEBAR */
+.sidebar-header {
+    padding: 22px 16px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-brand-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.sidebar-brand-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--primary-blue-light) 0%, var(--primary-blue) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-brand-text {
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-12px);
+    transition: opacity 0.22s ease, transform 0.25s ease, visibility 0.22s ease;
+    white-space: nowrap;
+}
+
+.admin-sidebar:hover .sidebar-brand-text {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.brand-title {
+    font-family: var(--font-anton);
+    font-size: 1.55rem;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    line-height: 1;
+}
+
+.brand-badge {
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: var(--primary-blue-light);
+    background: rgba(69, 84, 219, 0.22);
+    padding: 2px 6px;
+    border-radius: 4px;
+    width: fit-content;
+    margin-top: 4px;
+    border: 1px solid rgba(69, 84, 219, 0.4);
+}
+
+/* NAVEGAÇÃO / LINKS DA SIDEBAR */
+.sidebar-nav {
+    flex: 1;
+    padding: 20px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    color: rgba(255, 255, 255, 0.78);
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    position: relative;
+}
+
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    transform: translateX(3px);
+}
+
+.sidebar-link.active {
+    background: var(--primary-blue);
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(6, 24, 185, 0.45);
+    border-left: 3px solid #ffffff;
+}
+
+.sidebar-icon {
+    font-size: 1.35rem;
+    min-width: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.sidebar-label {
+    font-family: var(--font-anton);
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-10px);
+    transition: opacity 0.22s ease, transform 0.25s ease, visibility 0.22s ease;
+}
+
+.admin-sidebar:hover .sidebar-label {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    margin: 10px 4px;
+}
+
+/* RODAPÉ DA SIDEBAR: USUÁRIO E LOGOUT */
+.sidebar-footer {
+    padding: 14px 12px 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-user-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.06);
+    white-space: nowrap;
+}
+
+.sidebar-user-avatar {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 50%;
+    background: var(--primary-blue-light);
+    color: #ffffff;
+    font-family: var(--font-anton);
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-user-info {
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-10px);
+    transition: opacity 0.22s ease, transform 0.25s ease, visibility 0.22s ease;
+    overflow: hidden;
+}
+
+.admin-sidebar:hover .sidebar-user-info {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.sidebar-user-name {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: #ffffff;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.sidebar-user-email {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.65);
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.sidebar-logout-form {
+    margin: 0;
+}
+
+.sidebar-logout-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 14px;
+    border: none;
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.sidebar-logout-btn:hover {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+.sidebar-logout-btn .sidebar-label {
+    color: inherit;
+    font-size: 0.98rem;
+}
+
+/* ========================================================
+   CONTEÚDO PRINCIPAL (COM MARGEM DA SIDEBAR RECOLHIDA)
+   ======================================================== */
+.admin-main-wrapper {
+    margin-left: var(--sidebar-collapsed-width);
+    min-height: 100vh;
+    padding: 2.2rem 3rem;
+    box-sizing: border-box;
+    transition: margin-left 0.32s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* ALERTAS FLASH */
+.alert-flash-success {
+    background-color: #d1fae5;
+    border-left: 4px solid #10b981;
+    color: #065f46;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+}
+
+.alert-flash-error {
+    background-color: #fee2e2;
+    border-left: 4px solid #ef4444;
+    color: #991b1b;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        width: 64px;
+    }
+    .admin-sidebar:hover {
+        width: 230px;
+    }
+    .admin-main-wrapper {
+        margin-left: 64px;
+        padding: 1.5rem 1.2rem;
+    }
+}
+
