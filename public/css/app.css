@@ -1,5 +1,10 @@
-/* Estlização geral site */
+/*Fontes*/
 
+@import url('https://www.1001fonts.com/sugo-font.html');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
+
+/* Estlização geral site */
 /* Reset */
 * {
     box-sizing: border-box;
@@ -98,7 +103,7 @@ header .nav-container nav a:hover {
 
 header .nav-container nav .nav-btn-panel {
     margin-left: 2rem;
-    width: 11rem;
+    width: 15rem;
     height: 2.6rem;
     padding: 50px;
     background: #80654A;
@@ -171,7 +176,6 @@ main {
     margin: 2rem auto;
     padding: 0 1rem;
     min-height: 75vh;
-
 }
 
 main #begin {
@@ -239,7 +243,7 @@ footer {
     font-size: 0.95rem;
 }
 
-@media (max-width: 950px) {
+@media (max-width: 1000px) {
     header .nav-container {
         justify-content: space-between;
         padding: 0 1.5rem;
@@ -260,7 +264,7 @@ footer {
         top: 100%;
         left: 0;
         width: 100%;
-        background-color: #c7e296;
+        background: #daf3b7ee;
         padding: 20px 0;
         gap: 20px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -272,10 +276,27 @@ footer {
         transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
     }
 
+    header .nav-container nav a {
+        margin: 0 1rem;
+        width: 90vw;
+        border-bottom: 0.1rem solid #000;        
+    }
+
     header .nav-container #nav-links.ativo {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
         transform: translateY(0);
+    }
+}
+
+@keyframes pula {
+    50% {
+        transform: translateY(-3px);
+        font-size: 18px;
+    }
+    100% {
+        transform: translateY(0);
+        font-size: 17px;
     }
 }

@@ -1,21 +1,150 @@
+/*Fontes*/
+
+@import url('https://fonts.cdnfonts.com/css/sugo');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
+
 /*Estilização Início*/
 
 #inicio {
+    margin-top: 50px;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     gap: 0.5rem;
 }
 
 #inicio #resume {
-    border: 1px solid #000;
     margin: 0 1rem;
-    width: 60%;
-    height: 70vh;
+    min-width: 430px;
+    width: 52vw;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    font-family: 'Arimo';
 }
+
+#inicio #resume #p-back {
+    width: 350px;
+    border-radius: 180px;
+    background-color: #fff;
+    color: #466F37;
+    font-weight: bolder;
+    text-align: center;
+    box-shadow: 0px 4px 12px #3f74303c;
+    margin: 1.3rem 0.4rem;
+    padding: 5px;
+    font-size: 17px;
+}
+
+#inicio #resume #principal {
+    font-size: 90px;
+    font-weight: bolder;
+    line-height: 100px;
+}
+
+#inicio #resume #principal .blue{
+    color: #1E79A6;
+}
+
+#inicio #resume #principal .green {
+    color: #3A7229;
+}
+
+#inicio #resume #subtitle {
+    width: 54rem;
+    font-size: 28px;
+    color: #667558;
+    margin: 1.5rem 0;
+    padding: 0.2rem 1.7rem 0.2rem 0;
+}
+
+#inicio #resume #click {
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #bcbcbc90;
+    gap: 5rem;
+    margin-top: 1rem;
+}
+
+#inicio #resume #click a {
+    margin-bottom: 2rem;
+    font-size: 25px;
+    text-decoration: none;
+    font-weight: bolder;
+    border-radius: 180px;
+    padding: 10px 15px;
+    word-spacing: 3px;
+    width: 29rem;
+    
+    text-align: center;
+}
+
+#inicio #resume #click #a-back-blue {
+    color: white;
+    background-color: #55AFE1;
+    box-shadow: 5px 6px 12px #7e7e7e72;
+}
+
+#inicio #resume #click #a-back-blue:hover {
+    animation: pular 0.5s ease;
+
+}
+
+
+#inicio #resume #click #a-noback {
+    color: #4E5A4C;
+    border: 1px solid #fff;
+    box-shadow: 5px 6px 12px #b3b3b362;
+}
+
+#inicio #resume #click #a-noback:hover {
+    animation: pular 0.5s ease;
+}
+
+#inicio #add-info {
+    width: 100%;
+    display: flex; 
+    gap: 2rem;
+}
+
+#inicio #add-info .block {
+    margin: 1.3rem 0.3rem;
+}
+
+#inicio #add-info .block .title {
+    font-size: 30px;
+    font-weight: bolder;
+    color: #2A7696;
+}
+
+#inicio #add-info .block .subtitle {
+    font-size: 19px;
+    font-weight: bolder;
+    color: #848D7A;
+}
+
 
 #inicio #simple-map {
     border: 1px solid #000;
     margin: 0 1rem;
-    width: 40%;
-    height: 60vh;
+    min-width: 430px;
+    width: 40vw;
+    height: 65vh;
+}
+
+@keyframes pular {
+    50% {
+        font-size: 28px;
+        transform: translateY(-3px);
+    }
+    100% {
+        font-size: 25;
+        transform: translateY(0);
+    }
 }

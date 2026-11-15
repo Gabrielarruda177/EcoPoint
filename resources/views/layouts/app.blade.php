@@ -27,7 +27,7 @@
             <nav id="nav-links">
                 <a href="{{ route('publico.home') }}">INÍCIO</a>
                 <a href="{{ route('publico.pontos.index') }}">SOBRE NÓS</a>
-                <a href="{{ route('publico.pontos.index') }}">ECOPONTOS</a>
+                <a href="{{ route('publico.home') }}#as-ongs">ECOPONTOS</a>
                 <a href="{{ route('publico.pontos.index') }}">FALE CONOSCO</a>
 
                 @auth
