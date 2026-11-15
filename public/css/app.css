@@ -28,6 +28,7 @@ header {
     padding: 0 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: relative;
+    z-index: 10;
 }
 
 header .nav-container {
@@ -287,6 +288,7 @@ footer {
         visibility: visible;
         pointer-events: auto;
         transform: translateY(0);
+        z-index: 1;
     }
 }
 

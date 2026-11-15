@@ -49,7 +49,20 @@
         </div>
 
         <div id="simple-map">
+            <p id="pin">📍 Rede Ativa em -Local</p>
 
+            <p id="destaque">Ponto em Destaque</p>
+
+            <p id="name-ecopoint">Ecoponto FATEC Zona Leste<?php /* -Local */ ?> - Arrecadação aberta para apostilas e manuais técnicos de tecnologia e gestão.<?php /*-Materiais-Aceitos*/ ?></p>
+
+            <a id="resumed-map" href="#" target="_blank">
+                <div id="map"></div>
+                <p>📍 -Cidade · -Aberto/Fechado</p>
+            </a>
+            
+            <a id="link" href="#" target="_blank">
+                <p>Ver informações completas →</p>
+            </a>
         </div>
     </section>
 

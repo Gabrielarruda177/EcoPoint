@@ -131,11 +131,99 @@
 
 
 #inicio #simple-map {
-    border: 1px solid #000;
+    border-radius: 40px;
+    background-color: #fff;
     margin: 0 1rem;
     min-width: 430px;
     width: 40vw;
-    height: 65vh;
+    height: 60vh;
+    box-shadow: 4px 3px 12px #89898970;
+    padding: 32px;
+    font-family: 'Arimo';
+    display: flex;
+    flex-direction: column;
+}
+
+#inicio #simple-map #pin {
+    width: 14rem;
+    text-align: center;
+    align-content: center;
+    height: 30px;
+    font-weight: bolder;
+    border-radius: 180px;
+    background-color: #F2F6E8;
+    color: #4D723F;
+    margin: 10px 0 6px 0;
+}
+
+#inicio #simple-map #destaque {
+    font-weight: bolder;
+    font-size: 27px;
+    margin: 7px 0;
+}
+
+#inicio #simple-map #name-ecopoint {
+    font-size: 22px;
+    color: #7C807F;
+    margin: 7px 0;
+}
+
+#inicio #simple-map #resumed-map {
+    height: 25vh;
+    border: 1px solid #000;
+    border-radius: 40px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    text-decoration: none;
+    margin: 8px 0;
+}
+
+#inicio #simple-map #resumed-map #map {
+    width: 100%;
+    height: 100%;
+    background-color: #1E79A6;
+    z-index: 1;
+    pointer-events: none;
+}
+
+#inicio #simple-map #resumed-map p {
+    position: absolute; 
+    background: #fff;
+    border-radius: 180px;
+    margin: 10px;
+    padding: 6px 13px;
+    font-weight: bold;
+    box-shadow: 2px 3px 12px #a2a2a28e;
+    color: #34748D;
+    font-size: 19px;
+    z-index: 1000;
+}
+
+#inicio #simple-map #link {
+    text-decoration: none;  
+    width: 320px;
+    margin: 10px 0;
+    align-self: flex-end;
+}
+
+#inicio #simple-map #link p {
+    width: 320px;
+    height: 60px;
+    align-content: center;
+    background-color: #57AFE1;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 19px;
+    border-radius: 180px;
+    padding: 7px;
+}
+
+#inicio #simple-map #link p:hover {
+    font-size: 20px;
 }
 
 @keyframes pular {
@@ -144,7 +232,7 @@
         transform: translateY(-3px);
     }
     100% {
-        font-size: 25;
+        font-size: 25px;
         transform: translateY(0);
     }
 }
