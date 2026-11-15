@@ -1,3 +1,5 @@
+/* Estlização geral site */
+
 /* Reset */
 * {
     box-sizing: border-box;
@@ -20,6 +22,7 @@ header {
     color: rgb(255, 255, 255);
     padding: 0 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 header .nav-container {
@@ -33,49 +36,51 @@ header .nav-container {
 }
 
 header .nav-container div {
-    width: 20%;
+    width: 15%;
     justify-content: start;
 }
 
-header .nav-container .nav-brand {
-    margin-left: 0;
-    font-size: 1.25rem;
-    font-weight: 700;
+header .nav-container div a {
+    text-decoration: none;
+    margin: 0;
 }
 
+header .nav-container div a img {
+    width: 16rem;
+    margin: 5px 0;
+}
+
+header .nav-container .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+header .nav-container .menu-toggle span {
+    width: 28px;
+    height: 3px;
+    background-color: #3b5323;
+    border-radius: 2px;
+    transition: 0.3s;
+}
 
 header .nav-container nav {
-    width: 60%;
+    width: 65%;
     justify-content: end;
-}
-
-header a {
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    margin-left: 1rem;
-}
-
-header a:hover {
-    text-decoration: underline;
-}
-
-header a img {
-    width: 200px;
-}
-
-/* ---- Nav ---- */
-.nav-links {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 1rem;
     color: #000;
 }
 
-.nav-links a {
+header .nav-container nav a {
+    margin: 0.5rem 0 0 0.7rem;
     height: 4rem;
-    width: 8rem;
+    width: 10rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -83,30 +88,16 @@ header a img {
     color: #506345;
     text-decoration: none;
     font-weight: bolder;
-    font-size: 13px;
+    font-size: 17px;
 }
 
-.nav-links a:hover {
+header .nav-container nav a:hover {
     color: #1777A9;
-    text-decoration: none;
     animation: pula 0.5s ease;
 }
 
-@keyframes pula {
-    0% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-3px);
-        font-size: 14px;
-    }
-    100% {
-        transform:translateY(0);
-    }
-}
-
-.nav-links .nav-btn-panel {
-    margin: 2px;
+header .nav-container nav .nav-btn-panel {
+    margin-left: 2rem;
     width: 11rem;
     height: 2.6rem;
     padding: 50px;
@@ -115,10 +106,10 @@ header a img {
     padding: 0.35rem 0.65rem;
     border-radius: 180px;
     animation: none;
-    font-size: 12px;
+    font-size: 17px;
 }
 
-.nav-links .nav-btn-panel:hover {
+header .nav-container nav .nav-btn-panel:hover {
     background: #80654A;
     color: rgb(255, 255, 255);
     padding: 0.35rem 0.65rem;
@@ -126,32 +117,22 @@ header a img {
     animation: none;
 }
 
-.nav-links .nav-btn-panel:hover p {
+header .nav-container nav .nav-btn-panel:hover p {
     animation: pula 0.5s ease;
 }
 
-.nav-user-name {
-    color: #e6fffa;
-    font-size: 0.85rem;
-    margin-left: 0.5rem;
-}
-
-.nav-logout-form {
-    display: inline;
-    margin-left: 0.5rem;
-}
-
-.nav-logout-btn {
+header .nav-container nav .nav-logout-btn {
     background: transparent;
     border: 1.3px solid rgba(255, 255, 255);
     color: white;
     padding: 0.5rem 0.8rem;
     border-radius: 180px;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 17px;
     font-weight: bolder;
     width: 5rem;
     height: 2.6rem;
+    margin: 0.5rem 0 0 3rem;
 }
 
 .nav-logout-btn:hover p {
@@ -163,28 +144,25 @@ header a img {
     color: #506345;
 }
 
-#nav-btn-login {
-    width: auto;
-    height: auto;
+header .nav-container nav #nav-btn-login {
+    width: 8.2rem;
+    height: 2.6rem;
     color: rgb(221, 221, 221);
     background: #80654A;
     padding: 0.35rem 0.85rem;
     border-radius: 180px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     animation: none;
-    font-size: 12px;
+    font-size: 17px;
 }
 
-#nav-btn-login:hover {
-    width: auto;
-    height: auto;
-    color: #ffffff;
-    background: #80654A;
-    padding: 0.35rem 0.85rem;
-    border-radius: 180px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    animation: none;
-    font-size: 12px;
+header .nav-container nav #nav-btn-login:hover {
+    color: #fff;
+}
+
+header .nav-container nav #nav-btn-login:hover p {
+    color: #fff;
+    animation: pula 0.5s ease;
 }
 
 /* ---- Main ---- */
@@ -193,25 +171,12 @@ main {
     margin: 2rem auto;
     padding: 0 1rem;
     min-height: 75vh;
-    
+
 }
 
 main #begin {
     display: flex;
     gap: 0.75rem;
-}
-
-main #resume {
-    border: 1px solid #000;
-    width: 55%;
-    height: 70vh;
-    margin: 0 5rem;
-}
-
-main #simple-map {
-    border: 1px solid #000;
-    width: 45%;
-    height: 60vh;
 }
 
 /* ---- Card ---- */
@@ -274,3 +239,43 @@ footer {
     font-size: 0.95rem;
 }
 
+@media (max-width: 950px) {
+    header .nav-container {
+        justify-content: space-between;
+        padding: 0 1.5rem;
+    }
+
+    header .nav-container div {
+        width: auto;
+    }
+
+    header .nav-container .menu-toggle {
+        display: flex;
+    }
+
+    header .nav-container nav {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #c7e296;
+        padding: 20px 0;
+        gap: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-10px);
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    }
+
+    header .nav-container #nav-links.ativo {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+}

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoPoints - @yield('titulo', 'Mapeamento de Coleta de Livros e Apostilas')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=1.0">
-    <link rel="shortcut icon" href="{{ asset('img/icon-ecopoints.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('img/icon-ecopoints.webp') }}" type="image/x-icon">
     @yield('styles')
     @stack('styles')
 </head>
@@ -13,11 +13,18 @@
     <header>
         <div class="nav-container">
             <div>
-                <a href="{{ route('publico.home') }}" class="nav-brand">
-                    <img src="{{ asset('img/logo-ecopoints.png') }}" alt="Logo">
+                <a href="{{ route('publico.home') }}">
+                    <img src="{{ asset('img/logo-ecopoints.webp') }}" alt="Logo">
                 </a>
             </div>
-            <nav class="nav-links">
+            
+            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+                    
+            <nav id="nav-links">
                 <a href="{{ route('publico.home') }}">INÍCIO</a>
                 <a href="{{ route('publico.pontos.index') }}">SOBRE NÓS</a>
                 <a href="{{ route('publico.pontos.index') }}">ECOPONTOS</a>
@@ -34,7 +41,7 @@
                         </a>
                     @endif
 
-                    <form action="{{ route('logout') }}" method="POST" class="nav-logout-form">
+                    <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="nav-logout-btn">
                             <p>Sair</p>
@@ -68,5 +75,7 @@
     <footer>
         <p>EcoPoint &copy; {{ date('Y') }} - Sistema de Mapeamento de Pontos de Coleta de Livros e Apostilas Acadêmicas.</p>
     </footer>
+
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

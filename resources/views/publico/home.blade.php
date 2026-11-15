@@ -7,15 +7,13 @@
 @endsection
 
 @section('conteudo')
-    <div class="card">
-        <h1>Bem-vindo ao EcoPoint</h1>
-        <p>Sistema de Mapeamento de Pontos de Coleta de Livros e Apostilas Acadêmicas.</p>
-        <hr class="home-divider">
-        <p>Encontre instituições e pontos próximos para doar ou recolher materiais acadêmicos.</p>
-        <p class="home-cta-row">
-            <a href="{{ route('publico.pontos.index') }}" class="home-cta-link">
-                &rarr; Ver pontos de coleta disponíveis
-            </a>
-        </p>
+    <div id="inicio">
+        <div id="resume">
+
+        </div>
+
+        <div id="simple-map">
+
+        </div>
     </div>
 @endsection
