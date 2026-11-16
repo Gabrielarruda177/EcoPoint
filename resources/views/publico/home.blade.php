@@ -7,15 +7,65 @@
 @endsection
 
 @section('conteudo')
-    <div class="card">
-        <h1>Bem-vindo ao EcoPoint</h1>
-        <p>Sistema de Mapeamento de Pontos de Coleta de Livros e Apostilas Acadêmicas.</p>
-        <hr class="home-divider">
-        <p>Encontre instituições e pontos próximos para doar ou recolher materiais acadêmicos.</p>
-        <p class="home-cta-row">
-            <a href="{{ route('publico.pontos.index') }}" class="home-cta-link">
-                &rarr; Ver pontos de coleta disponíveis
+    <section id="inicio">
+        <div id="resume">
+            <p id="p-back">🌱 SEU LIVRO, NO PRÓXIMO PONTO</p>
+
+            <p id="principal">
+                Conecte seus livros ao 
+                <span class="blue">próximo leitor</span>
+                 com 
+                <span class="green">EcoPoints.</span>
+            </p>
+
+            <p id="subtitle">
+                Encontre pontos de coleta próximos, apoie projetos comunitários de incentivo à leitura e dê vida nova a livros escolares, acadêmicos e apostilas.
+            </p>
+
+            <div id="click">
+                <a href="#as-ongs" id="a-back-blue">
+                    <p>Localize um Ecoponto agora ↓</p>
+                </a>
+
+                <a href="#as-ongs" id="a-noback">
+                    <p>Cadastrar minha ONG</p>
+                </a>
+            </div>
+
+            <div id="add-info">
+                <div class="block">
+                    <p class="title">asdasd</p>
+                    <p class="subtitle">Livros em circulação</p>
+                </div>
+                <div class="block">
+                    <p class="title">asdasd</p>
+                    <p class="subtitle">Papel reciclado / reutilizado</p>
+                </div>
+                <div class="block">
+                    <p class="title">asdasd</p>
+                    <p class="subtitle">Acesso comunitário livre</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="simple-map">
+            <p id="pin">📍 Rede Ativa em -Local</p>
+
+            <p id="destaque">Ponto em Destaque</p>
+
+            <p id="name-ecopoint">Ecoponto FATEC Zona Leste<?php /* -Local */ ?> - Arrecadação aberta para apostilas e manuais técnicos de tecnologia e gestão.<?php /*-Materiais-Aceitos*/ ?></p>
+
+            <a id="resumed-map" href="#" target="_blank">
+                <div id="map"></div>
+                <p>📍 -Cidade · -Aberto/Fechado</p>
             </a>
-        </p>
-    </div>
+            
+            <a id="link" href="#" target="_blank">
+                <p>Ver informações completas →</p>
+            </a>
+        </div>
+    </section>
+
+    <script src="../../../public/js/publico/home.js"></script>
+
 @endsection

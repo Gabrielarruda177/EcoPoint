@@ -1,8 +1,10 @@
-/* ============================================================
-   EcoPoint — Global Base Styles
-   Loaded by layouts/app.blade.php for every page.
-   ============================================================ */
+/*Fontes*/
 
+@import url('https://www.1001fonts.com/sugo-font.html');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
+
+/* Estlização geral site */
 /* Reset */
 * {
     box-sizing: border-box;
@@ -16,92 +18,170 @@ body {
     background-color: #f7fafc;
     color: #2d3748;
     line-height: 1.6;
+    background: #D4EEAD;
 }
 
 /* ---- Header ---- */
 header {
-    background: #2f855a;
-    color: white;
-    padding: 1rem 2rem;
+    background: #D4EEAD;
+    color: rgb(255, 255, 255);
+    padding: 0 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 10;
 }
 
 header .nav-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    max-width: 1100px;
-    margin: 0 auto;
+    max-width: 100%;
     flex-wrap: wrap;
+    margin: 0 auto;
     gap: 1rem;
 }
 
-header a {
-    color: white;
+header .nav-container div {
+    width: 15%;
+    justify-content: start;
+}
+
+header .nav-container div a {
     text-decoration: none;
-    font-weight: 600;
-    margin-left: 1rem;
+    margin: 0;
 }
 
-header a:hover {
-    text-decoration: underline;
+header .nav-container div a img {
+    width: 16rem;
+    margin: 5px 0;
 }
 
-/* ---- Nav ---- */
-.nav-links {
+header .nav-container .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+header .nav-container .menu-toggle span {
+    width: 28px;
+    height: 3px;
+    background-color: #3b5323;
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+header .nav-container nav {
+    width: 65%;
+    justify-content: end;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 1rem;
+    color: #000;
 }
 
-.nav-brand {
-    margin-left: 0;
-    font-size: 1.25rem;
-    font-weight: 700;
+header .nav-container nav a {
+    margin: 0.5rem 0 0 0.7rem;
+    height: 4rem;
+    width: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #506345;
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: 17px;
 }
 
-.nav-btn-panel {
-    background: rgba(0, 0, 0, 0.2);
+header .nav-container nav a:hover {
+    color: #1777A9;
+    animation: pula 0.5s ease;
+}
+
+header .nav-container nav .nav-btn-panel {
+    margin-left: 2rem;
+    width: 15rem;
+    height: 2.6rem;
+    padding: 50px;
+    background: #80654A;
+    color: rgb(221, 221, 221);
     padding: 0.35rem 0.65rem;
-    border-radius: 4px;
+    border-radius: 180px;
+    animation: none;
+    font-size: 17px;
 }
 
-.nav-user-name {
-    color: #e6fffa;
-    font-size: 0.85rem;
-    margin-left: 0.5rem;
+header .nav-container nav .nav-btn-panel:hover {
+    background: #80654A;
+    color: rgb(255, 255, 255);
+    padding: 0.35rem 0.65rem;
+    border-radius: 180px;
+    animation: none;
 }
 
-.nav-logout-form {
-    display: inline;
-    margin-left: 0.5rem;
+header .nav-container nav .nav-btn-panel:hover p {
+    animation: pula 0.5s ease;
 }
 
-.nav-logout-btn {
+header .nav-container nav .nav-logout-btn {
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    border: 1.3px solid rgba(255, 255, 255);
     color: white;
-    padding: 0.3rem 0.65rem;
-    border-radius: 4px;
+    padding: 0.5rem 0.8rem;
+    border-radius: 180px;
     cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: bolder;
+    width: 5rem;
+    height: 2.6rem;
+    margin: 0.5rem 0 0 3rem;
 }
 
-.nav-btn-login {
-    background: #276749;
+.nav-logout-btn:hover p {
+    color: #3e453a;
+    animation: pula 0.5s ease;
+}
+
+.nav-logout-btn p {
+    color: #506345;
+}
+
+header .nav-container nav #nav-btn-login {
+    width: 8.2rem;
+    height: 2.6rem;
+    color: rgb(221, 221, 221);
+    background: #80654A;
     padding: 0.35rem 0.85rem;
-    border-radius: 4px;
+    border-radius: 180px;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: none;
+    font-size: 17px;
+}
+
+header .nav-container nav #nav-btn-login:hover {
+    color: #fff;
+}
+
+header .nav-container nav #nav-btn-login:hover p {
+    color: #fff;
+    animation: pula 0.5s ease;
 }
 
 /* ---- Main ---- */
 main {
-    max-width: 1100px;
+    max-width: 100%;
     margin: 2rem auto;
     padding: 0 1rem;
     min-height: 75vh;
+}
+
+main #begin {
+    display: flex;
+    gap: 0.75rem;
 }
 
 /* ---- Card ---- */
@@ -120,7 +200,7 @@ footer {
     color: #718096;
     font-size: 0.9rem;
     border-top: 1px solid #e2e8f0;
-    background: #edf2f7;
+    background: #80654A;
 }
 
 /* ---- Badges ---- */
@@ -164,3 +244,61 @@ footer {
     font-size: 0.95rem;
 }
 
+@media (max-width: 1000px) {
+    header .nav-container {
+        justify-content: space-between;
+        padding: 0 1.5rem;
+    }
+
+    header .nav-container div {
+        width: auto;
+    }
+
+    header .nav-container .menu-toggle {
+        display: flex;
+    }
+
+    header .nav-container nav {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #daf3b7ee;
+        padding: 20px 0;
+        gap: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-10px);
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    }
+
+    header .nav-container nav a {
+        margin: 0 1rem;
+        width: 90vw;
+        border-bottom: 0.1rem solid #000;        
+    }
+
+    header .nav-container #nav-links.ativo {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+        z-index: 1;
+    }
+}
+
+@keyframes pula {
+    50% {
+        transform: translateY(-3px);
+        font-size: 18px;
+    }
+    100% {
+        transform: translateY(0);
+        font-size: 17px;
+    }
+}

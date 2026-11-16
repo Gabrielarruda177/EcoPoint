@@ -1,28 +1,238 @@
-/* ============================================================
-   EcoPoint — Página Pública: Home
-   public/css/publico/home.css
-   ============================================================ */
+/*Fontes*/
 
-/* Divider */
-.home-divider {
-    margin: 1rem 0;
-    border: 0;
-    border-top: 1px solid #e2e8f0;
+@import url('https://fonts.cdnfonts.com/css/sugo');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap');
+
+/*Estilização Início*/
+
+#inicio {
+    margin-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-/* CTA link */
-.home-cta-link {
-    color: #2f855a;
-    font-weight: bold;
-    text-decoration: none;
+#inicio #resume {
+    margin: 0 1rem;
+    min-width: 430px;
+    width: 52vw;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    font-family: 'Arimo';
 }
 
-.home-cta-link:hover {
-    text-decoration: underline;
+#inicio #resume #p-back {
+    width: 350px;
+    border-radius: 180px;
+    background-color: #fff;
+    color: #466F37;
+    font-weight: bolder;
+    text-align: center;
+    box-shadow: 0px 4px 12px #3f74303c;
+    margin: 1.3rem 0.4rem;
+    padding: 5px;
+    font-size: 17px;
 }
 
-/* CTA paragraph */
-.home-cta-row {
+#inicio #resume #principal {
+    font-size: 90px;
+    font-weight: bolder;
+    line-height: 100px;
+}
+
+#inicio #resume #principal .blue{
+    color: #1E79A6;
+}
+
+#inicio #resume #principal .green {
+    color: #3A7229;
+}
+
+#inicio #resume #subtitle {
+    width: 54rem;
+    font-size: 28px;
+    color: #667558;
+    margin: 1.5rem 0;
+    padding: 0.2rem 1.7rem 0.2rem 0;
+}
+
+#inicio #resume #click {
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #bcbcbc90;
+    gap: 5rem;
     margin-top: 1rem;
 }
 
+#inicio #resume #click a {
+    margin-bottom: 2rem;
+    font-size: 25px;
+    text-decoration: none;
+    font-weight: bolder;
+    border-radius: 180px;
+    padding: 10px 15px;
+    word-spacing: 3px;
+    width: 29rem;
+    
+    text-align: center;
+}
+
+#inicio #resume #click #a-back-blue {
+    color: white;
+    background-color: #55AFE1;
+    box-shadow: 5px 6px 12px #7e7e7e72;
+}
+
+#inicio #resume #click #a-back-blue:hover {
+    animation: pular 0.5s ease;
+
+}
+
+
+#inicio #resume #click #a-noback {
+    color: #4E5A4C;
+    border: 1px solid #fff;
+    box-shadow: 5px 6px 12px #b3b3b362;
+}
+
+#inicio #resume #click #a-noback:hover {
+    animation: pular 0.5s ease;
+}
+
+#inicio #add-info {
+    width: 100%;
+    display: flex; 
+    gap: 2rem;
+}
+
+#inicio #add-info .block {
+    margin: 1.3rem 0.3rem;
+}
+
+#inicio #add-info .block .title {
+    font-size: 30px;
+    font-weight: bolder;
+    color: #2A7696;
+}
+
+#inicio #add-info .block .subtitle {
+    font-size: 19px;
+    font-weight: bolder;
+    color: #848D7A;
+}
+
+
+#inicio #simple-map {
+    border-radius: 40px;
+    background-color: #fff;
+    margin: 0 1rem;
+    min-width: 430px;
+    width: 40vw;
+    height: 60vh;
+    box-shadow: 4px 3px 12px #89898970;
+    padding: 32px;
+    font-family: 'Arimo';
+    display: flex;
+    flex-direction: column;
+}
+
+#inicio #simple-map #pin {
+    width: 14rem;
+    text-align: center;
+    align-content: center;
+    height: 30px;
+    font-weight: bolder;
+    border-radius: 180px;
+    background-color: #F2F6E8;
+    color: #4D723F;
+    margin: 10px 0 6px 0;
+}
+
+#inicio #simple-map #destaque {
+    font-weight: bolder;
+    font-size: 27px;
+    margin: 7px 0;
+}
+
+#inicio #simple-map #name-ecopoint {
+    font-size: 22px;
+    color: #7C807F;
+    margin: 7px 0;
+}
+
+#inicio #simple-map #resumed-map {
+    height: 25vh;
+    border: 1px solid #000;
+    border-radius: 40px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    text-decoration: none;
+    margin: 8px 0;
+}
+
+#inicio #simple-map #resumed-map #map {
+    width: 100%;
+    height: 100%;
+    background-color: #1E79A6;
+    z-index: 1;
+    pointer-events: none;
+}
+
+#inicio #simple-map #resumed-map p {
+    position: absolute; 
+    background: #fff;
+    border-radius: 180px;
+    margin: 10px;
+    padding: 6px 13px;
+    font-weight: bold;
+    box-shadow: 2px 3px 12px #a2a2a28e;
+    color: #34748D;
+    font-size: 19px;
+    z-index: 1000;
+}
+
+#inicio #simple-map #link {
+    text-decoration: none;  
+    width: 320px;
+    margin: 10px 0;
+    align-self: flex-end;
+}
+
+#inicio #simple-map #link p {
+    width: 320px;
+    height: 60px;
+    align-content: center;
+    background-color: #57AFE1;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 19px;
+    border-radius: 180px;
+    padding: 7px;
+}
+
+#inicio #simple-map #link p:hover {
+    font-size: 20px;
+}
+
+@keyframes pular {
+    50% {
+        font-size: 28px;
+        transform: translateY(-3px);
+    }
+    100% {
+        font-size: 25px;
+        transform: translateY(0);
+    }
+}
