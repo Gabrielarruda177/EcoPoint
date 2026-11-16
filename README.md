@@ -1,6 +1,8 @@
-# 📚 EcoPoint - Sistema de Mapeamento de Coleta de Livros e Apostilas Acadêmicas
-
-Guia oficial de arquitetura, estrutura inicial e orientações para a equipe de desenvolvimento.
+<div align="center">
+    <img src="https://i.imgur.com/p0gOl0O.png" alt="Icon Ecopoints" style="width:100px">
+    <h2>Ecopoints - Sistema de Mapeamento de Coleta de Livros e Apostilas Acadêmicas</h2>
+    <h3>Guia oficial de arquitetura, estrutura inicial e orientações para a equipe de desenvolvimento.</h3>
+</div>
 
 ---
 
@@ -174,3 +176,7 @@ php artisan test --filter=AuthTest
    php artisan serve
    ```
    Acesse no navegador: `http://127.0.0.1:8000`
+
+<div align="center">
+    <img class="image-placeholder" src="https://i.imgur.com/XGUDSpn.png" alt="Logo-Ecopoints" style="width:300px;">
+</div>
