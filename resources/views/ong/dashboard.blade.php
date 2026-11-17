@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.ong')
 
 @section('titulo', 'Painel da ONG')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/ong/dashboard.css') }}?v=1.1">
+    <link rel="stylesheet" href="{{ asset('css/ong/dashboard.css') }}?v=2.0">
 @endsection
 
 @section('conteudo')
@@ -55,48 +55,6 @@
                 </div>
                 <div class="stat-label">Status Institucional</div>
             </div>
-        </div>
-    </div>
-
-    <!-- Módulos de Atalho Rápido -->
-    <div class="dashboard-grid">
-        <div class="module-card">
-            <div>
-                <span class="module-card-tag">Gerenciamento</span>
-                <h2 class="module-card-title">Meus Pontos de Coleta</h2>
-                <p class="module-card-desc">
-                    Consulte todos os locais de arrecadação cadastrados pela sua ONG, atualize endereços ou alterne a disponibilidade.
-                </p>
-            </div>
-            <a href="{{ route('ong.pontos.index') }}" class="module-card-link">
-                Acessar Meus Pontos &rarr;
-            </a>
-        </div>
-
-        <div class="module-card">
-            <div>
-                <span class="module-card-tag">Cadastro Rápido</span>
-                <h2 class="module-card-title">Novo Ponto de Coleta</h2>
-                <p class="module-card-desc">
-                    Cadastre um novo endereço de coleta para receber doações de livros e apostilas acadêmicas da comunidade.
-                </p>
-            </div>
-            <a href="{{ route('ong.pontos.create') }}" class="module-card-link">
-                Cadastrar Novo Ponto &rarr;
-            </a>
-        </div>
-
-        <div class="module-card">
-            <div>
-                <span class="module-card-tag">Institucional</span>
-                <h2 class="module-card-title">Perfil da Organização</h2>
-                <p class="module-card-desc">
-                    Mantenha atualizadas as informações da sua entidade, dados de contato público, telefone e senha de acesso.
-                </p>
-            </div>
-            <a href="{{ route('ong.perfil.edit') }}" class="module-card-link">
-                Editar Perfil &rarr;
-            </a>
         </div>
     </div>
 
