@@ -1,0 +1,34 @@
+
+:where(.ong-main-wrapper) *,
+:where(.ong-main-wrapper) *::before,
+:where(.ong-main-wrapper) *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.ong-body {
+    line-height: 1.6;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.badge-ong {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+
+:where(.ong-main-wrapper) input,
+:where(.ong-main-wrapper) textarea,
+:where(.ong-main-wrapper) select,
+:where(.ong-main-wrapper) button {
+    font-family: inherit;
+}
