@@ -3,6 +3,7 @@
 @section('titulo', 'Início')
 
 @section('styles')
+    <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/publico/home.css') }}?v=1.0">
 @endsection
 
@@ -57,7 +58,7 @@
 
             <a id="resumed-map" href="#" target="_blank">
                 <div id="map"></div>
-                <p>📍 -Cidade · -Aberto/Fechado</p>
+                <p>📍 -<?php /*Cidade */?> FATEC Zona Leste · -Aberto/Fechado</p>
             </a>
             
             <a id="link" href="#" target="_blank">
@@ -66,6 +67,9 @@
         </div>
     </section>
 
-    <script src="../../../public/js/publico/home.js"></script>
+
+
+    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+    <script src="{{ asset('js/publico/home.js') }}"></script>
 
 @endsection
