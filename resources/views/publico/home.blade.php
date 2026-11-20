@@ -54,11 +54,11 @@
 
             <p id="destaque">Ponto em Destaque</p>
 
-            <p id="name-ecopoint">Ecoponto FATEC Zona Leste<?php /* -Local */ ?> - Arrecadação aberta para apostilas e manuais técnicos de tecnologia e gestão.<?php /*-Materiais-Aceitos*/ ?></p>
+            <p id="name-ecopoint">Ecoponto FATEC Itaquera<?php /* -Local */ ?> - Arrecadação aberta para apostilas e manuais técnicos de tecnologia e gestão.<?php /*-Materiais-Aceitos*/ ?></p>
 
             <a id="resumed-map" href="#" target="_blank">
-                <div id="map"></div>
-                <p>📍 -<?php /*Cidade */?> FATEC Zona Leste · -Aberto/Fechado</p>
+                <div id="map-simple"></div>
+                <p>📍 -<?php /*Cidade */?> FATEC Itaquera · -Aberto/Fechado</p>
             </a>
             
             <a id="link" href="#" target="_blank">
@@ -67,9 +67,22 @@
         </div>
     </section>
 
-
+    <section id="local">
+        <div id="title"></div>
+        <div id="inputs">
+            <div id="pesquisa">
+                <input type="text" name="local" id="input-local">
+                <button type="button" id="btn">Localizar</button>
+                
+            </div>
+        </div>
+        <div id="map-area">
+            <div id="map-local"></div>
+            <div id="simple-desc"></div>
+        </div>
+    </section>
 
     <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-    <script src="{{ asset('js/publico/home.js') }}"></script>
+    <script src="{{ asset('js/publico/home/home.js') }}"></script>
 
 @endsection
