@@ -1,5 +1,11 @@
 const local = document.getElementById('input-local');
-const btn = document.getElementById('btn');
+const localizar = document.getElementById('localizar');
+const distance = document.getElementById('filter-distance');
+const ongs = document.getElementById('filter-ongs');
+const centralizar = document.getElementById('btn-centralizar');
+
+
+let listaPontos = [];
 
 const mapa = new maplibregl.Map({
     container: 'map-simple',
@@ -16,26 +22,28 @@ mapa.on('style.load', () => {
     const camadas = mapa.getStyle().layers;
 
     camadas.forEach((camada) => {
+        const id = camada.id;
+
         try {
-            if (camada.type === 'symbol' || camada.id.includes('building')) {
+            if (camada.type === 'symbol' || id.includes('building')) {
                 mapa.setLayoutProperty(camada.id, 'visibility', 'none');
             }
 
             if (camada.type === 'background') {
-                mapa.setPaintProperty(camada.id, 'background-color', '#dce8d1');
+                mapa.setPaintProperty(id, 'background-color', '#dce8d1');
             }
             if (camada.type === 'fill') {
-                mapa.setPaintProperty(camada.id, 'fill-color', '#dce8d1');
+                mapa.setPaintProperty(id, 'fill-color', '#dce8d1');
             }
 
-            if (camada.type === 'line' && (camada.id.includes('road') || camada.id.includes('highway'))) {
-                mapa.setPaintProperty(camada.id, 'line-color', '#ffffff');
+            if (camada.type === 'line' && (id.includes('road') || id.includes('highway'))) {
+                mapa.setPaintProperty(id, 'line-color', '#ffffff');
 
-                const largura = (camada.id.includes('primary') || camada.id.includes('secondary') || camada.id.includes('trunk') || camada.id.includes('motorway'))
+                const largura = (id.includes('primary') || id.includes('secondary') || id.includes('trunk') || id.includes('motorway'))
                     ? ['interpolate', ['linear'], ['zoom'], 12, 6, 14, 10]
                     : ['interpolate', ['linear'], ['zoom'], 12, 3, 14, 4];
 
-                mapa.setPaintProperty(camada.id, 'line-width', largura);
+                mapa.setPaintProperty(id, 'line-width', largura);
             }
         } catch (e) {
 
@@ -50,7 +58,7 @@ const marcador = new maplibregl.Marker({ element: elMarcador })
     .setLngLat([0   , 0])
     .addTo(mapa);
 
-buscarEndereco('Fatec Itaquera', mapa, marcador); //Mapa simplificado
+buscarEndereco('Fatec Itaquera', mapa, marcador, 1); //Mapa simplificado
 
 const map = new maplibregl.Map({
     container: 'map-local',
@@ -63,34 +71,43 @@ map.on('style.load', () => {
     const camadas = map.getStyle().layers;
 
     camadas.forEach((camada) => {
+            const id = camada.id;
+
         try {
             if (camada.type === 'background') {
-                map.setPaintProperty(camada.id, 'background-color', '#f0f8eb');
+                map.setPaintProperty(id, 'background-color', '#d3d3d3');
             }
-            if (camada.type === 'fill') {
-                map.setPaintProperty(camada.id, 'fill-color', '#d8dbe8');
+            
+            if (id.includes('building')) {
+                if (camada.type === 'fill') {
+                    map.setPaintProperty(id, 'fill-color', '#e0e0da');
+                }
             }
 
-            const ehAvenida = camada.id.includes('primary') || camada.id.includes('secondary') || camada.id.includes('trunk') || camada.id.includes('motorway');
-
-            if (camada.id.includes('casing') || camada.id.includes('outline')) {
-                mapa.setLayoutProperty(camada.id, 'visibility', 'visible');
-                mapa.setPaintProperty(camada.id, 'line-color', '#b3c9a2');
-
-                const larguraBorda = ehAvenida
-                    ? ['interpolate', ['linear'], ['zoom'], 12, 6, 16, 14]
-                    : ['interpolate', ['linear'], ['zoom'], 12, 3.5, 16, 6];
-
-                map.setPaintProperty(camada.id, 'line-width', larguraBorda);
-            } else {
-                map.setPaintProperty(camada.id, 'line-color', '#fff');
-
-                const larguraMiolo = ehAvenida
-                    ? ['interpolate', ['linear'], ['zoom'], 12, 4, 16, 10]
-                    : ['interpolate', ['linear'], ['zoom'], 12, 2, 16, 5];
-
-                map.setPaintProperty(camada.id, 'line-width', larguraMiolo);
+            if (id.includes('water')) {
+                if (camada.type === 'fill') {
+                    map.setPaintProperty(id, 'fill-color', '#b3fcff');
+                }
             }
+
+            if (id === 'park' || id === 'landcover_wood') {
+                map.setLayoutProperty(id, 'visibility', 'visible');
+                map.setPaintProperty(id, 'fill-color', '#a6d1a6');
+                map.setPaintProperty(id, 'fill-opacity', 0.6);
+            }
+
+            if (camada.type === 'line' && !id.includes('casing')) {
+                if (id.includes('primary') || id.includes('trunk') || id.includes('motorway')) {
+                    map.setPaintProperty(id, 'line-color', '#ffffff');
+                    map.setPaintProperty(id, 'line-width', ['interpolate', ['linear'], ['zoom'], 12, 4, 16, 10]);
+                    
+                } else if (id.includes('secondary') || id.includes('tertiary') || id.includes('minor') || id.includes('street')) {
+                    map.setPaintProperty(id, 'line-color', '#f4f4f4');
+                    map.setPaintProperty(id, 'line-width', ['interpolate', ['linear'], ['zoom'], 12, 2, 16, 5]);
+                }
+            }
+
+            
         } catch (e) {
 
         }
@@ -113,21 +130,33 @@ const outroMarcador = new maplibregl.Marker({
     .setLngLat([0, 0])
     .addTo(map);
 
-buscarEndereco('Fatec Itaquera', map, outroMarcador);
+/* DEFINIR OS MARCADORESSS */
 
-btn.addEventListener("click", function() {
+buscarEndereco('Fatec Itaquera', map, outroMarcador, 1);
+
+localizar.addEventListener("click", function() {
     let endereco = local.value
     if(endereco == "") {
         alert('É necessário um endereço!');
     } else {
-        buscarEndereco(endereco, map, outroMarcador);
+        buscarEndereco(endereco, map, outroMarcador, 0);
     }
-});
+}); //Mapa completo
 
-async function buscarEndereco(endereco, mapas, marcadores) {
-    if (!endereco) return;
-    
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(endereco)}&limit=1`;
+async function buscarEndereco(endereco, mapas, marcadores, definirMarcador) {
+    if (!endereco || endereco.trim().length < 4) {
+        alert('Endereço inválido!');
+        return
+    };
+
+    const params = new URLSearchParams({
+        format: 'json',
+        q: endereco,
+        addressdetails: '1', 
+        limit: '5'
+    });
+
+    const url = `https://nominatim.openstreetmap.org/search?${params.toString()}`;
 
     try {
         const resposta = await fetch(url, {
@@ -140,10 +169,44 @@ async function buscarEndereco(endereco, mapas, marcadores) {
             const lat = parseFloat(dados[0].lat);
 
             mapas.setCenter([lon, lat]);
-            marcadores.setLngLat([lon, lat]);
+            if(definirMarcador) marcadores.setLngLat([lon, lat]);
+            else {
+
+            }
         }
     } catch (erro) {
         console.error('Erro ao consultar o Nominatim:', erro);
     }
 }
-//Mapa completo
+
+function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) ** 2;
+    return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+}
+
+function aplicarFiltros() {
+    listaPontos.forEach(ponto => {
+        const dist = calcularDistanciaKm(centroAtual.lat, centroAtual.lng, ponto.lat, ponto.lng);
+        
+        const dentroDoRaio = (distance === 'all') || (dist <= parseFloat(raioMax));
+        const mesmaOng = (ongs === 'all') || (String(ponto.ong_id) === ongId);
+
+        ponto.marker.getElement().style.display = (dentroDoRaio && mesmaOng) ? 'block' : 'none';
+    });
+} //Funções
+
+distance.addEventListener('change', aplicarFiltros);
+ongs.addEventListener('change', aplicarFiltros);
+
+centralizar.addEventListener('click', () => {
+    map.flyTo({
+        center: [centroAtual.lng, centroAtual.lat],
+        zoom: zoomPadrao,
+        essential: true
+    });
+});
