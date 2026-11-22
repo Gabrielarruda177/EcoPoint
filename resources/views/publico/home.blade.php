@@ -101,7 +101,43 @@
         </div>
         <div id="map-area">
             <div id="map-local"></div>
-            <div id="simple-desc"></div>
+            <div id="simple-desc">
+                <div id="foto">
+                    <p id="estado"> ● Aberto / Fechado agora</p>
+                    <img src="{{ asset('img/logo-ecopoints.webp') }}"id="foto-ong">
+                </div>
+
+                <p id="nome-ecoponto">Ecoponto XXXXXX</p>
+
+                <div id="endereco" class="detalhes">
+                    <p id="emoji">📍</p>
+                    <p id="endereco-ponto" class="p-detalhes">XXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXX</p>
+                </div>
+                
+                <div id="referencia" class="detalhes">
+                    <p id="emoji">🧭</p>
+                    <p id="referencia-ponto" class="p-detalhes">XXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXX</p>
+                </div>
+
+                <div id="hr-funcionamento" class="detalhes">
+                    <p id="emoji">🕑</p>
+                    <p id="hr-funcionamento-ponto" class="p-detalhes">XXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXX</p>
+                </div>
+
+                <div id="capacidade" class="detalhes">
+                    <p id="emoji">📦</p>
+                    <p id="capacidade-ponto" class="p-detalhes"><span class="principal">Capacidade: </span>XXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX</p>
+                </div>
+
+                <div id="ong-responsavel">
+                    <p id="emoji">🏛️</p>
+                    <p id="ong-ponto">ONG Responsável: XXXXXXXXXXXXXXX </p>
+                </div>
+
+                <button id="see-details">
+                    <p>Ver Detalhes Completos ></p>
+                </button>
+            </div>
         </div>
     </section>
 
@@ -122,12 +158,12 @@
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 
-                <button type="submit" class="pesquisar-ong">
+                <button type="submit" class="pesquisar-ong" onclick="document.getElementById('search-ong').focus()">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
 
 
-                <input type="search" placeholder="Ex: Instituto Saber e Leitura">
+                <input type="search" placeholder="Ex: Instituto Saber e Leitura" id="search-ong">
 
 
                 <button type="submit" class="limpar-ong">
