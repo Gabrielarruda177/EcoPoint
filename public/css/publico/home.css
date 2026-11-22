@@ -246,37 +246,6 @@
     animation: pula 0.5s ease;
 }
 
-@keyframes pular {
-    50% {
-        font-size: 28px;
-        transform: translateY(-3px);
-    }
-    100% {
-        font-size: 25px;
-        transform: translateY(0);
-    }
-}
-
-@keyframes pula {
-    50% {
-        font-size: 21px;
-        transform: translateY(-3px);
-    }
-    100% {
-        font-size: 19px;
-        transform: translateY(0);
-    }
-}
-
-@keyframes aumenta {
-    50% {
-        transform: scale(1.03);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
 #local {
     width: 100%;
     display: flex;
@@ -415,6 +384,7 @@
     width: 70%;
     height: 500px;
     border-radius: 20px;
+    box-shadow: 4px 3px 12px #858585b9;
 }
 
 #local #map-area #map-local .main-box-pin {
@@ -444,11 +414,98 @@
 }
 
 #local #map-area #simple-desc {
-    border: 1px solid #000;
+    background-color: #fff;
+    box-shadow: 4px 3px 12px #858585b9;
     width: 25%;
     margin-left: 5%;
     height: 500px;
     border-radius: 20px;
+}
+
+#local #map-area #simple-desc #foto {
+    position: relative;
+    border-radius: 20px;
+    margin: 0.5rem 1rem 1rem 1rem ;
+}
+
+#local #map-area #simple-desc #foto p {
+    position: absolute;
+    margin: 1rem;
+    padding: 5px 10px;
+    border-radius: 180px;
+    font-size: 14px;
+    box-shadow: 1px 2px 10px #8080806c;
+    background-color: #E2F3D1;
+    color: #36682B;
+    font-weight: bolder;
+}
+
+#local #map-area #simple-desc #foto img {
+    width: 100%;
+} 
+
+#local #map-area #simple-desc #nome-ecoponto {
+    font-size: 20px;
+    font-weight: bolder;
+    margin: 0.3rem 1.2rem;
+    width: 100%;
+}
+
+#local #map-area #simple-desc .detalhes {
+    margin: 0.3rem 1.2rem;
+    display: flex;
+    gap: 0.2rem;
+    width: 100%;
+}
+
+#local #map-area #simple-desc .detalhes .p-detalhes {
+    font-size: 14px;
+    color: #919594;
+}
+
+#local #map-area #simple-desc .detalhes .p-detalhes .principal {
+    font-weight: bolder;
+}
+
+#local #map-area #simple-desc #ong-responsavel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #DDF2FF;
+    border-radius: 10px;
+    margin: 0.5rem 1.2rem;
+    padding: 3px;
+}
+
+#local #map-area #simple-desc #ong-responsavel #ong-ponto {
+    font-size: 14px;
+    color: #307093;
+    font-weight: bolder;
+}
+
+#local #map-area #simple-desc #see-details {
+    width: calc(100% - 2.4rem);
+    margin: 0.5rem 1.2rem;
+    background-color: #57AFE1;
+    border: none;
+    border-radius: 180px;
+    padding: 10px 5px;
+}
+
+#local #map-area #simple-desc #see-details:hover {
+    transform: scale(1.01);
+}
+
+
+#local #map-area #simple-desc #see-details:active {
+    transform: scale(0.99);
+}
+
+#local #map-area #simple-desc #see-details p {
+    align-content: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 17px;
 }
 
 #as-ongs{
@@ -643,4 +700,35 @@ input[type="search"]::-webkit-search-cancel-button {
     width: 30%;
     height: 35px;
     border-radius: 180px;
+}
+
+@keyframes pular {
+    50% {
+        font-size: 28px;
+        transform: translateY(-3px);
+    }
+    100% {
+        font-size: 25px;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pula {
+    50% {
+        font-size: 21px;
+        transform: translateY(-3px);
+    }
+    100% {
+        font-size: 19px;
+        transform: translateY(0);
+    }
+}
+
+@keyframes aumenta {
+    50% {
+        transform: scale(1.03);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
