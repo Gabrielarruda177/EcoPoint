@@ -104,7 +104,7 @@ header .nav-container nav a:hover {
 
 header .nav-container nav .nav-btn-panel {
     margin-left: 2rem;
-    width: 15rem;
+    width: 15.6rem;
     height: 2.6rem;
     padding: 50px;
     background: #80654A;
@@ -169,19 +169,6 @@ header .nav-container nav #nav-btn-login:hover {
 header .nav-container nav #nav-btn-login:hover p {
     color: #fff;
     animation: pula 0.5s ease;
-}
-
-/* ---- Main ---- */
-main {
-    max-width: 100%;
-    margin: 2rem auto;
-    padding: 0 1rem;
-    min-height: 75vh;
-}
-
-main #begin {
-    display: flex;
-    gap: 0.75rem;
 }
 
 /* ---- Card ---- */
