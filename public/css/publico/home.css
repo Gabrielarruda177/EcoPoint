@@ -107,23 +107,23 @@
     animation: pular 0.5s ease;
 }
 
-#inicio #add-info {
+#inicio #resume #add-info {
     width: 100%;
     display: flex; 
     gap: 2rem;
 }
 
-#inicio #add-info .block {
+#inicio #resume #add-info .block {
     margin: 1.3rem 0.3rem;
 }
 
-#inicio #add-info .block .title {
+#inicio #resume #add-info .block .title {
     font-size: 30px;
     font-weight: bolder;
     color: #2A7696;
 }
 
-#inicio #add-info .block .subtitle {
+#inicio #resume #add-info .block .subtitle {
     font-size: 19px;
     font-weight: bolder;
     color: #848D7A;
@@ -228,7 +228,7 @@
 
 @keyframes pular {
     50% {
-        font-size: 28px;
+        font-size: 27px;
         transform: translateY(-3px);
     }
     100% {
