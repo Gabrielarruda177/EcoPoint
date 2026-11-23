@@ -7,7 +7,7 @@
 /*Estilização Início*/
 
 #inicio {
-    margin-top: 50px;
+    margin-block: 5rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -81,7 +81,6 @@
     padding: 10px 15px;
     word-spacing: 3px;
     width: 29rem;
-    
     text-align: center;
 }
 
@@ -169,24 +168,46 @@
 }
 
 #inicio #simple-map #resumed-map {
-    height: 25vh;
-    border: 1px solid #000;
-    border-radius: 40px;
+    height: 22vh;
+    border: none;
+    border-radius: 24px;
     position: relative;
     overflow: hidden;
     display: flex;
     align-items: end;
     justify-content: center;
     text-decoration: none;
-    margin: 8px 0;
+    margin: 12px 0;
+    background-color: #dfebd5;
 }
 
-#inicio #simple-map #resumed-map #map {
+#inicio #simple-map #resumed-map:hover {
+    animation: aumenta 0.5s ease;
+}
+
+#inicio #simple-map #resumed-map .leaflet-tile-pane {
+    filter: sepia(35%) hue-rotate(55deg) saturate(140%) brightness(97%);
+}
+#inicio #simple-map #resumed-map #map-simple {
     width: 100%;
     height: 100%;
-    background-color: #1E79A6;
     z-index: 1;
     pointer-events: none;
+}
+
+#inicio #simple-map #resumed-map #map-simple .pin-map {
+    width: 35px;
+    height: 24px;
+    background-color: #ffffff;
+    border: 6px solid #78c83c;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+}
+
+.custom-ecopoint-marker {
+    background: transparent;
+    border: none;
 }
 
 #inicio #simple-map #resumed-map p {
@@ -205,13 +226,12 @@
 #inicio #simple-map #link {
     text-decoration: none;  
     width: 320px;
-    margin: 10px 0;
+    margin: 15px 14px;
     align-self: flex-end;
 }
 
 #inicio #simple-map #link p {
-    width: 320px;
-    height: 60px;
+    width: 335px;
     align-content: center;
     background-color: #57AFE1;
     color: #fff;
@@ -219,11 +239,467 @@
     font-weight: bold;
     font-size: 19px;
     border-radius: 180px;
-    padding: 7px;
+    padding: 10px 7px;
 }
 
-#inicio #simple-map #link p:hover {
+#inicio #simple-map #link:hover p {
+    animation: pula 0.5s ease;
+}
+
+#local {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 4rem 0 10rem 0; 
+    padding: 0;
+}
+
+#local #title-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#local #title-group #min-title {
+    color: #466F37;
+    font-weight: bolder;
+    text-align: center;
+    padding: 5px;
+    font-size: 16px;
+    letter-spacing: 0.1rem;
+}
+
+#local #title-group #title {
+    width: 800px;
+    text-align: center;
+    font-size: 46px;
+    font-weight: bolder;
+}
+
+#local #title-group #subtitle {
+    margin: 1rem 0;
+    font-size: 16px;
+}
+
+#local #inputs {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 3px 4px 12px #48484883;
+    padding: 10px;
+    border-radius: 25px;
+    gap: 2.3rem;
+    width: 70vw;
+    margin-block: 2rem;
+}
+
+#local #inputs #pesquisa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #dedede;
+    border-radius: 180px;
+    width: 50%;
+    margin: 0.2rem;
+    gap: 0.5rem;
+    padding: 7px 5px;
+}
+
+#local #inputs #pesquisa img {
+    width: 5%;
+}
+
+#local #inputs #pesquisa img:active {
+    transform: scale(0.9);
+}
+
+#local #inputs #pesquisa input {
+    width: 65%;
+    padding-block: 15px;
+    font-size: 16px;
+    background: none;
+    border: none;
+}
+
+#local #inputs #pesquisa input:focus {
+    outline: none;
+}
+
+#local #inputs #pesquisa button {
+    background-color: #55AFE3;
+    border-radius: 180px;
+    font-size: 16px;
+    border: none;
+    font-weight: bolder;
+    width: 25%;
+}
+
+#local #inputs #pesquisa button:hover {
+    transform: scale(1.05);
+}
+
+#local #inputs #pesquisa button:active {
+    transform: scale(0.9);
+}
+
+#local #inputs #pesquisa button p {
+    color: #fff;
+    margin: 15px 10px;
+}
+
+#local #inputs select {
+    border: 1px solid #b2b2b2;
+    border-radius: 180px;
+    padding: 20px 10px;
+    font-size: 17px;
+    font-weight: bolder;
+} 
+
+#local #inputs select:hover {
+    transform: scale(1.05);
+}
+
+#local #inputs #btn-centralizar {
+    border: 1px solid #b2b2b2;
+    border-radius: 180px;
+    padding: 20px 10px;
+    font-size: 17px;
+    background: none;
+    font-weight: bolder;
+} 
+
+#local #inputs #btn-centralizar:hover {
+    transform: scale(1.05);
+}
+
+#local #map-area {
+    display: flex;
+    justify-content: center;
+    width: 70%;
+    margin-block: 2rem;
+}
+
+#local #map-area #map-local {
+    width: 70%;
+    height: 500px;
+    border-radius: 20px;
+    box-shadow: 4px 3px 12px #858585b9;
+}
+
+#local #map-area #map-local .main-box-pin {
+    width: 30px;
+    height: 30px;
+}
+
+#local #map-area #map-local .main-box-pin .pin-map {
+    width:30px;
+    height: 30px;
+    background-color: #000;
+    border: 1px solid #57AFE1;
+    border-radius: 30px 30px 0px 30px;
+    position: relative;
+    transform: rotate(45deg);
+}
+
+#local #map-area #map-local .pin-map::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: #ffffff;
+  position: absolute;
+  left: 25%;
+  top: 25%;
+  border-radius: 60px;
+}
+
+#local #map-area #simple-desc {
+    background-color: #fff;
+    box-shadow: 4px 3px 12px #858585b9;
+    width: 25%;
+    margin-left: 5%;
+    height: 500px;
+    border-radius: 20px;
+}
+
+#local #map-area #simple-desc #foto {
+    position: relative;
+    border-radius: 20px;
+    margin: 0.5rem 1rem 1rem 1rem ;
+}
+
+#local #map-area #simple-desc #foto p {
+    position: absolute;
+    margin: 1rem;
+    padding: 5px 10px;
+    border-radius: 180px;
+    font-size: 14px;
+    box-shadow: 1px 2px 10px #8080806c;
+    background-color: #E2F3D1;
+    color: #36682B;
+    font-weight: bolder;
+}
+
+#local #map-area #simple-desc #foto img {
+    width: 100%;
+} 
+
+#local #map-area #simple-desc #nome-ecoponto {
     font-size: 20px;
+    font-weight: bolder;
+    margin: 0.3rem 1.2rem;
+    width: 100%;
+}
+
+#local #map-area #simple-desc .detalhes {
+    margin: 0.3rem 1.2rem;
+    display: flex;
+    gap: 0.2rem;
+    width: 100%;
+}
+
+#local #map-area #simple-desc .detalhes .p-detalhes {
+    font-size: 14px;
+    color: #919594;
+}
+
+#local #map-area #simple-desc .detalhes .p-detalhes .principal {
+    font-weight: bolder;
+}
+
+#local #map-area #simple-desc #ong-responsavel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #DDF2FF;
+    border-radius: 10px;
+    margin: 0.5rem 1.2rem;
+    padding: 3px;
+}
+
+#local #map-area #simple-desc #ong-responsavel #ong-ponto {
+    font-size: 14px;
+    color: #307093;
+    font-weight: bolder;
+}
+
+#local #map-area #simple-desc #see-details {
+    width: calc(100% - 2.4rem);
+    margin: 0.5rem 1.2rem;
+    background-color: #57AFE1;
+    border: none;
+    border-radius: 180px;
+    padding: 10px 5px;
+}
+
+#local #map-area #simple-desc #see-details:hover {
+    transform: scale(1.01);
+}
+
+
+#local #map-area #simple-desc #see-details:active {
+    transform: scale(0.99);
+}
+
+#local #map-area #simple-desc #see-details p {
+    align-content: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+#as-ongs{
+    margin-top: 100px;
+}  
+
+
+.container-asOngs{
+    border: 0;
+    border-radius: 15px;
+    background-color: #ababab;
+
+
+    width: 100%;
+    min-height: 400px;
+
+
+    position: relative;
+    padding: 25px;
+}
+
+
+.container-asOngs h1{
+    font-size: 50px;
+    font-family: 'Sugo Font Family', sans-serif;
+    color: #535353;
+   
+    position: absolute;
+    top: -40px;
+    left: 40px;
+    margin: 0;
+}
+
+
+.barraPesquisa-asOngs{
+    border: 0;
+    border-radius: 15px;
+    background-color: #e2e8f0;
+
+
+    width: 40%;
+    height: 35px;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
+
+
+    margin: 25px auto;
+    padding: 0.2rem 0.7rem;
+    box-sizing: border-box;
+}
+
+
+.barraPesquisa-asOngs input{
+    width: 75%;
+    height: 20px;
+    color: #535353;
+
+
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+
+.barraPesquisa-asOngs input:focus{
+    outline: none;
+}
+
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+
+
+
+.limpar-ong i{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 0;
+
+
+    font-size: 10px;
+    color: #e2e8f0;
+
+
+    width: 15px;
+    height: 15px;
+    border: none;
+    background-color: #535353;
+    border-radius: 50%;
+
+
+    cursor: pointer;
+}
+
+
+.barraPesquisa-asOngs button{
+    background-color: transparent;
+    border: none;
+
+
+    font-size: 15px;
+    color: #535353;
+}
+
+
+.barraPesquisa-asOngs button:hover, i:hover{
+    font-size: 16px;
+    color: #ababab;
+}
+
+
+.box-ongs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+
+
+    margin-top: 50px;
+}
+
+
+.ong1, .ong2, .ong3{
+    width: 25%;
+    height: 100px;
+    box-sizing: border-box;
+
+
+    border: none;
+    border-radius: 15px;
+    background-color: #e2e8f0;
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+
+    padding: 10px 25px;
+    overflow-wrap: break-word;
+}
+
+
+.box-ongs div h2{
+    font-size: 20px;
+}
+
+
+.box-ongs div p{
+    font-size: 8px;
+}
+
+
+.box-ongs div a{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-end;
+
+
+    font-size: 10px;
+    font-weight: 100;
+    color: #e2e8f0;
+    text-decoration: none;
+
+
+    width: 15px;
+    height: 15px;
+    border: none;
+    background-color: #535353;
+    border-radius: 50%;
+
+
+    margin-top: 5px;
+}
+
+
+.box-ongs div a i{
+    -webkit-text-stroke: 0.3px #e2e8f0;
+}
+
+
+.container-asOngs button{
+    width: 30%;
+    height: 35px;
+    border-radius: 180px;
 }
 
 @keyframes pular {
@@ -234,5 +710,25 @@
     100% {
         font-size: 25px;
         transform: translateY(0);
+    }
+}
+
+@keyframes pula {
+    50% {
+        font-size: 21px;
+        transform: translateY(-3px);
+    }
+    100% {
+        font-size: 19px;
+        transform: translateY(0);
+    }
+}
+
+@keyframes aumenta {
+    50% {
+        transform: scale(1.03);
+    }
+    100% {
+        transform: scale(1);
     }
 }
