@@ -7,6 +7,14 @@
 @endsection
 
 @section('conteudo')
+    <section class="diretorio-section">
+        <a href="{{ route('publico.home') }}">Início</a>
+        <a>
+            <i class="fa-solid fa-chevron-right"></i>
+            Sobre Nós
+        </a>
+        </section>
+
     <section id="as-ongs">
 
 

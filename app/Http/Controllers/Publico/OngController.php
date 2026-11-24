@@ -21,8 +21,10 @@ class OngController extends Controller
         return view('publico.ongs.index', compact('ongs'));
     }
 
-    public function show(Ong $ong): View
+    public function show($id)
     {
+        $ong = Ong::with('pontosDeColeta')->findOrFail($id);
+
         return view('publico.ongs.show', compact('ong'));
     }
 }

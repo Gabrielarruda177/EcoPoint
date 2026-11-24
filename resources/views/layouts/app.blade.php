@@ -26,9 +26,9 @@
                     
             <nav id="nav-links">
                 <a href="{{ route('publico.home') }}">INÍCIO</a>
-                <a href="{{ route('publico.pontos.index') }}">SOBRE NÓS</a>
+                <a href="{{ route('publico.sobre') }}">SOBRE NÓS</a>
                 <a href="{{ route('publico.ongs.index') }}">ONGS</a>
-                <a href="{{ route('publico.ongs.index')}}">FALE CONOSCO</a>
+                <a href="{{ route('publico.contato')}}">FALE CONOSCO</a>
 
                 @auth
                     @if(auth()->user()->isAdmin())

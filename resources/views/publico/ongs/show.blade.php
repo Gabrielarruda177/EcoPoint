@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('titulo', 'Perfil da ONG')
+@section('titulo', $ong->nome ?? 'Perfil da ONG')
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/publico/ongs-show.css') }}?v=1.0">
@@ -21,15 +21,12 @@
         1. DIRETÓRIO DAS PÁGINAS
         ============================================================-->
         <section class="diretorio-section">
-
-            <a href="{{ asset('css/publico/home.css') }}?v=1.0">Início</a>
             <a href="#">
-                <i class="fa-solid fa-chevron-right"></i>
-                as ongs
+                As ONGS
             </a>
             <a>
                 <i class="fa-solid fa-chevron-right"></i>
-                nome ong  <!--BACK END-->
+                {{$ong->nome}}
             </a>
 
         </section>
@@ -44,7 +41,7 @@
             ============================================================-->
             <div class="left-content-container">
 
-                <h2>Nome ong</h2> <!--BACK END-->
+                <h2>{{$ong->nome}}</h2>
 
             <!--============================================================
                 2.1.1 SOBRE A ONG
@@ -54,11 +51,8 @@
                     <h3>Sobre a ONG</h3>
 
                     <p>
-                        grgrrrrrsgssfsdiiiiiiiiiiiiiiiiiiiiiiiiii
-                        iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
-                    iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
-                    iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
-                    </p> <!--BACK END-->
+                        {{$ong->descricao}}
+                    </p>
 
                 </div>       
                 
@@ -70,49 +64,24 @@
                     <h3>Ecopontos da ONG</h3>
 
                     <div class="ecopontos-cards">
-
-                        <a class="ecoponto-card">
-
-                            <div class="card-infos-box">
-
-                                <img src=""></img>
-
-                                <p> ecoponto1 </p> <!--BACK END-->
-
-                            </div>
-
-                                <span> Ver mais detalhes <i class="fa-solid fa-chevron-right"></i> </span>
-
-                        </a>
-
-                        <a class="ecoponto-card">
+                        @forelse($ong->pontosDeColeta as $ecoponto)
+                        <a href="{{ url('/pontos/' . $ecoponto->id) }}" class="ecoponto-card">
 
                             <div class="card-infos-box">
 
                                 <img src=""></img>
 
-                                <p> ecoponto2 </p> <!--BACK END-->
+                                <p> {{ $ecoponto->nome }} </p> <!--BACK END-->
 
                             </div>
 
-                            <span> Ver mais detalhes <i class="fa-solid fa-chevron-right"></i> </span>
-                        
-                        </a>
-
-                        <a class="ecoponto-card">
-
-                            <div class="card-infos-box">
-
-                                <img src=""></img>
-
-                                <p> ecopont3 </p> <!--BACK END-->
-
-                            </div>
-                            
-                            <span> Ver mais detalhes <i class="fa-solid fa-chevron-right"></i> </span>
+                                <span href> Ver mais detalhes <i class="fa-solid fa-chevron-right"></i> </span>
 
                         </a>
 
+                        @empty
+                            <p>Esta ONG ainda não possui ecopontos cadastrados.</p>
+                        @endforelse
                     </div>
 
                 </div>
@@ -128,19 +97,19 @@
 
                     <img src="#"></img>
 
-                    <h3>nome ong</h3> <!--BACK END-->
+                    <h3>{{$ong->nome}}</h3>
 
                 </div>
 
                 <div class="itens-ong-box">
 
-                    <p> <i class="fa-solid fa-phone"></i> telefone <!--BACK END--> <p>
+                    <p> <i class="fa-solid fa-phone"></i> {{$ong->telefone}} <p>
 
-                    <p> <i class="fa-solid fa-envelope"></i> e-mail comercial<p> <!--BACK END-->
+                    <p> <i class="fa-solid fa-envelope"></i> {{$ong->email_contato}}<p> <!--BACK END-->
 
                     <p>
                         <i class="fa-regular fa-clock" style="-webkit-text-stroke: 0.2px currentColor;"></i>
-                        horário de funcionamento <!--BACK END-->
+                        {{$ong->cep}} <!--BACK END-->
                     <p> 
 
                 </div>
@@ -150,5 +119,7 @@
         </section>
 
     </main>
+
+    <script src="{{ asset('js/publico/ongs/show.js') }}"></script>
 
 @endsection
