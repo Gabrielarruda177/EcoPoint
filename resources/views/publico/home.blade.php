@@ -35,15 +35,15 @@
 
             <div id="add-info">
                 <div class="block">
-                    <p class="title">asdasd</p>
+                    <p class="title">+14.800</p>
                     <p class="subtitle">Livros em circulação</p>
                 </div>
                 <div class="block">
-                    <p class="title">asdasd</p>
+                    <p class="title">+5.9 Ton.</p>
                     <p class="subtitle">Papel reciclado / reutilizado</p>
                 </div>
                 <div class="block">
-                    <p class="title">asdasd</p>
+                    <p class="title">100%</p>
                     <p class="subtitle">Acesso comunitário livre</p>
                 </div>
             </div>
@@ -106,10 +106,7 @@
         <div id="map-area">
             <div id="map-local"></div>
             <div id="simple-desc">
-                <div id="foto">
-                    <p id="estado"> ● Aberto / Fechado agora</p>
-                    <img src="{{ asset('img/logo-ecopoints.webp') }}"id="foto-ong">
-                </div>
+                <p id="estado"> ● Aberto / Fechado agora</p>
 
                 <p id="nome-ecoponto">Ecoponto XXXXXX</p>
 

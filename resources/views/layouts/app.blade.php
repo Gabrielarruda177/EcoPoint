@@ -27,13 +27,8 @@
             <nav id="nav-links">
                 <a href="{{ route('publico.home') }}">INÍCIO</a>
                 <a href="{{ route('publico.pontos.index') }}">SOBRE NÓS</a>
-<<<<<<< HEAD
-                <a href="{{ route('publico.pontos.index') }}">ECOPONTOS</a>
+                <a href="{{ route('publico.home') }}#as-ongs">ONGS</a>
                 <a href="{{ route('publico.pontos.index')}}">FALE CONOSCO</a>
-=======
-                <a href="{{ route('publico.home') }}">ONGS</a>
-                <a href="{{ route('publico.pontos.index') }}">FALE CONOSCO</a>
->>>>>>> a9f4e279ffecff356571832639b823cd42e04ea6
 
                 @auth
                     @if(auth()->user()->isAdmin())
@@ -79,6 +74,8 @@
 
     <footer>
         <p>EcoPoint &copy; {{ date('Y') }} - Sistema de Mapeamento de Pontos de Coleta de Livros e Apostilas Acadêmicas.</p>
+
+        
     </footer>
 
     <script src="{{ asset('js/app.js') }}"></script>

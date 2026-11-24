@@ -420,16 +420,13 @@
     margin-left: 5%;
     height: 500px;
     border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
 }
 
-#local #map-area #simple-desc #foto {
-    position: relative;
-    border-radius: 20px;
-    margin: 0.5rem 1rem 1rem 1rem ;
-}
-
-#local #map-area #simple-desc #foto p {
-    position: absolute;
+#local #map-area #simple-desc #estado{
     margin: 1rem;
     padding: 5px 10px;
     border-radius: 180px;
@@ -438,11 +435,9 @@
     background-color: #E2F3D1;
     color: #36682B;
     font-weight: bolder;
+    width: 50%;
+    text-align: center  ;
 }
-
-#local #map-area #simple-desc #foto img {
-    width: 100%;
-} 
 
 #local #map-area #simple-desc #nome-ecoponto {
     font-size: 20px;
@@ -455,7 +450,7 @@
     margin: 0.3rem 1.2rem;
     display: flex;
     gap: 0.2rem;
-    width: 100%;
+    width: calc(100% - 2.4rem);
 }
 
 #local #map-area #simple-desc .detalhes .p-detalhes {

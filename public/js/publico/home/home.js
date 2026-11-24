@@ -99,7 +99,17 @@ map.on('style.load', () => {
                     map.setPaintProperty(id, 'line-width', ['interpolate', ['linear'], ['zoom'], 12, 2, 16, 5]);
                 }
             }
-        } catch (e) {}
+            if (camada.type === 'symbol' && camada.layout && camada.layout['text-field']) {
+                map.setLayoutProperty(id, 'text-field', [
+                    'coalesce',
+                    ['get', 'name:pt'],
+                    ['get', 'name']
+                ]);
+            }
+        } 
+        catch (e) {
+            
+        }
     });
 });
 
