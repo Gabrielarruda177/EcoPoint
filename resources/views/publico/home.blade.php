@@ -92,8 +92,12 @@
 
             <select id="filter-ongs">
                 <option value="all">Todas as ONGs</option>
-                <?php //Colocar todas as ONGs cadastradas ?>
+                @foreach($ongs as $ong)
+                    <option value="{{ $ong->id }}">{{ $ong->nome }}</option>
+                @endforeach
             </select>
+
+
 
             <button id="btn-centralizar">
                 <p>Recentralizar</p>
@@ -180,48 +184,18 @@
 
            
             <div class="box-ongs">
-
-
-                <div class="ong1">
-                   
-                    <h2>ONG</h2>
-                    <p>txtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxt</p>
-                    <a href="">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-
-
-                </div>
-
-
-                <div class="ong2">
-                   
-                    <h2>ONG</h2>
-                    <p>txtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxt</p>
-                    <a href="">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-
-
-                </div>
-
-
-                <div class="ong3">
-                   
-                    <h2>ONG</h2>
-                    <p>txtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxt</p>
-                    <a href="">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-
-
-                </div>
-
-
+                @forelse($ongs->take(3) as $ong)
+                    <div class="ong1">
+                        <h2>{{ $ong->nome }}</h2>
+                        <p>{{ Str::limit($ong->descricao, 110) }}</p>
+                        <a href="{{ route('publico.pontos.index', ['ong' => $ong->id]) }}">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                    </div>
+                @empty
+                    <p>Nenhuma ONG cadastrada no momento.</p>
+                @endforelse
             </div>
-
-
-            <button>Ver mais</button>
 
 
         </div>    
@@ -229,7 +203,14 @@
 
     </section>
 
+    <script>
+        window.DADOS_BANCO = {
+            pontos: @json($pontos),
+            ongs: @json($ongs)
+        };
+    </script>
     <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
     <script src="{{ asset('js/publico/home/home.js') }}"></script>
+
 
 @endsection
