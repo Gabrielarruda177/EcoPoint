@@ -492,7 +492,7 @@
     padding: 10px 5px;
 }
 
-#local #map-area #simple-desc #see-details:hover {
+#local #map-area #simple-desc #see-details:hover     {
     transform: scale(1.01);
 }
 
