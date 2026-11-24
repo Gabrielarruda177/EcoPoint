@@ -108,7 +108,7 @@ map.on('style.load', () => {
             }
         } 
         catch (e) {
-            
+
         }
     });
 });
@@ -201,25 +201,18 @@ function criarMarcadorEcoponto(ponto, lat, lng) {
 
 function atualizarPainelLateral(ponto) {
     const estadoEl = document.getElementById('estado');
-    const fotoOngEl = document.getElementById('foto-ong');
     const nomeEl = document.getElementById('nome-ecoponto');
     const enderecoEl = document.getElementById('endereco-ponto');
     const referenciaEl = document.getElementById('referencia-ponto');
     const horarioEl = document.getElementById('hr-funcionamento-ponto');
-    const capacidadeEl = document.getElementById('capacidade-ponto');
+    const telefoneEl = document.getElementById('telefone-ponto');
     const ongEl = document.getElementById('ong-ponto');
     const btnDetails = document.getElementById('see-details');
 
-    // Status Aberto / Fechado (adapte conforme o nome da coluna no seu PontoDeColeta)
     const estaAberto = ponto.ativo !== false;
     estadoEl.textContent = estaAberto ? '● Aberto agora' : '● Fechado agora';
     estadoEl.style.backgroundColor = estaAberto ? '#E2F3D1' : '#fde8e8';
     estadoEl.style.color = estaAberto ? '#36682B' : '#9b1c1c';
-
-    // Foto (usa a foto do ponto/ONG se houver, senão mantém a logo padrão)
-    if (ponto.foto) {
-        fotoOngEl.src = `/storage/${ponto.foto}`;
-    }
 
     // Nome do Ecoponto
     nomeEl.textContent = ponto.nome || `Ecoponto ${ponto.ong?.nome || ''}`;
@@ -238,8 +231,8 @@ function atualizarPainelLateral(ponto) {
     // Horário de funcionamento
     horarioEl.textContent = ponto.horario_funcionamento || 'Consulte horários com a ONG';
 
-    // Capacidade
-    capacidadeEl.innerHTML = `<span class="principal">Capacidade: </span>${ponto.capacidade || 'Não informada'}`;
+    // Telefone
+    telefoneEl.innerHTML = `<span class="principal">Telefone: </span>${ponto.ong?.telefone   || 'Não informada'}`;
 
     // Nome da ONG responsável
     ongEl.textContent = `ONG Responsável: ${ponto.ong?.nome || 'Não informada'}`;

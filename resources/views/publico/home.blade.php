@@ -125,9 +125,9 @@
                     <p id="hr-funcionamento-ponto" class="p-detalhes">XXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXX</p>
                 </div>
 
-                <div id="capacidade" class="detalhes">
-                    <p id="emoji">📦</p>
-                    <p id="capacidade-ponto" class="p-detalhes"><span class="principal">Capacidade: </span>XXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX</p>
+                <div id="telefone" class="detalhes">
+                    <p id="emoji">📞</p>
+                    <p id="telefone-ponto" class="p-detalhes"><span class="principal">Telefone: </span>XXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX</p>
                 </div>
 
                 <div id="ong-responsavel">
@@ -140,64 +140,6 @@
                 </button>
             </div>
         </div>
-    </section>
-
-    <section id="as-ongs">
-
-
-        <div class="container-asOngs">
-           
-            <h1>As ONGs</h1>
-
-
-            <p> </p>
-
-
-            <div class="barraPesquisa-asOngs">
-
-
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-
-                <button type="submit" class="pesquisar-ong" onclick="document.getElementById('search-ong').focus()">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-
-
-                <input type="search" placeholder="Ex: Instituto Saber e Leitura" id="search-ong">
-
-
-                <button type="submit" class="limpar-ong">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-
-
-                <button type="submit" class="microfone-ong">
-                    <i class="fa-solid fa-microphone"></i>
-                </button>
-           
-            </div>
-
-
-           
-            <div class="box-ongs">
-                @forelse($ongs->take(3) as $ong)
-                    <div class="ong1">
-                        <h2>{{ $ong->nome }}</h2>
-                        <p>{{ Str::limit($ong->descricao, 110) }}</p>
-                        <a href="{{ route('publico.pontos.index', ['ong' => $ong->id]) }}">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </a>
-                    </div>
-                @empty
-                    <p>Nenhuma ONG cadastrada no momento.</p>
-                @endforelse
-            </div>
-
-
-        </div>    
-
-
     </section>
 
     <script>

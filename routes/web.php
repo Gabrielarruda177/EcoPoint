@@ -44,6 +44,7 @@ Route::name('publico.')->group(function () {
 
     // Consulta do perfil institucional da ONG
     Route::get('/ongs/{ong}', [PublicoOngController::class, 'show'])->name('ongs.show');
+    Route::get('/ongs', [PublicoOngController::class, 'index'])->name('ongs.index');
 });
 
 /*
