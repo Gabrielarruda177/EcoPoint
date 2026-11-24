@@ -55,6 +55,25 @@
     gap: 1.5rem;
 }
 
+.dashboard-banner-brand {
+    display: inline-block;
+    margin-bottom: 0.85rem;
+}
+
+.dashboard-banner-logo {
+    height: 48px;
+    width: auto;
+    max-width: 240px;
+    display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.25));
+    transition: transform 0.2s ease;
+}
+
+.dashboard-banner-logo:hover {
+    transform: scale(1.02);
+}
+
 .badge-admin {
     display: inline-flex;
     align-items: center;
@@ -604,32 +623,115 @@
 
 
 /* ========================================================
-   8. RESPONSIVO
+   8. RESPONSIVIDADE REFINADA (TABLET, LAPTOP E MOBILE)
    ======================================================== */
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
+    .charts-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.15rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .dashboard-header-card {
+        padding: 2rem 1.8rem;
+        border-radius: 16px;
+    }
+
     .mapa-card-body {
         grid-template-columns: 1fr;
+        gap: 1.6rem;
+    }
+
+    .mapa-svg-wrapper {
+        padding: 1.2rem;
+    }
+
+    .mapa-brasil-svg {
+        max-width: 380px;
     }
 }
 
 @media (max-width: 768px) {
     .dashboard-header-card {
-        padding: 1.6rem;
+        padding: 1.6rem 1.4rem;
+        margin-bottom: 1.8rem;
+    }
+
+    .dashboard-banner-brand {
+        margin-bottom: 0.75rem;
+    }
+
+    .dashboard-banner-logo {
+        height: 38px;
+        max-width: 190px;
     }
 
     .dashboard-title {
-        font-size: 1.65rem;
+        font-size: 1.6rem;
+    }
+
+    .dashboard-welcome {
+        font-size: 0.88rem;
     }
 
     .dashboard-btn-create {
         width: 100%;
         justify-content: center;
+        padding: 0.75rem 1.25rem;
     }
 
-    .metrics-grid,
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.9rem;
+    }
+
+    .metrics-grid > .metric-card:last-child {
+        grid-column: span 2;
+    }
+
+    .metric-card {
+        padding: 1.2rem 1.3rem;
+    }
+
+    .metric-value {
+        font-size: 2.1rem;
+    }
+
     .charts-grid,
-    .modules-grid,
+    .modules-grid {
+        grid-template-columns: 1fr;
+        gap: 1.1rem;
+    }
+
+    .mapa-card-footer {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.85rem;
+    }
+
+    .mapa-brasil-card {
+        padding: 1.5rem 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .metrics-grid > .metric-card:last-child {
+        grid-column: auto;
+    }
+
     .mapa-card-footer {
         grid-template-columns: 1fr;
+    }
+
+    .dashboard-title {
+        font-size: 1.4rem;
+    }
+
+    .mapa-card-title {
+        font-size: 1.18rem;
     }
 }

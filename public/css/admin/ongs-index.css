@@ -279,81 +279,258 @@
 }
 
 /* ========================================================
-   PAGINAÇÃO (CORREÇÃO DAS SETAS GIGANTES E ESTILIZAÇÃO)
+   PAGINAÇÃO (CORREÇÃO E ALINHAMENTO)
    ======================================================== */
 .pagination-wrapper {
-    padding: 1.2rem 1.6rem;
+    padding: 0;
     border-top: 1px solid #edf2f7;
-    background: var(--bg-white);
+    background: var(--bg-white, #FFFFFF);
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    overflow: hidden;
 }
 
-/* Domina e limita qualquer SVG dentro da paginação */
-.pagination-wrapper svg {
-    width: 1.15rem !important;
-    height: 1.15rem !important;
-    max-width: 1.15rem !important;
-    max-height: 1.15rem !important;
-    display: inline-block !important;
-    vertical-align: middle;
-}
-
-/* Estrutura flex da navegação */
-.pagination-wrapper nav {
+/* ========================================================
+   MODAL CLEAN / VIBE HUMANA (REFERÊNCIA DE PROJETO REAL)
+   ======================================================== */
+.vibe-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(12, 20, 69, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 99999;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.pagination-wrapper nav > div:first-child {
-    font-size: 0.88rem;
-    color: var(--text-secondary);
-}
-
-.pagination-wrapper nav > div:last-child {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.pagination-wrapper a,
-.pagination-wrapper span[aria-disabled="true"] span,
-.pagination-wrapper span[aria-current="page"] span {
-    display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 2.2rem;
-    height: 2.2rem;
-    padding: 0 0.65rem;
-    border-radius: var(--radius-sm, 8px);
-    border: 1px solid #e5e7eb;
-    background: #ffffff;
-    color: #374151;
-    font-size: 0.85rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.15s ease;
+    padding: 1.25rem;
+    animation: vibeFadeIn 0.18s ease-out;
 }
 
-.pagination-wrapper a:hover {
-    background-color: var(--bg-card);
-    border-color: var(--primary-blue-light);
-    color: var(--primary-blue);
+@keyframes vibeFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.pagination-wrapper span[aria-current="page"] span {
-    background-color: var(--primary-blue) !important;
-    border-color: var(--primary-blue) !important;
-    color: #2b2b2b !important;
+.vibe-modal-dialog {
+    background: #FFFFFF;
+    border-radius: 26px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 20px 48px rgba(29, 61, 26, 0.18);
+    padding: 38px 34px 32px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: vibeScaleUp 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.vibe-modal-dialog-large {
+    max-width: 580px;
+    text-align: left;
+    align-items: stretch;
+    padding: 34px 34px 30px;
+}
+
+@keyframes vibeScaleUp {
+    from {
+        transform: scale(0.96);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.vibe-modal-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.vibe-icon-img {
+    display: block;
+    object-fit: contain;
+}
+
+.vibe-modal-title {
+    font-family: inherit;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1D3D1A;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.vibe-modal-subtitle {
+    font-size: 0.88rem;
+    color: #64748B;
+    margin: 0 0 22px 0;
+    text-align: center;
+}
+
+.vibe-modal-desc {
+    font-size: 0.98rem;
+    color: #4b5563;
+    line-height: 1.55;
+    margin: 0 0 28px 0;
+    text-align: center;
+}
+
+.vibe-modal-entity {
+    color: #1D3D1A;
     font-weight: 700;
 }
 
-.pagination-wrapper span[aria-disabled="true"] span {
-    color: #9ca3af;
-    background-color: #f9fafb;
-    border-color: #e5e7eb;
-    cursor: not-allowed;
+.vibe-modal-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+}
+
+.vibe-btn-cancel {
+    flex: 1;
+    height: 48px;
+    background-color: #F4F5F8;
+    color: #4B5563;
+    font-size: 0.94rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vibe-btn-cancel:hover {
+    background-color: #E5E7EB;
+    color: #1F2937;
+}
+
+.vibe-form-confirm {
+    flex: 1;
+    margin: 0;
+    display: flex;
+}
+
+.vibe-btn-confirm {
+    width: 100%;
+    height: 48px;
+    background: linear-gradient(135deg, #1D3D1A 0%, #3B7634 100%);
+    color: #FFFFFF;
+    font-size: 0.94rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(29, 61, 26, 0.22);
+}
+
+.vibe-btn-confirm:hover {
+    background: linear-gradient(135deg, #152E13 0%, #2B5726 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(29, 61, 26, 0.28);
+}
+
+.vibe-btn-green {
+    background: linear-gradient(135deg, #1D3D1A 0%, #3B7634 100%) !important;
+}
+
+.vibe-btn-green:hover {
+    background: linear-gradient(135deg, #152E13 0%, #2B5726 100%) !important;
+}
+
+/* Formulário de Edição no Modal */
+.vibe-edit-form {
+    width: 100%;
+}
+
+.vibe-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.vibe-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.vibe-field-full {
+    grid-column: span 2;
+}
+
+.vibe-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.vibe-label .required {
+    color: #DC2626;
+}
+
+.vibe-input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid #CBD5E1;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    color: #1E293B;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    transition: all 0.15s ease;
+}
+
+.vibe-input:focus {
+    outline: none;
+    border-color: #3B7634;
+    box-shadow: 0 0 0 3px rgba(59, 118, 52, 0.18);
+}
+
+@media (max-width: 576px) {
+    .vibe-modal-dialog {
+        padding: 28px 20px 24px;
+        border-radius: 20px;
+    }
+
+    .vibe-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vibe-field-full {
+        grid-column: span 1;
+    }
+
+    .vibe-modal-title {
+        font-size: 1.35rem;
+    }
+
+    .vibe-modal-actions {
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    .vibe-btn-cancel,
+    .vibe-btn-confirm {
+        width: 100%;
+    }
 }
 
 /* ========================================================
@@ -367,7 +544,7 @@
     }
 
     .ongs-title {
-        font-size: 1.9rem;
+        font-size: 1.7rem;
     }
 
     .btn-new-ong {
@@ -375,8 +552,18 @@
         justify-content: center;
     }
 
-    .pagination-wrapper nav {
-        flex-direction: column;
-        align-items: center;
+    .admin-modal-dialog {
+        margin: 0 10px;
+    }
+
+    .admin-modal-footer {
+        flex-direction: column-reverse;
+        gap: 8px;
+    }
+
+    .btn-modal-cancel,
+    .btn-modal-confirm-delete {
+        width: 100%;
+        text-align: center;
     }
 }
