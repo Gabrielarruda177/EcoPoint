@@ -3,16 +3,301 @@
    public/css/publico/pontos-show.css
    ============================================================ */
 
-/* Divider */
+/* Divider
 .ponto-show-divider {
     margin: 1rem 0;
     border: 0;
     border-top: 1px solid #e2e8f0;
 }
 
-/* Placeholder note */
+Placeholder note
 .ponto-show-placeholder {
     color: #718096;
     font-style: italic;
+}*/
+
+main{
+    max-width: 1100px;
+    margin: 50px auto;
+}
+
+h2{
+    font-size: 2.15rem;
+}
+
+h3{
+    font-size: 1rem;
+    margin-bottom: 8px;
+    padding-bottom: 0;
+}
+
+p{
+    font-size: 0.9rem;
+    margin: 0;
+    padding: 0;
+}
+
+/*============================================================
+    1. NAVBAR
+  ============================================================*/
+
+
+/*============================================================
+    2. DIRETÓRIO DAS PÁGINAS
+  ============================================================*/
+.diretorio-section{
+    display: flex;
+
+    margin-bottom: 0;
+}
+
+.diretorio-section a{
+    text-decoration: none;
+    color: #000;
+    font-size: 0.8rem;
+}
+
+.diretorio-section a i{
+    font-size: 8px;
+    padding: 0px 8px;
+}
+
+
+/*============================================================
+    3. CONTEÚDO DA PÁGINA
+  ============================================================*/
+#content-section{
+    display: flex;
+    gap: 10%;
+}
+
+/*============================================================
+    3.1 LEFT CONTENT
+  ============================================================*/
+.left-content-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+
+    box-sizing: border-box;
+    width: 60%;
+    height: auto;
+}
+
+/*============================================================
+    3.1.2 INFOS PRINCIPAIS
+  ============================================================*/
+.left-content-container h2{
+    margin-top: 0;
+}
+
+.resumo-infos-box{
+    display: inline-flex;
+    gap: 10px;
+
+    margin-top: -18px;
+}
+
+.resumo-infos-box p{
+    max-width: 60%;
+    height: auto;
+
+    color: #000;
+    background-color: #fbfbfb;
+    border-radius: 15px;
+
+    padding: 1px 8px;
+    font-size: 0.8rem;
+}
+
+.itens-infos-box{
+    width:  100%;
+    height: 100%;
+
+    background-color: #fbfbfb;
+    border-radius: 5px;
+
+    padding: 14px 8px;
+}
+
+.itens-infos-box i{
+    font-size: 0.8rem;
+    width: 1rem;
+    
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-right: 10px;
+}
+
+/*============================================================
+    3.1.3 MATERIAIS ACEITOS
+  ============================================================*/
+
+.materiais-lista{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 100%;
+}
+
+.materiais-lista p{
+    max-width: 60%;
+    height: auto;
+    word-wrap: break-word;
+
+    color: #000;
+    background-color: #fbfbfb;
+    border-radius: 5px;
+
+    padding: 1px 8px;
+}
+
+.materiais-lista p i{
+    font-size: 0.9rem;
+    width: 1rem;
+    
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-left: 2px;
+}
+
+.materiais-lista p:has(.fa-check){
+    background-color: #f3fbf2;
+}
+
+.materiais-lista .fa-check{
+    color: #54c845;
+}
+
+.materiais-lista p:has(.fa-xmark){
+    background-color: #fbf2f2;
+}
+
+.materiais-lista .fa-xmark{
+    color: #c84545;
+}
+
+/*============================================================
+    3.1.4 REQUISITOS
+  ============================================================*/
+.requisitos-box{
+    max-width: 100%;
+}
+
+.requisitos-box h3{
+    margin-bottom: 2px;
+}
+
+.requisitos-box p{
+    height: auto;
+    word-wrap: break-word;
+
+    margin: 0;
+}
+
+/*============================================================
+    3.1.5 DESCRIÇÃO
+  ============================================================*/
+.descricao-box{
+    max-width: 100%;
+}
+
+.descricao-box h3{
+    margin-bottom: 2px;
+}
+
+.descricao-box p{
+    height: auto;
+    word-wrap: break-word;
+}
+
+/*============================================================
+    3.2 RIGHT CONTENT - ONG + IMG
+  ============================================================*/
+  .right-content-container{
+    margin: 0;
+    padding: 0;
+  }
+
+  .ong-img-box{
+    display: flex;
+    flex-direction: column; 
+    gap: 24px;
+
+    width: 30%;
+    box-sizing: border-box;
+  }
+
+  .ong-img-box img{
+    width: 310px;
+    height: 210px;
+
+    object-fit: cover;
+    object-position: center;
+
+    border-radius: 15px;
+  }
+
+.ong-card{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-sizing: border-box;
+
+    width: 310px;
+    height: auto;
+    border-radius: 5px;
+
+    padding: 14px 20px;
+
+    background-color: #fbfbfb;
+}
+
+.ong-main-infos{
+    width: 100%;
+
+    display: inline-flex;
+    gap: 10px;
+}
+
+.ong-main-infos img{
+    width: 40px;
+    height: 40px;
+
+    background-color: #c7c7c7;
+
+    object-fit: cover;
+    object-position: center;
+
+    border-radius: 15px;   
+}
+
+.ong-main-infos p{
+    font-weight: 600;
+}
+
+.ong-card a{
+    font-size: 0.8rem;
+    text-decoration: none;
+
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-end;
+    gap: 10px;
+
+    color:#fbfbfb;
+    background-color: #c7c7c7;
+    border-radius: 15px;
+
+    padding: 1px 8px;   
+}
+
+.ong-card a i{
+    font-size: 8px;
 }
 

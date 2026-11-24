@@ -13,19 +13,13 @@ class HomeController extends Controller
     /**
      * Exibe a página inicial pública do sistema.
      */
-    public function index(): View
-    {
-        $ongs = Ong::where('ativo', true)
-            ->orderBy('nome')
-            ->get();
+    public function index(){
+        $pontos = PontoDeColeta::with(['ong', 'materiaisAceitos'])
+            ->where('ativo', true);
 
-        $pontos = PontoDeColeta::with('ong')
-            ->where('ativo', true)
-            ->whereHas('ong', function ($query) {
-                $query->where('ativo', true);
-            })
-            ->get();
+        $pontos = PontoDeColeta::with(['ong', 'materiaisAceitos'])->get();
+        $ongs = Ong::all();
 
-        return view('publico.home', compact('ongs', 'pontos'));
+        return view('publico.home', compact('pontos', 'ongs'));
     }
 }

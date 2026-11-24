@@ -106,23 +106,23 @@
     animation: pular 0.5s ease;
 }
 
-#inicio #add-info {
+#inicio #resume #add-info {
     width: 100%;
     display: flex; 
     gap: 2rem;
 }
 
-#inicio #add-info .block {
+#inicio #resume #add-info .block {
     margin: 1.3rem 0.3rem;
 }
 
-#inicio #add-info .block .title {
+#inicio #resume #add-info .block .title {
     font-size: 30px;
     font-weight: bolder;
     color: #2A7696;
 }
 
-#inicio #add-info .block .subtitle {
+#inicio #resume #add-info .block .subtitle {
     font-size: 19px;
     font-weight: bolder;
     color: #848D7A;
@@ -144,15 +144,17 @@
 }
 
 #inicio #simple-map #pin {
-    width: 14rem;
+    width: fit-content;
     text-align: center;
-    align-content: center;
     height: 30px;
     font-weight: bolder;
     border-radius: 180px;
     background-color: #F2F6E8;
     color: #4D723F;
     margin: 10px 0 6px 0;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
 }
 
 #inicio #simple-map #destaque {
@@ -176,9 +178,9 @@
     display: flex;
     align-items: end;
     justify-content: center;
-    text-decoration: none;
     margin: 12px 0;
     background-color: #dfebd5;
+    outline: none;
 }
 
 #inicio #simple-map #resumed-map:hover {
@@ -385,6 +387,7 @@
     height: 500px;
     border-radius: 20px;
     box-shadow: 4px 3px 12px #858585b9;
+    outline: none;
 }
 
 #local #map-area #map-local .main-box-pin {
@@ -420,16 +423,13 @@
     margin-left: 5%;
     height: 500px;
     border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
 }
 
-#local #map-area #simple-desc #foto {
-    position: relative;
-    border-radius: 20px;
-    margin: 0.5rem 1rem 1rem 1rem ;
-}
-
-#local #map-area #simple-desc #foto p {
-    position: absolute;
+#local #map-area #simple-desc #estado{
     margin: 1rem;
     padding: 5px 10px;
     border-radius: 180px;
@@ -438,11 +438,9 @@
     background-color: #E2F3D1;
     color: #36682B;
     font-weight: bolder;
+    width: 50%;
+    text-align: center  ;
 }
-
-#local #map-area #simple-desc #foto img {
-    width: 100%;
-} 
 
 #local #map-area #simple-desc #nome-ecoponto {
     font-size: 20px;
@@ -455,7 +453,7 @@
     margin: 0.3rem 1.2rem;
     display: flex;
     gap: 0.2rem;
-    width: 100%;
+    width: calc(100% - 2.4rem);
 }
 
 #local #map-area #simple-desc .detalhes .p-detalhes {
@@ -484,6 +482,8 @@
 }
 
 #local #map-area #simple-desc #see-details {
+    text-align: center;
+    text-decoration: none;
     width: calc(100% - 2.4rem);
     margin: 0.5rem 1.2rem;
     background-color: #57AFE1;
@@ -508,203 +508,9 @@
     font-size: 17px;
 }
 
-#as-ongs{
-    margin-top: 100px;
-}  
-
-
-.container-asOngs{
-    border: 0;
-    border-radius: 15px;
-    background-color: #ababab;
-
-
-    width: 100%;
-    min-height: 400px;
-
-
-    position: relative;
-    padding: 25px;
-}
-
-
-.container-asOngs h1{
-    font-size: 50px;
-    font-family: 'Sugo Font Family', sans-serif;
-    color: #535353;
-   
-    position: absolute;
-    top: -40px;
-    left: 40px;
-    margin: 0;
-}
-
-
-.barraPesquisa-asOngs{
-    border: 0;
-    border-radius: 15px;
-    background-color: #e2e8f0;
-
-
-    width: 40%;
-    height: 35px;
-
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.7rem;
-
-
-    margin: 25px auto;
-    padding: 0.2rem 0.7rem;
-    box-sizing: border-box;
-}
-
-
-.barraPesquisa-asOngs input{
-    width: 75%;
-    height: 20px;
-    color: #535353;
-
-
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-}
-
-
-.barraPesquisa-asOngs input:focus{
-    outline: none;
-}
-
-
-input[type="search"]::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-
-
-
-.limpar-ong i{
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    line-height: 0;
-
-
-    font-size: 10px;
-    color: #e2e8f0;
-
-
-    width: 15px;
-    height: 15px;
-    border: none;
-    background-color: #535353;
-    border-radius: 50%;
-
-
-    cursor: pointer;
-}
-
-
-.barraPesquisa-asOngs button{
-    background-color: transparent;
-    border: none;
-
-
-    font-size: 15px;
-    color: #535353;
-}
-
-
-.barraPesquisa-asOngs button:hover, i:hover{
-    font-size: 16px;
-    color: #ababab;
-}
-
-
-.box-ongs{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
-
-
-    margin-top: 50px;
-}
-
-
-.ong1, .ong2, .ong3{
-    width: 25%;
-    height: 100px;
-    box-sizing: border-box;
-
-
-    border: none;
-    border-radius: 15px;
-    background-color: #e2e8f0;
-
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-
-    padding: 10px 25px;
-    overflow-wrap: break-word;
-}
-
-
-.box-ongs div h2{
-    font-size: 20px;
-}
-
-
-.box-ongs div p{
-    font-size: 8px;
-}
-
-
-.box-ongs div a{
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    align-self: flex-end;
-
-
-    font-size: 10px;
-    font-weight: 100;
-    color: #e2e8f0;
-    text-decoration: none;
-
-
-    width: 15px;
-    height: 15px;
-    border: none;
-    background-color: #535353;
-    border-radius: 50%;
-
-
-    margin-top: 5px;
-}
-
-
-.box-ongs div a i{
-    -webkit-text-stroke: 0.3px #e2e8f0;
-}
-
-
-.container-asOngs button{
-    width: 30%;
-    height: 35px;
-    border-radius: 180px;
-}
-
 @keyframes pular {
     50% {
-        font-size: 28px;
+        font-size: 27px;
         transform: translateY(-3px);
     }
     100% {

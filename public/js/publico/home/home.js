@@ -99,7 +99,17 @@ map.on('style.load', () => {
                     map.setPaintProperty(id, 'line-width', ['interpolate', ['linear'], ['zoom'], 12, 2, 16, 5]);
                 }
             }
-        } catch (e) {}
+            if (camada.type === 'symbol' && camada.layout && camada.layout['text-field']) {
+                map.setLayoutProperty(id, 'text-field', [
+                    'coalesce',
+                    ['get', 'name:pt'],
+                    ['get', 'name']
+                ]);
+            }
+        } 
+        catch (e) {
+
+        }
     });
 });
 
@@ -191,25 +201,18 @@ function criarMarcadorEcoponto(ponto, lat, lng) {
 
 function atualizarPainelLateral(ponto) {
     const estadoEl = document.getElementById('estado');
-    const fotoOngEl = document.getElementById('foto-ong');
     const nomeEl = document.getElementById('nome-ecoponto');
     const enderecoEl = document.getElementById('endereco-ponto');
     const referenciaEl = document.getElementById('referencia-ponto');
     const horarioEl = document.getElementById('hr-funcionamento-ponto');
-    const capacidadeEl = document.getElementById('capacidade-ponto');
+    const telefoneEl = document.getElementById('telefone-ponto');
     const ongEl = document.getElementById('ong-ponto');
     const btnDetails = document.getElementById('see-details');
 
-    // Status Aberto / Fechado (adapte conforme o nome da coluna no seu PontoDeColeta)
     const estaAberto = ponto.ativo !== false;
     estadoEl.textContent = estaAberto ? '● Aberto agora' : '● Fechado agora';
     estadoEl.style.backgroundColor = estaAberto ? '#E2F3D1' : '#fde8e8';
     estadoEl.style.color = estaAberto ? '#36682B' : '#9b1c1c';
-
-    // Foto (usa a foto do ponto/ONG se houver, senão mantém a logo padrão)
-    if (ponto.foto) {
-        fotoOngEl.src = `/storage/${ponto.foto}`;
-    }
 
     // Nome do Ecoponto
     nomeEl.textContent = ponto.nome || `Ecoponto ${ponto.ong?.nome || ''}`;
@@ -228,8 +231,8 @@ function atualizarPainelLateral(ponto) {
     // Horário de funcionamento
     horarioEl.textContent = ponto.horario_funcionamento || 'Consulte horários com a ONG';
 
-    // Capacidade
-    capacidadeEl.innerHTML = `<span class="principal">Capacidade: </span>${ponto.capacidade || 'Não informada'}`;
+    // Telefone
+    telefoneEl.innerHTML = `<span class="principal">Telefone: </span>${ponto.ong?.telefone   || 'Não informada'}`;
 
     // Nome da ONG responsável
     ongEl.textContent = `ONG Responsável: ${ponto.ong?.nome || 'Não informada'}`;
@@ -349,3 +352,73 @@ centralizar.addEventListener('click', () => {
 
 // Inicia o carregamento dos marcadores do MySQL
 carregarPontosDoBanco();
+
+// ==========================================
+// 6. CARROSSEL DE PONTOS NO MAPA HERO
+// ==========================================
+
+let indiceHeroAtual = 0;
+
+function iniciarCarrosselHero() {
+    const pontosBanco = window.DADOS_BANCO?.pontos || [];
+    if (pontosBanco.length === 0) return;
+
+    const pElement = document.querySelector("#resumed-map p");
+    const nomeEcopointEl = document.getElementById("name-ecopoint");
+    const linkDetalhesEl = document.getElementById("link");
+    const cardResumedMap = document.getElementById("resumed-map");
+    const destaque = document.getElementById('destaque');
+    const pin = document.getElementById('pin');
+
+    function atualizarHero() {
+        const ponto = pontosBanco[indiceHeroAtual];
+        const nomeOng = ponto.ong?.nome || "ONG Parceira";
+        const statusTexto = (ponto.ativo !== false) ? "Aberto" : "Fechado";
+        
+        const listaMateriais = (ponto.materiais_aceitos && ponto.materiais_aceitos.length > 0)
+            ? ponto.materiais_aceitos.map(m => m.nome).join(', ')
+            : 'Materiais diversos';
+
+        if(pin) {
+            pin.innerText = `📍 Rede Ativa em ${ponto.endereco}`;
+        }
+
+        if(destaque) {
+            destaque.innerText = `Ponto em Destaque: ${ponto.nome}`;
+        }
+
+        if (pElement) {
+            pElement.innerHTML = `📍 - ${ponto.cidade || nomeOng} · ${statusTexto}`;
+        }
+
+        if (nomeEcopointEl) {
+            nomeEcopointEl.textContent = `Ecoponto da ${nomeOng} - Arrecadação aberta para: ${listaMateriais}.`;
+        }
+
+        if (linkDetalhesEl) {
+            linkDetalhesEl.href = `/pontos/${ponto.id}`;
+        }
+
+        if (cardResumedMap) {
+            cardResumedMap.onclick = (e) => {
+                e.preventDefault();
+                window.location.href = `/pontos/${ponto.id}`;
+            };
+        }
+
+        let lat = parseFloat(ponto.latitude);
+        let lng = parseFloat(ponto.longitude);
+        if (!isNaN(lat) && !isNaN(lng)) {
+            marcador.setLngLat([lng, lat]);
+            mapa.flyTo({ center: [lng, lat], zoom: 14.8, essential: true });
+        }
+
+        indiceHeroAtual = (indiceHeroAtual + 1) % pontosBanco.length;
+    }
+
+    atualizarHero();
+
+    setInterval(atualizarHero, 12000);
+}
+
+setTimeout(iniciarCarrosselHero, 500);

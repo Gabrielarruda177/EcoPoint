@@ -21,14 +21,14 @@ body {
     align-items: center;
     gap: .5rem;
     margin-bottom: 1.5rem;
-    color: #4b89b1;
+    color: #2E6930;
     text-decoration: none;
     font-size: .90rem;
     font-weight: 600;
 }
 
 .back-link:hover {
-    color: #2F6F98;
+    color: #1D3D1A;
     text-decoration: none;
 }
 
@@ -60,7 +60,7 @@ body {
     font-family: inherit;
     font-weight: 700;
     font-size: 2rem;
-    color: #2d7cb0;
+    color: #1D3D1A;
     margin: .75rem 0 .35rem;
     letter-spacing: -.02em;
     text-transform: none;
@@ -78,9 +78,9 @@ body {
 ================================================== */
 
 .badge-admin {
-    background: #eef7ff;
-    color: #2d7cb0;
-    border: 1px solid #cfe7fa;
+    background: #EBF2EA;
+    color: #1D3D1A;
+    border: 1px solid #D4E5D2;
     border-radius: 100px;
     padding: .4rem .9rem;
     font-size: .8rem;
@@ -121,7 +121,7 @@ body {
 .form-section-title {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #35546f;
+    color: #1D3D1A;
     margin-bottom: .4rem;
 }
 
@@ -212,8 +212,8 @@ textarea.form-control {
 
 .form-control:focus {
     outline: none;
-    border-color: #4da3d9;
-    box-shadow: 0 0 0 4px rgba(77,163,217,.12);
+    border-color: #3B7634;
+    box-shadow: 0 0 0 4px rgba(59, 118, 52, 0.16);
 }
 
 .form-hint {
@@ -282,8 +282,8 @@ textarea.form-control {
     border-radius: 999px;
     background: linear-gradient(
         135deg,
-        #4ea8db,
-        #3a97ce
+        #1D3D1A 0%,
+        #3B7634 100%
     );
     color: #fff;
     font-weight: 700;
@@ -291,13 +291,18 @@ textarea.form-control {
     cursor: pointer;
     text-transform: none;
     letter-spacing: 0;
-    box-shadow: 0 8px 20px rgba(78,168,219,.28);
+    box-shadow: 0 8px 20px rgba(29, 61, 26, 0.22);
     transition: all .25s ease;
 }
 
 .btn-submit:hover {
+    background: linear-gradient(
+        135deg,
+        #152E13 0%,
+        #2B5726 100%
+    );
     transform: translateY(-2px);
-    box-shadow: 0 12px 25px rgba(78,168,219,.35);
+    box-shadow: 0 12px 25px rgba(29, 61, 26, 0.3);
 }
 
 /* ==================================================
@@ -306,8 +311,14 @@ textarea.form-control {
 
 @media (max-width: 768px) {
 
+    .create-ong-container {
+        margin: 0.5rem auto 2rem;
+        padding: 0;
+    }
+
     .create-ong-card {
-        padding: 1.5rem;
+        padding: 1.4rem;
+        border-radius: 16px;
     }
 
     .form-grid {
@@ -315,7 +326,7 @@ textarea.form-control {
     }
 
     .create-ong-title {
-        font-size: 1.7rem;
+        font-size: 1.55rem;
     }
 
     .form-actions {
