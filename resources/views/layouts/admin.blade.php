@@ -9,12 +9,45 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('css/admin/sidebar.css') }}?v=2.0">
+    <link rel="stylesheet" href="{{ asset('css/admin/sidebar.css') }}?v=4.0">
     @yield('styles')
     @stack('styles')
 </head>
 <body class="admin-body">
 
+    {{-- TOPBAR MOBILE (visível somente em telas menores que 992px) --}}
+    <header class="admin-mobile-topbar" id="adminMobileTopbar">
+        <button type="button" class="mobile-hamburger-btn" id="mobileMenuBtn" aria-label="Abrir Menu Lateral">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+
+        <a href="{{ route('admin.dashboard') }}" class="mobile-brand-link">
+            <div class="mobile-brand-icon">
+                <svg width="20" height="20" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="18" cy="14" r="10" fill="#BCE39A"/>
+                    <path d="M18 6C13.5817 6 10 9.58172 10 14C10 19.25 18 26 18 26C18 26 26 19.25 26 14C26 9.58172 22.4183 6 18 6ZM18 17C16.3431 17 15 15.6569 15 14C15 12.3431 16.3431 11 18 11C19.6569 11 21 12.3431 21 14C21 15.6569 19.6569 17 18 17Z" fill="#8FD14F"/>
+                    <path d="M7 22.5L18 31L29 22.5" stroke="#3BA9E6" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="mobile-brand-text">
+                <span class="brand-eco">Eco</span><span class="brand-points">Points</span>
+                <span class="mobile-admin-tag">Admin</span>
+            </div>
+        </a>
+
+        <div class="mobile-user-avatar">
+            {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
+        </div>
+    </header>
+
+    {{-- OVERLAY / BACKDROP PARA MOBILE --}}
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+    {{-- BARRA LATERAL (SIDEBAR AUTOMÁTICA) --}}
     <aside class="admin-sidebar" id="adminSidebar" aria-label="Navegação Administrativa">
 
         <div class="sidebar-header">
@@ -33,6 +66,14 @@
                     <span class="brand-badge">Administração</span>
                 </div>
             </a>
+
+            {{-- BOTÃO FECHAR NO MOBILE --}}
+            <button type="button" class="sidebar-close-btn mobile-only" id="mobileSidebarClose" title="Fechar Menu" aria-label="Fechar menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
         </div>
 
         <nav class="sidebar-nav">
@@ -111,25 +152,96 @@
 
     <main class="admin-main-wrapper">
         @if (session('status') || session('success'))
-            <div class="alert-flash-success">
+            <div class="alert-flash alert-flash-success">
                 {{ session('status') ?? session('success') }}
             </div>
         @endif
 
         @if (session('warning'))
-            <div class="alert-flash-warning">
+            <div class="alert-flash alert-flash-warning">
                 {{ session('warning') }}
             </div>
         @endif
 
         @if (session('error'))
-            <div class="alert-flash-error">
+            <div class="alert-flash alert-flash-error">
                 {{ session('error') }}
             </div>
         @endif
 
         @yield('conteudo')
     </main>
+
+    {{-- SCRIPTS DO LAYOUT ADMIN (EXPANSÃO AUTOMÁTICA E RESPONSIVIDADE) --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const body = document.body;
+            const sidebar = document.getElementById('adminSidebar');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileCloseBtn = document.getElementById('mobileSidebarClose');
+            const backdrop = document.getElementById('sidebarBackdrop');
+
+            // Expansão / recolhimento automático da sidebar no desktop com push sincronizado do conteúdo
+            if (sidebar) {
+                sidebar.addEventListener('mouseenter', function() {
+                    if (window.innerWidth >= 992) {
+                        body.classList.add('sidebar-hovered');
+                    }
+                });
+
+                sidebar.addEventListener('mouseleave', function() {
+                    if (window.innerWidth >= 992) {
+                        body.classList.remove('sidebar-hovered');
+                    }
+                });
+
+                // Notifica gráficos para redimensionamento suave após a transição
+                sidebar.addEventListener('transitionend', function(e) {
+                    if (e.propertyName === 'width' && window.innerWidth >= 992) {
+                        window.dispatchEvent(new Event('resize'));
+                    }
+                });
+            }
+
+            // Abertura no mobile
+            function abrirMenuMobile() {
+                body.classList.add('mobile-sidebar-open');
+                if (backdrop) backdrop.classList.add('active');
+            }
+
+            // Fechamento no mobile
+            function fecharMenuMobile() {
+                body.classList.remove('mobile-sidebar-open');
+                if (backdrop) backdrop.classList.remove('active');
+            }
+
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', abrirMenuMobile);
+            }
+
+            if (mobileCloseBtn) {
+                mobileCloseBtn.addEventListener('click', fecharMenuMobile);
+            }
+
+            if (backdrop) {
+                backdrop.addEventListener('click', fecharMenuMobile);
+            }
+
+            // Fechar ao teclar ESC
+            window.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && body.classList.contains('mobile-sidebar-open')) {
+                    fecharMenuMobile();
+                }
+            });
+
+            // Reajustar classes ao redimensionar a tela
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 992) {
+                    fecharMenuMobile();
+                }
+            });
+        });
+    </script>
 
     @yield('scripts')
     @stack('scripts')

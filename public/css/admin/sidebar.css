@@ -1,35 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-    /* Paleta Base Admin (Verde Floresta Escuro + Azuis da Logo) */
-    --eco-forest-deep: #1D3D1A;      /* Base escura principal */
-    --eco-green-forest: #3B7634;     /* Verde da marca "Points" */
-    --eco-forest-muted: #2B5726;     /* Hover / variações escuras */
-    --eco-forest-tint: #EBF2EA;      /* Destaque sutil em fundo claro */
-    --eco-teal: #1B7393;             /* Azul petróleo "Eco" */
-    --eco-sky: #3BA9E6;              /* Azul celeste do livro */
+
+    --eco-forest-deep: #1D3D1A;         
+    --eco-green-forest: #3B7634;      
+    --eco-forest-muted: #2B5726;
+    --eco-forest-tint: #EBF2EA;
+    --eco-teal: #1B7393;            
+    --eco-sky: #3BA9E6;           
     --eco-sky-tint: #EFF8FD;
 
-    /* Neutros suaves e equilibrados */
-    --bg-canvas: #F5F7F5;            /* Fundo neutro sálvia bem leve */
-    --bg-surface: #FFFFFF;           /* Cards */
-    --border-soft: #E2E8E2;          /* Divisórias delicadas */
-    --text-primary: #1D2B1E;         /* Texto escuro elegante */
+    --bg-canvas: #F5F7F5;
+    --bg-surface: #FFFFFF;
+    --border-soft: #E2E8E2;
+    --text-primary: #1D2B1E;
     --text-secondary: #5C6D5E;
     --text-muted: #8A998C;
 
-    /* Sombras difusas */
-    --shadow-sidebar: 4px 0 24px rgba(29, 61, 26, 0.14);
-    --shadow-sidebar-hover: 12px 0 36px rgba(29, 61, 26, 0.24);
-    --shadow-sm: 0 2px 8px rgba(29, 43, 30, 0.04);
+    --sidebar-expanded-width: 260px;
+    --sidebar-collapsed-width: 78px;
 
-    /* Raios e Dimensões */
+    --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
     --font-display: 'Outfit', sans-serif;
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    --sidebar-collapsed-width: 78px;
-    --sidebar-expanded-width: 264px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
 body.admin-body {
@@ -44,29 +43,137 @@ body.admin-body {
 }
 
 /* ========================================================
-   SIDEBAR EM VERDE FLORESTA ESCURO (ELEGANTE E LEVE)
+   TOPBAR MOBILE (VISÍVEL SOMENTE < 992px)
+   ======================================================== */
+.admin-mobile-topbar {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    height: 62px;
+    padding: 0 1rem;
+    background: linear-gradient(90deg, var(--eco-forest-deep) 0%, #152E13 100%);
+    color: #FFFFFF;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 998;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-hamburger-btn {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.mobile-hamburger-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.mobile-brand-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.mobile-brand-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-brand-text {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mobile-brand-eco {
+    color: var(--eco-sky);
+}
+
+.mobile-brand-points {
+    color: #FFFFFF;
+}
+
+.mobile-admin-tag {
+    font-size: 0.65rem;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #FFFFFF;
+    font-weight: 500;
+}
+
+.mobile-user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--eco-teal) 0%, var(--eco-sky) 100%);
+    color: #FFFFFF;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========================================================
+   OVERLAY / BACKDROP PARA TELAS MENORES
+   ======================================================== */
+.sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(3px);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.sidebar-backdrop.active {
+    display: block;
+    opacity: 1;
+}
+
+/* ========================================================
+   SIDEBAR DESKTOP AUTOMÁTICA (EXPANDE NO HOVER E EMPURRA O CONTEÚDO)
    ======================================================== */
 .admin-sidebar {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
-    width: var(--sidebar-collapsed-width);
+    width: var(--sidebar-collapsed-width); /* 78px por padrão no desktop */
     background: linear-gradient(180deg, var(--eco-forest-deep) 0%, #152E13 100%);
     color: #FFFFFF;
-    z-index: 9999;
+    z-index: 999;
     overflow-x: hidden;
     overflow-y: auto;
-    transition: width 0.34s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.34s ease;
-    box-shadow: var(--shadow-sidebar);
+    transition: width 0.28s cubic-bezier(0.22, 1, 0.36, 1), transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
+    box-shadow: 4px 0 24px rgba(29, 61, 26, 0.12);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.admin-sidebar:hover {
-    width: var(--sidebar-expanded-width);
-    box-shadow: var(--shadow-sidebar-hover);
 }
 
 .admin-sidebar::-webkit-scrollbar {
@@ -77,19 +184,32 @@ body.admin-body {
     border-radius: 4px;
 }
 
-/* ========================================================
-   CABEÇALHO / MARCA ECOPOINTS
-   ======================================================== */
+/* EXPANSÃO AUTOMÁTICA NO HOVER (SEM BOTÃO MANUAL) */
+@media (min-width: 992px) {
+    .admin-sidebar:hover,
+    body.sidebar-hovered .admin-sidebar {
+        width: var(--sidebar-expanded-width); /* 260px */
+        box-shadow: 8px 0 32px rgba(29, 61, 26, 0.22);
+    }
+}
+
+/* CABEÇALHO DA SIDEBAR */
 .sidebar-header {
-    padding: 20px 17px 16px;
+    padding: 18px 17px 16px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    min-height: 74px;
 }
 
 .sidebar-brand-link {
     display: flex;
     align-items: center;
-    gap: 13px;
+    gap: 12px;
     text-decoration: none;
+    overflow: hidden;
 }
 
 .sidebar-brand-icon {
@@ -102,7 +222,7 @@ body.admin-body {
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: transform 0.25s ease;
+    transition: transform 0.2s ease;
 }
 
 .sidebar-brand-link:hover .sidebar-brand-icon {
@@ -112,22 +232,29 @@ body.admin-body {
 .sidebar-brand-text {
     display: flex;
     flex-direction: column;
+    white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-8px);
-    transition: opacity 0.24s ease, transform 0.28s ease, visibility 0.24s ease;
-    white-space: nowrap;
+    width: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 0.22s ease, width 0.25s ease;
 }
 
-.admin-sidebar:hover .sidebar-brand-text {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
+@media (min-width: 992px) {
+    .admin-sidebar:hover .sidebar-brand-text,
+    body.sidebar-hovered .sidebar-brand-text {
+        opacity: 1;
+        visibility: visible;
+        width: auto;
+        overflow: visible;
+        pointer-events: auto;
+    }
 }
 
 .brand-title {
     font-family: var(--font-display);
-    font-size: 1.38rem;
+    font-size: 1.35rem;
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.1;
@@ -149,12 +276,20 @@ body.admin-body {
     margin-top: 2px;
 }
 
-/* ========================================================
-   NAVEGAÇÃO SUAVE
-   ======================================================== */
+.sidebar-close-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    padding: 6px;
+    margin-left: auto;
+}
+
+/* NAVEGAÇÃO */
 .sidebar-nav {
     flex: 1;
-    padding: 20px 13px;
+    padding: 18px 12px;
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -164,9 +299,9 @@ body.admin-body {
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 11px 14px;
+    padding: 11px 15px;
     border-radius: var(--radius-md);
-    color: rgba(255, 255, 255, 0.72);
+    color: rgba(255, 255, 255, 0.75);
     text-decoration: none;
     font-size: 0.91rem;
     font-weight: 500;
@@ -176,13 +311,12 @@ body.admin-body {
 }
 
 .sidebar-link:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.09);
     color: #FFFFFF;
 }
 
-/* Estado Ativo: Translúcido refinado com filete azul celeste da logo */
 .sidebar-link.active {
-    background-color: rgba(255, 255, 255, 0.14);
+    background-color: rgba(255, 255, 255, 0.15);
     color: #FFFFFF;
     font-weight: 600;
 }
@@ -199,7 +333,7 @@ body.admin-body {
 }
 
 .sidebar-icon {
-    min-width: 24px;
+    min-width: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -210,29 +344,35 @@ body.admin-body {
     font-family: var(--font-sans);
     font-size: 0.9rem;
     letter-spacing: 0.01em;
+    white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-8px);
-    transition: opacity 0.22s ease, transform 0.26s ease, visibility 0.22s ease;
+    width: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 0.22s ease, width 0.25s ease;
 }
 
-.admin-sidebar:hover .sidebar-label {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
+@media (min-width: 992px) {
+    .admin-sidebar:hover .sidebar-label,
+    body.sidebar-hovered .sidebar-label {
+        opacity: 1;
+        visibility: visible;
+        width: auto;
+        overflow: visible;
+        pointer-events: auto;
+    }
 }
 
 .sidebar-divider {
     height: 1px;
     background-color: rgba(255, 255, 255, 0.1);
-    margin: 10px 8px;
+    margin: 10px 6px;
 }
 
-/* ========================================================
-   RODAPÉ: USUÁRIO E SAIR
-   ======================================================== */
+/* RODAPÉ DO MENU */
 .sidebar-footer {
-    padding: 14px 13px 18px;
+    padding: 14px 12px 18px;
     border-top: 1px solid rgba(255, 255, 255, 0.09);
     display: flex;
     flex-direction: column;
@@ -247,6 +387,7 @@ body.admin-body {
     border-radius: var(--radius-md);
     background-color: rgba(255, 255, 255, 0.06);
     white-space: nowrap;
+    overflow: hidden;
 }
 
 .sidebar-user-avatar {
@@ -258,7 +399,7 @@ body.admin-body {
     color: #FFFFFF;
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: 0.98rem;
+    font-size: 0.95rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -267,17 +408,24 @@ body.admin-body {
 .sidebar-user-info {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-8px);
-    transition: opacity 0.22s ease, transform 0.26s ease, visibility 0.22s ease;
-    overflow: hidden;
+    width: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease, width 0.25s ease;
 }
 
-.admin-sidebar:hover .sidebar-user-info {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
+@media (min-width: 992px) {
+    .admin-sidebar:hover .sidebar-user-info,
+    body.sidebar-hovered .sidebar-user-info {
+        opacity: 1;
+        visibility: visible;
+        width: auto;
+        overflow: visible;
+        pointer-events: auto;
+    }
 }
 
 .sidebar-user-name {
@@ -304,7 +452,7 @@ body.admin-body {
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 10px 14px;
+    padding: 10px 15px;
     border: none;
     background: transparent;
     color: rgba(255, 255, 255, 0.72);
@@ -322,28 +470,38 @@ body.admin-body {
     color: #FCA5A5;
 }
 
-.sidebar-logout-btn .sidebar-label {
-    color: inherit;
+/* ========================================================
+   CONTEÚDO PRINCIPAL (EMPURRADO SINCRONIZADAMENTE NO HOVER)
+   A SIDEBAR NUNCA COBRE AS COISAS!
+   ======================================================== */
+.admin-main-wrapper {
+    margin-left: var(--sidebar-collapsed-width); /* 78px */
+    width: calc(100% - var(--sidebar-collapsed-width));
+    min-height: 100vh;
+    padding: 2.2rem 2.8rem;
+    box-sizing: border-box;
+    transition: margin-left 0.28s cubic-bezier(0.22, 1, 0.36, 1), width 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Quando passa o mouse na sidebar, o conteúdo é empurrado simultaneamente */
+@media (min-width: 992px) {
+    .admin-sidebar:hover ~ .admin-main-wrapper,
+    body.sidebar-hovered .admin-main-wrapper {
+        margin-left: var(--sidebar-expanded-width); /* 260px */
+        width: calc(100% - var(--sidebar-expanded-width));
+    }
 }
 
 /* ========================================================
-   CONTEÚDO PRINCIPAL & ALERTAS
+   ALERTAS FLASH
    ======================================================== */
-.admin-main-wrapper {
-    margin-left: var(--sidebar-collapsed-width);
-    min-height: 100vh;
-    padding: 2.2rem 3rem;
-    box-sizing: border-box;
-    transition: margin-left 0.34s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
 .alert-flash {
     padding: 0.95rem 1.25rem;
     border-radius: var(--radius-md);
     margin-bottom: 1.5rem;
     font-size: 0.9rem;
     font-weight: 500;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     border: 1px solid transparent;
 }
 
@@ -366,17 +524,176 @@ body.admin-body {
 }
 
 /* ========================================================
-   RESPONSIVO
+   PAGINAÇÃO UNIVERSAL ECOPOINTS (ALINHADA E MODERNA)
    ======================================================== */
-@media (max-width: 768px) {
+.pagination-custom-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    padding: 1.2rem 1.6rem;
+    border-top: 1px solid var(--border-soft);
+    background-color: #FFFFFF;
+    width: 100%;
+}
+
+.pagination-info {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+}
+
+.pagination-info strong {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.pagination-numbers {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.pagination-btn,
+.pagination-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+    background-color: #FFFFFF;
+    color: #334155;
+    font-size: 0.86rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.pagination-number {
+    padding: 0;
+    width: 36px;
+}
+
+.pagination-btn:hover:not(.disabled),
+.pagination-number:hover:not(.active) {
+    background-color: #F8FAFC;
+    border-color: #CBD5E1;
+    color: var(--eco-teal);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.pagination-number.active {
+    background: linear-gradient(135deg, var(--eco-forest-deep) 0%, var(--eco-green-forest) 100%);
+    border-color: var(--eco-forest-deep);
+    color: #FFFFFF !important;
+    box-shadow: 0 3px 10px rgba(29, 61, 26, 0.25);
+    cursor: default;
+}
+
+.pagination-btn.disabled {
+    color: #94A3B8;
+    background-color: #F8FAFC;
+    border-color: #E2E8F0;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.pagination-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 36px;
+    color: #94A3B8;
+    font-weight: 700;
+}
+
+/* ========================================================
+   RESPONSIVIDADE (TABLET & MOBILE)
+   ======================================================== */
+.mobile-only {
+    display: none !important;
+}
+
+@media (max-width: 991px) {
+    .mobile-only {
+        display: flex !important;
+    }
+
+    .admin-mobile-topbar {
+        display: flex;
+    }
+
     .admin-sidebar {
-        width: 68px;
+        width: 270px;
+        transform: translateX(-100%);
+        z-index: 1001;
+        box-shadow: 8px 0 30px rgba(0, 0, 0, 0.3);
     }
-    .admin-sidebar:hover {
-        width: 240px;
+
+    body.mobile-sidebar-open .admin-sidebar {
+        transform: translateX(0);
     }
+
+    /* No mobile com drawer aberto, os textos ficam sempre visíveis */
+    body.mobile-sidebar-open .admin-sidebar .sidebar-brand-text,
+    body.mobile-sidebar-open .admin-sidebar .sidebar-label,
+    body.mobile-sidebar-open .admin-sidebar .sidebar-user-info {
+        opacity: 1;
+        visibility: visible;
+        width: auto;
+        overflow: visible;
+        pointer-events: auto;
+    }
+
     .admin-main-wrapper {
-        margin-left: 68px;
-        padding: 1.5rem 1.25rem;
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 1.4rem 1.1rem;
+    }
+
+    .sidebar-header {
+        justify-content: space-between;
+    }
+
+    .sidebar-close-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pagination-custom-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.85rem;
+    }
+
+    .pagination-nav {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .pagination-btn span {
+        display: none;
+    }
+
+    .pagination-btn {
+        width: 36px;
+        padding: 0;
     }
 }

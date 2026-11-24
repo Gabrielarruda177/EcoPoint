@@ -15,6 +15,9 @@
     <div class="dashboard-header-card">
         <div class="dashboard-header-content">
             <div>
+                <div class="dashboard-banner-brand">
+                    <img src="{{ asset('img/logo-ecopoints.png') }}" alt="EcoPoints - Seu livro, no próximo ponto" class="dashboard-banner-logo">
+                </div>
                 <h1 class="dashboard-title">Painel de Controle do Administrador</h1>
                 <p class="dashboard-welcome">
                     Seja bem-vindo(a), <strong>{{ auth()->user()->name }}</strong>
