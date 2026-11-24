@@ -52,14 +52,14 @@
         <div id="simple-map">
             <p id="pin">📍 Rede Ativa em -Local</p>
 
-            <p id="destaque">Ponto em Destaque</p>
+            <p id="destaque">Ponto em Destaque:</p>
 
-            <p id="name-ecopoint">Ecoponto FATEC Itaquera<?php /* -Local */ ?> - Arrecadação aberta para apostilas e manuais técnicos de tecnologia e gestão.<?php /*-Materiais-Aceitos*/ ?></p>
+            <p id="name-ecopoint">Ecoponto em - Arrecadação aberta para apostilas e manuais técnicos de tecnologia e gestão.<?php /*-Materiais-Aceitos*/ ?></p>
 
-            <a id="resumed-map" href="#as-ongs">
+            <div id="resumed-map">
                 <div id="map-simple"></div>
-                <p>📍 -<?php /* Cidade */?> FATEC Itaquera · -Aberto/Fechado</p>
-            </a>
+                <p>📍</p>
+            </div>
             
             <a id="link" href="#" target="_blank">
                 <p>Ver informações completas →</p>

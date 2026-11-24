@@ -144,15 +144,17 @@
 }
 
 #inicio #simple-map #pin {
-    width: 14rem;
+    width: fit-content;
     text-align: center;
-    align-content: center;
     height: 30px;
     font-weight: bolder;
     border-radius: 180px;
     background-color: #F2F6E8;
     color: #4D723F;
     margin: 10px 0 6px 0;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
 }
 
 #inicio #simple-map #destaque {
@@ -176,9 +178,9 @@
     display: flex;
     align-items: end;
     justify-content: center;
-    text-decoration: none;
     margin: 12px 0;
     background-color: #dfebd5;
+    outline: none;
 }
 
 #inicio #simple-map #resumed-map:hover {

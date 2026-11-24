@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const inputBusca = document.getElementById('search-ong');
     const botaoLimpar = document.querySelector('.limpar-ong');
     const cardsOngs = document.querySelectorAll('.card-ong');
-    const avisoNenhuma = document.getElementById('nenhuma-ong'); // Seleciona o aviso
+    const avisoNenhuma = document.getElementById('nenhuma-ong');
 
     function normalizarTexto(texto) {
         return texto

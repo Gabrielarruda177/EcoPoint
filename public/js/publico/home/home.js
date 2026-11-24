@@ -352,3 +352,73 @@ centralizar.addEventListener('click', () => {
 
 // Inicia o carregamento dos marcadores do MySQL
 carregarPontosDoBanco();
+
+// ==========================================
+// 6. CARROSSEL DE PONTOS NO MAPA HERO
+// ==========================================
+
+let indiceHeroAtual = 0;
+
+function iniciarCarrosselHero() {
+    const pontosBanco = window.DADOS_BANCO?.pontos || [];
+    if (pontosBanco.length === 0) return;
+
+    const pElement = document.querySelector("#resumed-map p");
+    const nomeEcopointEl = document.getElementById("name-ecopoint");
+    const linkDetalhesEl = document.getElementById("link");
+    const cardResumedMap = document.getElementById("resumed-map");
+    const destaque = document.getElementById('destaque');
+    const pin = document.getElementById('pin');
+
+    function atualizarHero() {
+        const ponto = pontosBanco[indiceHeroAtual];
+        const nomeOng = ponto.ong?.nome || "ONG Parceira";
+        const statusTexto = (ponto.ativo !== false) ? "Aberto" : "Fechado";
+        
+        const listaMateriais = (ponto.materiais_aceitos && ponto.materiais_aceitos.length > 0)
+            ? ponto.materiais_aceitos.map(m => m.nome).join(', ')
+            : 'Materiais diversos';
+
+        if(pin) {
+            pin.innerText = `📍 Rede Ativa em ${ponto.endereco}`;
+        }
+
+        if(destaque) {
+            destaque.innerText = `Ponto em Destaque: ${ponto.nome}`;
+        }
+
+        if (pElement) {
+            pElement.innerHTML = `📍 - ${ponto.cidade || nomeOng} · ${statusTexto}`;
+        }
+
+        if (nomeEcopointEl) {
+            nomeEcopointEl.textContent = `Ecoponto da ${nomeOng} - Arrecadação aberta para: ${listaMateriais}.`;
+        }
+
+        if (linkDetalhesEl) {
+            linkDetalhesEl.href = `/pontos/${ponto.id}`;
+        }
+
+        if (cardResumedMap) {
+            cardResumedMap.onclick = (e) => {
+                e.preventDefault();
+                window.location.href = `/pontos/${ponto.id}`;
+            };
+        }
+
+        let lat = parseFloat(ponto.latitude);
+        let lng = parseFloat(ponto.longitude);
+        if (!isNaN(lat) && !isNaN(lng)) {
+            marcador.setLngLat([lng, lat]);
+            mapa.flyTo({ center: [lng, lat], zoom: 14.8, essential: true });
+        }
+
+        indiceHeroAtual = (indiceHeroAtual + 1) % pontosBanco.length;
+    }
+
+    atualizarHero();
+
+    setInterval(atualizarHero, 12000);
+}
+
+setTimeout(iniciarCarrosselHero, 500);
