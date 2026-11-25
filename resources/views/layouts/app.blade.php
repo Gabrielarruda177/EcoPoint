@@ -73,7 +73,46 @@
     </main>
 
     <footer>
-        <p>EcoPoint &copy; {{ date('Y') }} - Sistema de Mapeamento de Pontos de Coleta de Livros e Apostilas Acadêmicas.</p>
+
+        <div class="footer-content">
+
+            <div class="sobre-nos-footer">
+
+                <h2>SOBRE NÓS</h2>
+
+                <p><!--inserir breve resumo do Isaac-->ffffffffffffffffffdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff</p>
+
+            </div>
+
+            <div class="ecopoints-footer">
+
+                <h2>ECOPOINTS</h2>
+
+                <ul>
+                    <li> <a href="{{ route('publico.home') }}">Início</a> </li>
+                    <li> <a href="#">Sobre Nós</a> </li>
+                    <li> <a href="#">As ONGs</a> </li>
+                    <li> <a href="#">Fale Conosco</a> </li>
+                </ul>        
+
+            </div>
+
+            <div class="fale-conosco-footer">
+
+                <h3>FALE CONOSCO</h3>
+
+                <ul>
+                    <li> <i class="fa-solid fa-phone"></i> (11) 9910-6070 </li>
+                    <li> <i class="fa-brands fa-whatsapp"></i> (11) 99100-6070 </li>
+                    <li> <i class="fa-solid fa-envelope"></i> ecopoints@eco.com.br </li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        <p class="copyright-txt">EcoPoint &copy; {{ date('Y') }} - Sistema de Mapeamento de Pontos de Coleta de Livros e Apostilas Acadêmicas.</p>
+
     </footer>
 
     <script src="{{ asset('js/app.js') }}"></script>
