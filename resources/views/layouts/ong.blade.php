@@ -10,8 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('img/icon-ecopoints.webp') }}" type="image/x-icon">
 
-    {{-- A sidebar é a mesma do painel Admin; o layout.css traz apenas os ajustes específicos da ONG --}}
-    <link rel="stylesheet" href="{{ asset('css/admin/sidebar.css') }}?v=2.0">
+    <link rel="stylesheet" href="{{ asset('css/admin/sidebar.css') }}?v=4.0">
     <link rel="stylesheet" href="{{ asset('css/ong/layout.css') }}?v=1.0">
     @yield('styles')
     @stack('styles')
@@ -22,6 +21,38 @@
         $usuarioLogado = auth()->user();
         $nomeExibicao = $usuarioLogado->ong->nome ?? $usuarioLogado->name;
     @endphp
+
+    {{-- TOPBAR MOBILE --}}
+    <header class="admin-mobile-topbar" id="ongMobileTopbar">
+        <button type="button" class="mobile-hamburger-btn" id="mobileMenuBtn" aria-label="Abrir Menu Lateral">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+
+        <a href="{{ route('ong.dashboard') }}" class="mobile-brand-link">
+            <div class="mobile-brand-icon">
+                <svg width="20" height="20" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="18" cy="14" r="10" fill="#BCE39A"/>
+                    <path d="M18 6C13.5817 6 10 9.58172 10 14C10 19.25 18 26 18 26C18 26 26 19.25 26 14C26 9.58172 22.4183 6 18 6ZM18 17C16.3431 17 15 15.6569 15 14C15 12.3431 16.3431 11 18 11C19.6569 11 21 12.3431 21 14C21 15.6569 19.6569 17 18 17Z" fill="#8FD14F"/>
+                    <path d="M7 22.5L18 31L29 22.5" stroke="#3BA9E6" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="mobile-brand-text">
+                <span class="brand-eco">Eco</span><span class="brand-points">Points</span>
+                <span class="mobile-admin-tag">ONG</span>
+            </div>
+        </a>
+
+        <div class="mobile-user-avatar">
+            {{ strtoupper(substr($nomeExibicao ?? 'O', 0, 1)) }}
+        </div>
+    </header>
+
+    {{-- BACKDROP PARA TELAS MENORES --}}
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
 
     <aside class="admin-sidebar" id="ongSidebar" aria-label="Navegação da Instituição">
 
@@ -41,10 +72,18 @@
                     <span class="brand-badge">Painel da ONG</span>
                 </div>
             </a>
+
+            {{-- BOTÃO FECHAR NO MOBILE --}}
+            <button type="button" class="sidebar-close-btn mobile-only" id="mobileSidebarClose" title="Fechar Menu" aria-label="Fechar menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
         </div>
 
         <nav class="sidebar-nav">
-            <a href="{{ route('ong.dashboard') }}" class="sidebar-link {{ request()->routeIs('ong.dashboard') ? 'active' : '' }}" title="Dashboard">
+            <a href="{{ route('ong.dashboard') }}" class="sidebar-link {{ request()->routeIs('ong.dashboard') ? 'active' : '' }}" title="Dashboard da Instituição">
                 <span class="sidebar-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/>
@@ -53,48 +92,39 @@
                 <span class="sidebar-label">Dashboard</span>
             </a>
 
-            <a href="{{ route('ong.pontos.index') }}" class="sidebar-link {{ request()->routeIs('ong.pontos.index') || request()->routeIs('ong.pontos.edit') ? 'active' : '' }}" title="Meus Pontos de Coleta">
+            <a href="{{ route('ong.pontos.index') }}" class="sidebar-link {{ request()->routeIs('ong.pontos.*') ? 'active' : '' }}" title="Gerenciar Meus Pontos de Coleta">
                 <span class="sidebar-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
                     </svg>
                 </span>
-                <span class="sidebar-label">Meus Pontos de Coleta</span>
+                <span class="sidebar-label">Pontos de Coleta</span>
             </a>
 
-            <a href="{{ route('ong.pontos.create') }}" class="sidebar-link {{ request()->routeIs('ong.pontos.create') ? 'active' : '' }}" title="Novo Ponto de Coleta">
+            <a href="{{ route('ong.perfil.edit') }}" class="sidebar-link {{ request()->routeIs('ong.perfil.*') ? 'active' : '' }}" title="Dados da Instituição">
                 <span class="sidebar-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="9"/><path d="M12 8v8"/><path d="M8 12h8"/>
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
                     </svg>
                 </span>
-                <span class="sidebar-label">Novo Ponto de Coleta</span>
-            </a>
-
-            <a href="{{ route('ong.perfil.edit') }}" class="sidebar-link {{ request()->routeIs('ong.perfil.*') ? 'active' : '' }}" title="Perfil da Organização">
-                <span class="sidebar-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/><path d="M12 14h.01"/>
-                    </svg>
-                </span>
-                <span class="sidebar-label">Perfil da Organização</span>
+                <span class="sidebar-label">Meu Perfil</span>
             </a>
 
             <div class="sidebar-divider"></div>
 
-            <a href="{{ route('publico.pontos.index') }}" class="sidebar-link" target="_blank" title="Ver Pontos de Coleta">
+            <a href="{{ route('publico.pontos.index') }}" class="sidebar-link" target="_blank" title="Ver no Mapa Público">
                 <span class="sidebar-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/>
+                        <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
                     </svg>
                 </span>
-                <span class="sidebar-label">Pontos de Coleta</span>
+                <span class="sidebar-label">Mapa Público</span>
             </a>
 
-            <a href="{{ route('publico.home') }}" class="sidebar-link" target="_blank" title="Abrir Site Público">
+            <a href="{{ route('publico.home') }}" class="sidebar-link" target="_blank" title="Página Inicial do EcoPoints">
                 <span class="sidebar-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
                     </svg>
                 </span>
                 <span class="sidebar-label">Ver Site Público</span>
@@ -128,25 +158,81 @@
 
     <main class="admin-main-wrapper ong-main-wrapper">
         @if (session('status') || session('success'))
-            <div class="alert-flash-success">
+            <div class="alert-flash alert-flash-success">
                 {{ session('status') ?? session('success') }}
             </div>
         @endif
 
         @if (session('warning'))
-            <div class="alert-flash-warning">
+            <div class="alert-flash alert-flash-warning">
                 {{ session('warning') }}
             </div>
         @endif
 
         @if (session('error'))
-            <div class="alert-flash-error">
+            <div class="alert-flash alert-flash-error">
                 {{ session('error') }}
             </div>
         @endif
 
         @yield('conteudo')
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const body = document.body;
+            const sidebar = document.getElementById('ongSidebar');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileCloseBtn = document.getElementById('mobileSidebarClose');
+            const backdrop = document.getElementById('sidebarBackdrop');
+
+            if (sidebar) {
+                sidebar.addEventListener('mouseenter', function() {
+                    if (window.innerWidth >= 992) {
+                        body.classList.add('sidebar-hovered');
+                    }
+                });
+
+                sidebar.addEventListener('mouseleave', function() {
+                    if (window.innerWidth >= 992) {
+                        body.classList.remove('sidebar-hovered');
+                    }
+                });
+
+                sidebar.addEventListener('transitionend', function(e) {
+                    if (e.propertyName === 'width' && window.innerWidth >= 992) {
+                        window.dispatchEvent(new Event('resize'));
+                    }
+                });
+            }
+
+            function abrirMenuMobile() {
+                body.classList.add('mobile-sidebar-open');
+                if (backdrop) backdrop.classList.add('active');
+            }
+
+            function fecharMenuMobile() {
+                body.classList.remove('mobile-sidebar-open');
+                if (backdrop) backdrop.classList.remove('active');
+            }
+
+            if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', abrirMenuMobile);
+            if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', fecharMenuMobile);
+            if (backdrop) backdrop.addEventListener('click', fecharMenuMobile);
+
+            window.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && body.classList.contains('mobile-sidebar-open')) {
+                    fecharMenuMobile();
+                }
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 992) {
+                    fecharMenuMobile();
+                }
+            });
+        });
+    </script>
 
     @yield('scripts')
     @stack('scripts')

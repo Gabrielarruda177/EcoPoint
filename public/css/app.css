@@ -32,6 +32,7 @@ body {
     color: #2d3748;
     line-height: 1.6;
     background: #D4EEAD;
+    overflow-x: hidden;
 }
 
 /* ---- Header ---- */
@@ -349,7 +350,7 @@ footer .copyright-txt{
 @keyframes pula {
     50% {
         transform: translateY(-3px);
-        font-size: 18px;
+        font-size: 19px;
     }
     100% {
         transform: translateY(0);

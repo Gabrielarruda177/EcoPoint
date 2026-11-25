@@ -116,12 +116,12 @@ p{
     flex-direction: column;
     gap: 4px;
     box-sizing: border-box;
-
+    text-decoration: none;
     height: auto;
     border-radius: 15px;
-
+    color: #000;
     padding: 14px 20px;
-
+    outline: none;
     background-color: #fbfbfb;
 }
 
