@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('titulo', 'Detalhes do Ponto de Coleta')
+@section('titulo', $ponto->nome ?? "Perfil do ponto")
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/publico/pontos-show.css') }}?v=1.0">
@@ -21,14 +21,14 @@
         ============================================================-->
         <div class="diretorio-section">
 
-            <a href="{{ asset('css/publico/home.css') }}?v=1.0">Início</a>
-            <a href="#">
+            <a href="{{ route('publico.home') }}?v=1.0">Início</a>
+            <a href="{{ route('publico.home') }}#local">
                 <i class="fa-solid fa-chevron-right"></i>
                 Localize Aqui
             </a>
             <a>
                 <i class="fa-solid fa-chevron-right"></i>
-                Ponto Central - Biblioteca Comunitária  <!--BACK END-->
+                {{$ponto->nome}}
             </a>
 
         </div>
@@ -47,13 +47,13 @@
             <!--============================================================
                 2.1.2 INFOS PRINCIPAIS
                 ============================================================-->
-                <h2>Ponto Central - Biblioteca Comunitária</h2>
+                <h2>{{$ponto->nome}}</h2>
                 
                 <div class="resumo-infos-box">
 
-                    <p>Aberto</p> <!--BACK END-->
+                    <p>{{$ponto->ativo ? 'Aberto' : 'Fechado'}}</p> <!--BACK END-->
 
-                    <p>Bela Vista, SP</p> <!--BACK END-->
+                    <p>{{ $ponto->bairro }}{{ $ponto->estado ? ', ' . $ponto->estado : '' }}</p> <!--BACK END-->
 
                 </div>
 
@@ -61,14 +61,22 @@
 
                     <p>
                         <i class="fa-solid fa-location-dot" style="font-size: 0.9rem;"></i>
-                        Avenida Paulista, 1000 - sala 102 - Bela Vista, São Paulo - SP <!--BACK END-->
+                        {{ $ponto->endereco }}{{ $ponto->numero ? ', ' . $ponto->numero : '' }}
+                        {{ $ponto->complemento ? ' - ' . $ponto->complemento : '' }}
+                        - {{ $ponto->bairro }}, {{ $ponto->cidade }} - {{ $ponto->estado }}
                     </p>
 
-                    <p> <i class="fa-regular fa-clock" style="visibility: hidden;"></i>
-                        Próximo a... </p> <!--BACK END-->
+                    @if($ponto->complemento)
+                        <p>
+                            <i class="fa-regular fa-clock" style="visibility: hidden;"></i>
+                            {{ $ponto->complemento }}
+                        </p>
+                    @endif
 
-                    <p> <i class="fa-regular fa-clock" style="-webkit-text-stroke: 0.2px currentColor;"></i>
-                        Segunda a Sexta, das 09h às 17h</p> <!--BACK END-->
+                    <p>
+                        <i class="fa-regular fa-clock" style="-webkit-text-stroke: 0.2px currentColor;"></i>
+                        {{ $ponto->horario_funcionamento ?? 'Consulte horários com a ONG' }}
+                    </p>
 
                 </div>
 
@@ -80,11 +88,21 @@
                     <h3>Materiais aceitos</h3>
 
                     <div class="materiais-lista"> <!--BACK END-->
-                        <p> Apostilas Pré-Vestibular / ENEM <i class="fa-solid fa-check"></i> </p>
-                        <p> Livros Didáticos (Ensino Fundamental / Médio) <i class="fa-solid fa-check"></i> </p>
-                        <p> Livros Literários / Paradidáticos <i class="fa-solid fa-check"></i> </p>
-                        <p> Livros Universitários / Acadêmicos <i class="fa-solid fa-check"></i> </p>
-                        <p> Dicionários e Enciclopédias <i class="fa-solid fa-xmark"></i> </p>
+                        @php
+                            $idsAceitos = $ponto->materiaisAceitos->pluck('id')->toArray();
+                        @endphp
+
+                        @forelse($todosMateriais as $material)
+                            @php
+                                $aceito = in_array($material->id, $idsAceitos);
+                            @endphp
+                            <p>
+                                {{ $material->nome }} 
+                                <i class="fa-solid {{ $aceito ? 'fa-check' : 'fa-xmark' }}"></i>
+                            </p>
+                        @empty
+                            <p>Nenhum material cadastrado.</p>
+                        @endforelse
                     </div>
         
                 </div>
@@ -93,22 +111,16 @@
                 2.1.4 REQUISITOS
                 ============================================================-->
                 <div class="requisitos-box">
-
                     <h3>Requisitos</h3>
-
-<!--BACK END--> <p>tteeeeeeeeeeeextotteeeeeeeeeeeeextotteeeeeeeeeeeeextotteeeeeeeeeeeeextotteeeeeeeeeeeeextotteeeeeeeeeeeeextotteeeeeeeeeeeeextotteeeeeeeeeeeeextotteeeeeeeeeeeeexto</p>
-
+                    <p>{{ $ponto->requisitos ?? 'Livros e apostilas em bom estado de conservação.' }}</p>
                 </div>
 
             <!--============================================================
                 2.1.5 DESCRIÇÃO
                 ============================================================-->
                 <div class="descricao-box">
-
                     <h3>Descrição</h3>
-
-                    <p>teeeeeeeeexto</p> <!--BACK END-->
-
+                    <p>{{ $ponto->descricao ?? 'Nenhuma descrição informada para este ponto de coleta.' }}</p>
                 </div>
 
             </div>
@@ -121,21 +133,20 @@
 
                 <div class="ong-img-box">
 
-                    <img src="{{ asset('img/imgBiblioteca.jpeg') }}" alt="Img frontal do ecoponto"></img>
+                    <img src="{{ asset('img/bibliotecas.png') }}" alt="Img frontal do ecoponto"></img>
                     
-                    <div class="ong-card"> <!--link visualizar perfil ong-->
+                    @if($ponto->ong)
+                        <div class="ong-card">
+                            <div class="ong-main-infos">
+                                <img src="{{ $ponto->ong->logo ? asset('storage/' . $ponto->ong->logo) : asset('img/default-ong.png') }}" alt="Logo {{ $ponto->ong->nome }}">
+                                <p>{{ $ponto->ong->nome }}</p>
+                            </div>
 
-                        <div class="ong-main-infos">
-
-                            <img src="#"></img> <!--<!--BACK END inserir logo ong-->
-                            
-                            <p>ONG Viva Esperança</p> <!--BACK END-->
-
+                            <a href="{{ route('publico.ongs.show', $ponto->ong) }}">
+                                Ver perfil da ONG <i class="fa-solid fa-chevron-right"></i>
+                            </a>
                         </div>
-
-                        <a href="#"> Ver perfil da ONG <i class="fa-solid fa-chevron-right"></i> </a>
-                    
-                    </div>
+                    @endif
 
                 </div>
             
@@ -144,5 +155,7 @@
         </section>
     
     </main>
+
+    <script src="{{ asset('js/publico/pontos/show.js') }}"></script>
 
 @endsection

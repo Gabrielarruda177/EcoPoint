@@ -35,15 +35,15 @@
 
             <div id="add-info">
                 <div class="block">
-                    <p class="title">asdasd</p>
+                    <p class="title">+14.800</p>
                     <p class="subtitle">Livros em circulação</p>
                 </div>
                 <div class="block">
-                    <p class="title">asdasd</p>
+                    <p class="title">+5.9 Ton.</p>
                     <p class="subtitle">Papel reciclado / reutilizado</p>
                 </div>
                 <div class="block">
-                    <p class="title">asdasd</p>
+                    <p class="title">100%</p>
                     <p class="subtitle">Acesso comunitário livre</p>
                 </div>
             </div>
@@ -52,14 +52,14 @@
         <div id="simple-map">
             <p id="pin">📍 Rede Ativa em -Local</p>
 
-            <p id="destaque">Ponto em Destaque</p>
+            <p id="destaque">Ponto em Destaque:</p>
 
-            <p id="name-ecopoint">Ecoponto FATEC Itaquera<?php /* -Local */ ?> - Arrecadação aberta para apostilas e manuais técnicos de tecnologia e gestão.<?php /*-Materiais-Aceitos*/ ?></p>
+            <p id="name-ecopoint">Ecoponto em - Arrecadação aberta para apostilas e manuais técnicos de tecnologia e gestão.<?php /*-Materiais-Aceitos*/ ?></p>
 
-            <a id="resumed-map" href="#as-ongs">
+            <div id="resumed-map">
                 <div id="map-simple"></div>
-                <p>📍 -<?php /* Cidade */?> FATEC Itaquera · -Aberto/Fechado</p>
-            </a>
+                <p>📍</p>
+            </div>
             
             <a id="link" href="#" target="_blank">
                 <p>Ver informações completas →</p>
@@ -92,8 +92,12 @@
 
             <select id="filter-ongs">
                 <option value="all">Todas as ONGs</option>
-                <?php //Colocar todas as ONGs cadastradas ?>
+                @foreach($ongs as $ong)
+                    <option value="{{ $ong->id }}">{{ $ong->nome }}</option>
+                @endforeach
             </select>
+
+
 
             <button id="btn-centralizar">
                 <p>Recentralizar</p>
@@ -102,10 +106,7 @@
         <div id="map-area">
             <div id="map-local"></div>
             <div id="simple-desc">
-                <div id="foto">
-                    <p id="estado"> ● Aberto / Fechado agora</p>
-                    <img src="{{ asset('img/logo-ecopoints.webp') }}"id="foto-ong">
-                </div>
+                <p id="estado"> ● Aberto / Fechado agora</p>
 
                 <p id="nome-ecoponto">Ecoponto XXXXXX</p>
 
@@ -124,9 +125,9 @@
                     <p id="hr-funcionamento-ponto" class="p-detalhes">XXXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXX</p>
                 </div>
 
-                <div id="capacidade" class="detalhes">
-                    <p id="emoji">📦</p>
-                    <p id="capacidade-ponto" class="p-detalhes"><span class="principal">Capacidade: </span>XXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX</p>
+                <div id="telefone" class="detalhes">
+                    <p id="emoji">📞</p>
+                    <p id="telefone-ponto" class="p-detalhes"><span class="principal">Telefone: </span>XXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX</p>
                 </div>
 
                 <div id="ong-responsavel">
@@ -141,95 +142,14 @@
         </div>
     </section>
 
-    <section id="as-ongs">
-
-
-        <div class="container-asOngs">
-           
-            <h1>As ONGs</h1>
-
-
-            <p> </p>
-
-
-            <div class="barraPesquisa-asOngs">
-
-
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-
-                <button type="submit" class="pesquisar-ong" onclick="document.getElementById('search-ong').focus()">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-
-
-                <input type="search" placeholder="Ex: Instituto Saber e Leitura" id="search-ong">
-
-
-                <button type="submit" class="limpar-ong">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-
-
-                <button type="submit" class="microfone-ong">
-                    <i class="fa-solid fa-microphone"></i>
-                </button>
-           
-            </div>
-
-
-           
-            <div class="box-ongs">
-
-
-                <div class="ong1">
-                   
-                    <h2>ONG</h2>
-                    <p>txtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxt</p>
-                    <a href="">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-
-
-                </div>
-
-
-                <div class="ong2">
-                   
-                    <h2>ONG</h2>
-                    <p>txtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxt</p>
-                    <a href="">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-
-
-                </div>
-
-
-                <div class="ong3">
-                   
-                    <h2>ONG</h2>
-                    <p>txtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxttxtxtxtxt</p>
-                    <a href="">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-
-
-                </div>
-
-
-            </div>
-
-
-            <button>Ver mais</button>
-
-
-        </div>    
-
-
-    </section>
-
+    <script>
+        window.DADOS_BANCO = {
+            pontos: @json($pontos),
+            ongs: @json($ongs)
+        };
+    </script>
     <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
     <script src="{{ asset('js/publico/home/home.js') }}"></script>
+
 
 @endsection
