@@ -59,8 +59,6 @@ const marcador = new maplibregl.Marker({ element: elMarcador })
     .setLngLat([-46.4758, -23.5236])
     .addTo(mapa);
 
-buscarEndereco('Fatec Itaquera', mapa, marcador, true);
-
 // ==========================================
 // 2. MAPA COMPLETO (LOCALIZE AQUI)
 // ==========================================
@@ -106,8 +104,9 @@ map.on('style.load', () => {
                     ['get', 'name']
                 ]);
             }
-        } catch (e) {
-            
+        } 
+        catch (e) {
+
         }
     });
 });
@@ -200,28 +199,23 @@ function criarMarcadorEcoponto(ponto, lat, lng) {
 
 function atualizarPainelLateral(ponto) {
     const estadoEl = document.getElementById('estado');
-    const fotoOngEl = document.getElementById('foto-ong');
     const nomeEl = document.getElementById('nome-ecoponto');
     const enderecoEl = document.getElementById('endereco-ponto');
     const referenciaEl = document.getElementById('referencia-ponto');
     const horarioEl = document.getElementById('hr-funcionamento-ponto');
-    const capacidadeEl = document.getElementById('telefone-ponto');
+    const telefoneEl = document.getElementById('telefone-ponto');
     const ongEl = document.getElementById('ong-ponto');
     const btnDetails = document.getElementById('see-details');
 
-    // Status Aberto / Fechado (adapte conforme o nome da coluna no seu PontoDeColeta)
     const estaAberto = ponto.ativo !== false;
     estadoEl.textContent = estaAberto ? '● Aberto agora' : '● Fechado agora';
     estadoEl.style.backgroundColor = estaAberto ? '#E2F3D1' : '#fde8e8';
     estadoEl.style.color = estaAberto ? '#36682B' : '#9b1c1c';
 
-    // Foto (usa a foto do ponto/ONG se houver, senão mantém a logo padrão)
-    if (ponto.foto) {
-        fotoOngEl.src = `/storage/${ponto.foto}`;
-    }
-
+    // Nome do Ecoponto
     nomeEl.textContent = ponto.nome || `Ecoponto ${ponto.ong?.nome || ''}`;
 
+    // Endereço formatado
     const rua = ponto.endereco || '';
     const num = ponto.numero ? `, ${ponto.numero}` : '';
     const bairro = ponto.bairro ? ` - ${ponto.bairro}` : '';
@@ -229,14 +223,19 @@ function atualizarPainelLateral(ponto) {
     const uf = ponto.estado ? ` - ${ponto.estado}` : '';
     enderecoEl.textContent = `${rua}${num}${bairro}${cidade}${uf}`;
 
+    // Ponto de referência (usa complemento ou ponto_referencia do seu banco)
     referenciaEl.textContent = ponto.ponto_referencia || ponto.complemento || 'Sem ponto de referência informado';
 
+    // Horário de funcionamento
     horarioEl.textContent = ponto.horario_funcionamento || 'Consulte horários com a ONG';
 
-    capacidadeEl.innerHTML = `<span class="principal">Capacidade: </span>${ponto.ong?.telefone || 'Não informada'}`;
+    // Telefone
+    telefoneEl.innerHTML = `<span class="principal">Telefone: </span>${ponto.ong?.telefone   || 'Não informada'}`;
 
+    // Nome da ONG responsável
     ongEl.textContent = `ONG Responsável: ${ponto.ong?.nome || 'Não informada'}`;
 
+    // Ação do botão "Ver Detalhes Completos"
     btnDetails.onclick = () => {
         window.location.href = `/pontos/${ponto.id}`; 
     };
@@ -303,6 +302,7 @@ localizar.addEventListener('click', () => {
     }
 });
 
+// Permite buscar apertando Enter no input
 local.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         e.preventDefault();
@@ -324,8 +324,8 @@ function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
 }
 
 function aplicarFiltros() {
-    const raioMax = distance.value;
-    const ongId = ongs.value;
+    const raioMax = distance.value; // 'all', '2', '5', '10', '25'
+    const ongId = ongs.value;       // 'all' ou ID da ONG
 
     listaPontos.forEach(ponto => {
         const dist = calcularDistanciaKm(centroAtual.lat, centroAtual.lng, ponto.lat, ponto.lng);
@@ -348,6 +348,7 @@ centralizar.addEventListener('click', () => {
     });
 });
 
+// Inicia o carregamento dos marcadores do MySQL
 carregarPontosDoBanco();
 
 // ==========================================
@@ -415,7 +416,7 @@ function iniciarCarrosselHero() {
 
     atualizarHero();
 
-    setInterval(atualizarHero, 10000);
+    setInterval(atualizarHero, 12000);
 }
 
 setTimeout(iniciarCarrosselHero, 500);

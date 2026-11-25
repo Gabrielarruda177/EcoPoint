@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('titulo', 'Detalhes do Ponto de Coleta')
+@section('titulo', $ponto->nome ?? "Perfil do ponto")
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/publico/pontos-show.css') }}?v=1.0">
@@ -133,7 +133,7 @@
 
                 <div class="ong-img-box">
 
-                    <img src="{{ asset('img/imgBiblioteca.jpeg') }}" alt="Img frontal do ecoponto"></img>
+                    <img src="{{ asset('img/bibliotecas.png') }}" alt="Img frontal do ecoponto"></img>
                     
                     @if($ponto->ong)
                         <div class="ong-card">
