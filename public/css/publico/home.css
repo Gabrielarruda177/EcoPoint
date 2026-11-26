@@ -545,6 +545,14 @@
     #inicio #resume #add-info .block .subtitle {
         font-size: 17px;
     }
+
+    #local #map-area {
+        width: 90vw;
+    }
+
+    #local #map-area #map-local {
+        width: 100%;
+    }
 }
 
 @keyframes pular {
