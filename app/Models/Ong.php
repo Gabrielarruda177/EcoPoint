@@ -61,4 +61,12 @@ class Ong extends Model
     {
         return $this->hasMany(PontoDeColeta::class);
     }
+
+    /**
+     * Relacionamento: Solicitações de alteração de dados cadastrais (nome, endereço).
+     */
+    public function solicitacoesAlteracao(): HasMany
+    {
+        return $this->hasMany(SolicitacaoAlteracaoOng::class, 'ong_id');
+    }
 }

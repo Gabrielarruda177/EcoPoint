@@ -328,20 +328,22 @@ class OngPontoDeColetaTest extends TestCase
     }
 
     /**
-     * Testa se a ONG consegue visualizar e atualizar seu perfil institucional.
+     * Testa se a ONG consegue visualizar e atualizar seu perfil institucional (campos autônomos).
      */
     public function test_ong_pode_atualizar_seu_perfil_institucional(): void
     {
         [$usuario, $ong] = $this->criarUsuarioEOng('Nome Original', 'ong@original.org');
+        $cnpjOriginal = $ong->cnpj;
 
         $responseGet = $this->actingAs($usuario)->get(route('ong.perfil.edit'));
         $responseGet->assertStatus(200);
-        $responseGet->assertSee('Perfil Institucional da Organização');
+        $responseGet->assertSee('Perfil Institucional');
         $responseGet->assertSee('Nome Original');
 
         $responsePut = $this->actingAs($usuario)->put(route('ong.perfil.update'), [
-            'nome' => 'Nome da ONG Atualizado',
-            'cnpj' => '99.888.777/0001-66',
+            'nome' => 'Tentativa de Mudar Nome Direto',
+            'cnpj' => '00.000.000/0000-00',
+            'email' => 'novo_login@original.org',
             'telefone' => '(11) 91111-2222',
             'email_contato' => 'novo@ong.org',
             'descricao' => 'Nova descrição institucional.',
@@ -350,18 +352,77 @@ class OngPontoDeColetaTest extends TestCase
         $responsePut->assertRedirect(route('ong.perfil.edit'));
         $responsePut->assertSessionHas('success', 'Perfil da instituição atualizado com sucesso!');
 
+        // Campos diretos atualizados
         $this->assertDatabaseHas('ongs', [
             'id' => $ong->id,
-            'nome' => 'Nome da ONG Atualizado',
-            'cnpj' => '99.888.777/0001-66',
+            'nome' => 'Nome Original', // Nome mantido inalterado
+            'cnpj' => $cnpjOriginal,   // CNPJ inalterado
             'telefone' => '(11) 91111-2222',
             'email_contato' => 'novo@ong.org',
+            'descricao' => 'Nova descrição institucional.',
         ]);
 
         $this->assertDatabaseHas('users', [
             'id' => $usuario->id,
-            'name' => 'Nome da ONG Atualizado',
+            'email' => 'novo_login@original.org',
         ]);
+    }
+
+    /**
+     * Testa se a ONG consegue alternar o status do seu ponto de coleta.
+     */
+    public function test_ong_pode_alternar_status_do_seu_ponto(): void
+    {
+        [$usuario, $ong] = $this->criarUsuarioEOng();
+        $ponto = PontoDeColeta::create([
+            'ong_id' => $ong->id,
+            'nome' => 'Ponto Alternar',
+            'endereco' => 'Rua das Flores',
+            'numero' => '123',
+            'cidade' => 'São Paulo',
+            'estado' => 'SP',
+            'ativo' => true,
+        ]);
+
+        $response = $this->actingAs($usuario)->patch(route('ong.pontos.toggleStatus', $ponto));
+        $response->assertRedirect(route('ong.pontos.index'));
+        $response->assertSessionHas('success');
+
+        $this->assertDatabaseHas('pontos_de_coleta', [
+            'id' => $ponto->id,
+            'ativo' => false,
+        ]);
+
+        $response2 = $this->actingAs($usuario)->patch(route('ong.pontos.toggleStatus', $ponto));
+        $response2->assertRedirect(route('ong.pontos.index'));
+        $this->assertDatabaseHas('pontos_de_coleta', [
+            'id' => $ponto->id,
+            'ativo' => true,
+        ]);
+    }
+
+    /**
+     * Testa se a dashboard da ONG carrega com métricas e gráficos.
+     */
+    public function test_dashboard_da_ong_carrega_com_sucesso(): void
+    {
+        [$usuario, $ong] = $this->criarUsuarioEOng();
+        PontoDeColeta::create([
+            'ong_id' => $ong->id,
+            'nome' => 'Ponto 1',
+            'endereco' => 'Avenida Paulista',
+            'numero' => '1000',
+            'cidade' => 'São Paulo',
+            'estado' => 'SP',
+            'ativo' => true,
+        ]);
+
+        $response = $this->actingAs($usuario)->get(route('ong.dashboard'));
+        $response->assertStatus(200);
+        $response->assertSee('Painel da Instituição');
+        $response->assertSee('Métricas da Sua Organização');
+        $response->assertSee('Status Operacional dos Pontos');
+        $response->assertSee('Pontos de Coleta por Cidade');
     }
 }
 

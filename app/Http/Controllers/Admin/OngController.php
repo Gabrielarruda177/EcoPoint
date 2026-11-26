@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Ong;
 use App\Models\User;
+use App\Models\SolicitacaoAlteracaoOng;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,11 +25,13 @@ class OngController extends Controller
      */
     public function index(): View
     {
-        $ongs = Ong::with('user')
+        $ongs = Ong::with(['user', 'pontosDeColeta'])
             ->latest()
             ->paginate(10);
 
-        return view('admin.ongs.index', compact('ongs'));
+        $totalPendentes = SolicitacaoAlteracaoOng::where('status', 'pendente')->count();
+
+        return view('admin.ongs.index', compact('ongs', 'totalPendentes'));
     }
 
     /**
@@ -47,7 +50,7 @@ class OngController extends Controller
     {
         $dados = $request->validate([
             'nome' => ['required', 'string', 'max:255'],
-            'cnpj' => ['nullable', 'string', 'max:18'],
+            'cnpj' => ['required', 'string', 'max:18'],
             'telefone' => ['nullable', 'string', 'max:20'],
             'email_contato' => ['nullable', 'email', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
