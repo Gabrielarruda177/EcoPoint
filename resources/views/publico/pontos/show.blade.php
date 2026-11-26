@@ -133,12 +133,12 @@
 
                 <div class="ong-img-box">
 
-                    <img src="{{ asset('img/bibliotecas.png') }}" alt="Img frontal do ecoponto"></img>
+                    <img src="{{ $ponto->imagem ? asset('storage/' . $ponto->imagem) : asset('img/bibliotecas.png') }}" alt="Img frontal do ecoponto {{ $ponto->nome }}">
                     
                     @if($ponto->ong)
                         <div class="ong-card">
                             <div class="ong-main-infos">
-                                <img src="{{ $ponto->ong->logo ? asset('storage/' . $ponto->ong->logo) : asset('img/default-ong.png') }}" alt="Logo {{ $ponto->ong->nome }}">
+                                <img src="{{ $ponto->ong->logo ? asset('storage/' . $ponto->ong->logo) : asset('img/icon-ecopoints.webp') }}" alt="Logo {{ $ponto->ong->nome }}">
                                 <p>{{ $ponto->ong->nome }}</p>
                             </div>
 

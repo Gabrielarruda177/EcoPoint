@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PerfilController extends Controller
@@ -46,6 +47,8 @@ class PerfilController extends Controller
             'telefone' => ['nullable', 'string', 'max:20'],
             'email_contato' => ['nullable', 'email', 'max:255'],
             'descricao' => ['nullable', 'string'],
+            'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'remover_logo' => ['nullable', 'boolean'],
             'senha_atual' => ['nullable', 'required_with:nova_senha', 'string'],
             'nova_senha' => ['nullable', 'string', 'min:8', 'confirmed'],
         ], [
@@ -64,13 +67,28 @@ class PerfilController extends Controller
             }
         }
 
-        DB::transaction(function () use ($dados, $ong, $usuario) {
+        $caminhoLogo = $ong->logo;
+
+        if ($request->hasFile('logo')) {
+            if ($ong->logo && Storage::disk('public')->exists($ong->logo)) {
+                Storage::disk('public')->delete($ong->logo);
+            }
+            $caminhoLogo = $request->file('logo')->store('ongs', 'public');
+        } elseif ($request->boolean('remover_logo')) {
+            if ($ong->logo && Storage::disk('public')->exists($ong->logo)) {
+                Storage::disk('public')->delete($ong->logo);
+            }
+            $caminhoLogo = null;
+        }
+
+        DB::transaction(function () use ($dados, $ong, $usuario, $caminhoLogo) {
             $ong->update([
                 'nome' => $dados['nome'],
                 'cnpj' => $dados['cnpj'] ?? null,
                 'telefone' => $dados['telefone'] ?? null,
                 'email_contato' => $dados['email_contato'] ?? null,
                 'descricao' => $dados['descricao'] ?? null,
+                'logo' => $caminhoLogo,
             ]);
 
             // Atualiza também o nome no registro do User

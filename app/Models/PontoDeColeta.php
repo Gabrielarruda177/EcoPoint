@@ -23,6 +23,7 @@ class PontoDeColeta extends Model
         'ong_id',
         'nome',
         'descricao',
+        'imagem',
         'cep',
         'endereco',
         'numero',
@@ -47,6 +48,14 @@ class PontoDeColeta extends Model
             'latitude' => 'float',
             'longitude' => 'float',
         ];
+    }
+
+    /**
+     * Retorna a URL da imagem do ponto de coleta ou a imagem padrão.
+     */
+    public function getImagemUrlAttribute(): string
+    {
+        return $this->imagem ? asset('storage/' . $this->imagem) : asset('img/bibliotecas.png');
     }
 
     /**

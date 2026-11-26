@@ -32,7 +32,7 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.ongs.update', $ong) }}" method="POST">
+        <form action="{{ route('admin.ongs.update', $ong) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -101,6 +101,27 @@
                         class="form-control"
                         placeholder="Breve resumo da missão e das atividades da ONG..."
                     >{{ old('descricao', $ong->descricao) }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="logo" class="form-label">Logo / Imagem da Instituição</label>
+                    @if ($ong->logo)
+                        <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 15px;">
+                            <img src="{{ asset('storage/' . $ong->logo) }}" alt="Logo {{ $ong->nome }}" style="max-height: 80px; max-width: 150px; border-radius: 8px; border: 1px solid #cbd5e1; object-fit: contain; background: #fff; padding: 4px;">
+                            <label style="font-size: 0.85rem; color: #e53e3e; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" name="remover_logo" value="1">
+                                Remover logo atual
+                            </label>
+                        </div>
+                    @endif
+                    <input 
+                        type="file" 
+                        name="logo" 
+                        id="logo" 
+                        class="form-control"
+                        accept="image/png, image/jpeg, image/jpg, image/webp"
+                    >
+                    <span class="form-hint">Selecione uma imagem para atualizar a logo (PNG, JPG, WEBP até 2MB).</span>
                 </div>
             </div>
 
@@ -261,4 +282,8 @@
         </form>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/utils/form-helpers.js') }}?v=1.0"></script>
 @endsection

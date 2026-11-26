@@ -28,7 +28,7 @@
             </div>
         @endif
 
-        <form action="{{ route('ong.perfil.update') }}" method="POST">
+        <form action="{{ route('ong.perfil.update') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -101,6 +101,27 @@
                         placeholder="Conte sobre a missão da organização, projeto acadêmico de reciclagem de livros, público atendido..."
                     >{{ old('descricao', $ong->descricao) }}</textarea>
                 </div>
+
+                <div class="form-group">
+                    <label for="logo" class="form-label">Logo / Imagem da Instituição</label>
+                    @if ($ong->logo)
+                        <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 15px;">
+                            <img src="{{ asset('storage/' . $ong->logo) }}" alt="Logo {{ $ong->nome }}" style="max-height: 80px; max-width: 150px; border-radius: 8px; border: 1px solid #cbd5e1; object-fit: contain; background: #fff; padding: 4px;">
+                            <label style="font-size: 0.85rem; color: #e53e3e; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" name="remover_logo" value="1">
+                                Remover logo atual
+                            </label>
+                        </div>
+                    @endif
+                    <input 
+                        type="file" 
+                        name="logo" 
+                        id="logo" 
+                        class="form-control"
+                        accept="image/png, image/jpeg, image/jpg, image/webp"
+                    >
+                    <span class="form-hint">Selecione uma imagem para sua logo institucional (PNG, JPG, WEBP até 2MB).</span>
+                </div>
             </div>
 
             <!-- Seção 2: Conta de Acesso e Senha -->
@@ -167,4 +188,8 @@
         </form>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/utils/form-helpers.js') }}?v=1.0"></script>
 @endsection
