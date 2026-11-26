@@ -32,7 +32,7 @@
             </div>
         @endif
 
-        <form action="{{ route('ong.pontos.update', $ponto) }}" method="POST">
+        <form action="{{ route('ong.pontos.update', $ponto) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -245,6 +245,7 @@
                 <p class="form-section-subtitle">Instruções extras para quem for realizar a entrega (opcional)</p>
 
                 <div class="form-group">
+                    <label for="descricao" class="form-label">Instruções / Observações</label>
                     <textarea 
                         name="descricao" 
                         id="descricao" 
@@ -252,6 +253,27 @@
                         rows="3" 
                         placeholder="Ex.: Caixa de coleta localizada na recepção principal..."
                     >{{ old('descricao', $ponto->descricao) }}</textarea>
+                </div>
+
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label for="imagem" class="form-label">Foto / Imagem do Ponto de Coleta</label>
+                    @if ($ponto->imagem)
+                        <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 15px;">
+                            <img src="{{ asset('storage/' . $ponto->imagem) }}" alt="Foto do ponto {{ $ponto->nome }}" style="max-height: 100px; max-width: 180px; border-radius: 8px; border: 1px solid #cbd5e1; object-fit: cover;">
+                            <label style="font-size: 0.85rem; color: #e53e3e; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" name="remover_imagem" value="1">
+                                Remover foto atual
+                            </label>
+                        </div>
+                    @endif
+                    <input 
+                        type="file" 
+                        name="imagem" 
+                        id="imagem" 
+                        class="form-control" 
+                        accept="image/png, image/jpeg, image/jpg, image/webp"
+                    >
+                    <span class="form-hint">Selecione uma imagem para atualizar a foto do ponto (PNG, JPG, WEBP até 3MB).</span>
                 </div>
             </div>
 
@@ -266,4 +288,8 @@
         </form>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/utils/form-helpers.js') }}?v=1.0"></script>
 @endsection
