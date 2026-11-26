@@ -26,6 +26,7 @@ class Ong extends Model
         'telefone',
         'email_contato',
         'descricao',
+        'logo',
         'cep',
         'endereco',
         'numero',
@@ -44,6 +45,14 @@ class Ong extends Model
         return [
             'ativo' => 'boolean',
         ];
+    }
+
+    /**
+     * Retorna a URL completa da logo da ONG ou null caso não possua.
+     */
+    public function getLogoUrlAttribute(): ?string
+    {
+        return $this->logo ? asset('storage/' . $this->logo) : null;
     }
 
     /**

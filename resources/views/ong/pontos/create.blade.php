@@ -32,7 +32,7 @@
             </div>
         @endif
 
-        <form action="{{ route('ong.pontos.store') }}" method="POST">
+        <form action="{{ route('ong.pontos.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <!-- Seção 1: Identificação -->
@@ -235,6 +235,7 @@
                 <p class="form-section-subtitle">Instruções extras para quem for realizar a entrega (opcional)</p>
 
                 <div class="form-group">
+                    <label for="descricao" class="form-label">Instruções / Observações</label>
                     <textarea 
                         name="descricao" 
                         id="descricao" 
@@ -242,6 +243,18 @@
                         rows="3" 
                         placeholder="Ex.: Caixa de coleta localizada na recepção principal. Para doações em grande volume, favor entrar em contato antecipadamente."
                     >{{ old('descricao') }}</textarea>
+                </div>
+
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label for="imagem" class="form-label">Foto / Imagem do Ponto de Coleta (Opcional)</label>
+                    <input 
+                        type="file" 
+                        name="imagem" 
+                        id="imagem" 
+                        class="form-control" 
+                        accept="image/png, image/jpeg, image/jpg, image/webp"
+                    >
+                    <span class="form-hint">Foto da fachada ou totem de coleta (PNG, JPG, WEBP até 3MB). Ajuda os doadores a identificarem o local.</span>
                 </div>
             </div>
 
@@ -256,4 +269,8 @@
         </form>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/utils/form-helpers.js') }}?v=1.0"></script>
 @endsection

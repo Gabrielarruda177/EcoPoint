@@ -69,7 +69,7 @@
 
                             <div class="card-infos-box">
 
-                                <img src=""></img>
+                                <img src="{{ $ecoponto->imagem ? asset('storage/' . $ecoponto->imagem) : asset('img/bibliotecas.png') }}" alt="Foto {{ $ecoponto->nome }}">
 
                                 <p> {{ $ecoponto->nome }} </p> <!--BACK END-->
 
@@ -95,7 +95,7 @@
 
                 <div class="main-ong-box">
 
-                    <img src="#"></img>
+                    <img src="{{ $ong->logo ? asset('storage/' . $ong->logo) : asset('img/icon-ecopoints.webp') }}" alt="Logo {{ $ong->nome }}">
 
                     <h3>{{$ong->nome}}</h3>
 
