@@ -295,5 +295,5 @@ footer {
 }
 
 main {
-    flex: 1; /* Faz o conteúdo principal crescer e empurrar o rodapé para o final */
+    flex: 1;
 }

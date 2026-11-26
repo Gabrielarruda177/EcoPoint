@@ -28,7 +28,7 @@
                     <p>Localize um Ecoponto agora ↓</p>
                 </a>
 
-                <a href="#as-ongs" id="a-noback">
+                <a href="{{ route('publico.contato') }}" id="a-noback">
                     <p>Cadastrar minha ONG</p>
                 </a>
             </div>
