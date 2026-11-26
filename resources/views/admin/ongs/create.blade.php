@@ -32,7 +32,7 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.ongs.store') }}" method="POST">
+        <form action="{{ route('admin.ongs.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="form-section">
@@ -106,6 +106,18 @@
                         class="form-control"
                         placeholder="Breve resumo da missão e das atividades da ONG..."
                     >{{ old('descricao') }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="logo" class="form-label">Logo / Imagem da Instituição (Opcional)</label>
+                    <input 
+                        type="file" 
+                        name="logo" 
+                        id="logo" 
+                        class="form-control"
+                        accept="image/png, image/jpeg, image/jpg, image/webp"
+                    >
+                    <span class="form-hint">Formatos suportados: PNG, JPG, JPEG, WEBP. Tamanho máximo: 2MB.</span>
                 </div>
             </div>
 
@@ -296,4 +308,8 @@
         });
     }
 </script>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/utils/form-helpers.js') }}?v=1.0"></script>
 @endsection

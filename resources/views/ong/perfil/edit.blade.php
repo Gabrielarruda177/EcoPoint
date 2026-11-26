@@ -704,3 +704,7 @@
     }
 </script>
 @endsection
+
+@section('scripts')
+    <script src="{{ asset('js/utils/form-helpers.js') }}?v=1.0"></script>
+@endsection

@@ -8,8 +8,10 @@ use App\Models\PontoDeColeta;
 use App\Models\User;
 use Database\Seeders\AdminUserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class AdminOngTest extends TestCase
@@ -209,5 +211,60 @@ class AdminOngTest extends TestCase
         $this->actingAs($admin)->patch(route('admin.ongs.toggleStatus', $ong));
         $ong->refresh();
         $this->assertTrue($ong->ativo);
+    }
+
+    /**
+     * Testa o upload, substituição e remoção de logo da ONG.
+     */
+    public function test_administrador_pode_cadastrar_e_gerenciar_logo_da_ong(): void
+    {
+        Mail::fake();
+        Storage::fake('public');
+
+        $this->seed(AdminUserSeeder::class);
+        $admin = User::where('email', 'admin@ecopoint.com')->first();
+
+        $logoInicial = UploadedFile::fake()->image('logo_ong.png');
+
+        $response = $this->actingAs($admin)->post(route('admin.ongs.store'), [
+            'nome' => 'ONG Planeta Verde',
+            'email' => 'contato@planetaverde.org',
+            'logo' => $logoInicial,
+        ]);
+
+        $response->assertRedirect(route('admin.ongs.index'));
+
+        $ong = Ong::where('nome', 'ONG Planeta Verde')->first();
+        $this->assertNotNull($ong);
+        $this->assertNotNull($ong->logo);
+        Storage::disk('public')->assertExists($ong->logo);
+
+        $logoAntiga = $ong->logo;
+
+        // Atualização com nova logo
+        $novaLogo = UploadedFile::fake()->image('nova_logo.webp');
+        $responseUpdate = $this->actingAs($admin)->put(route('admin.ongs.update', $ong), [
+            'nome' => 'ONG Planeta Verde Atualizada',
+            'email' => 'contato@planetaverde.org',
+            'logo' => $novaLogo,
+        ]);
+
+        $responseUpdate->assertRedirect(route('admin.ongs.index'));
+        $ong->refresh();
+
+        Storage::disk('public')->assertMissing($logoAntiga);
+        Storage::disk('public')->assertExists($ong->logo);
+
+        // Remoção da logo
+        $responseRemover = $this->actingAs($admin)->put(route('admin.ongs.update', $ong), [
+            'nome' => 'ONG Planeta Verde Atualizada',
+            'email' => 'contato@planetaverde.org',
+            'remover_logo' => '1',
+        ]);
+
+        $responseRemover->assertRedirect(route('admin.ongs.index'));
+        $ong->refresh();
+
+        $this->assertNull($ong->logo);
     }
 }

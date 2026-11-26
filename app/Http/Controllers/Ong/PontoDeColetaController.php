@@ -8,6 +8,7 @@ use App\Models\PontoDeColeta;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PontoDeColetaController extends Controller
@@ -87,6 +88,8 @@ class PontoDeColetaController extends Controller
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'horario_funcionamento' => ['nullable', 'string', 'max:255'],
             'telefone_contato' => ['nullable', 'string', 'max:20'],
+            'imagem' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
+            'remover_imagem' => ['nullable', 'boolean'],
             'ativo' => ['nullable', 'boolean'],
             'materiais' => ['nullable', 'array'],
             'materiais.*' => ['integer', 'exists:materiais_aceitos,id'],
@@ -99,10 +102,16 @@ class PontoDeColetaController extends Controller
             'materiais.*.exists' => 'O material acadêmico selecionado é inválido.',
         ]);
 
-        DB::transaction(function () use ($dados, $ong) {
+        $caminhoImagem = null;
+        if ($request->hasFile('imagem')) {
+            $caminhoImagem = $request->file('imagem')->store('pontos', 'public');
+        }
+
+        DB::transaction(function () use ($dados, $ong, $caminhoImagem) {
             $ponto = $ong->pontosDeColeta()->create([
                 'nome' => $dados['nome'],
                 'descricao' => $dados['descricao'] ?? null,
+                'imagem' => $caminhoImagem,
                 'cep' => $dados['cep'] ?? null,
                 'endereco' => $dados['endereco'],
                 'numero' => $dados['numero'] ?? null,
@@ -161,6 +170,8 @@ class PontoDeColetaController extends Controller
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'horario_funcionamento' => ['nullable', 'string', 'max:255'],
             'telefone_contato' => ['nullable', 'string', 'max:20'],
+            'imagem' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
+            'remover_imagem' => ['nullable', 'boolean'],
             'ativo' => ['nullable', 'boolean'],
             'materiais' => ['nullable', 'array'],
             'materiais.*' => ['integer', 'exists:materiais_aceitos,id'],
@@ -173,10 +184,25 @@ class PontoDeColetaController extends Controller
             'materiais.*.exists' => 'O material acadêmico selecionado é inválido.',
         ]);
 
-        DB::transaction(function () use ($dados, $ponto) {
+        $caminhoImagem = $ponto->imagem;
+
+        if ($request->hasFile('imagem')) {
+            if ($ponto->imagem && Storage::disk('public')->exists($ponto->imagem)) {
+                Storage::disk('public')->delete($ponto->imagem);
+            }
+            $caminhoImagem = $request->file('imagem')->store('pontos', 'public');
+        } elseif ($request->boolean('remover_imagem')) {
+            if ($ponto->imagem && Storage::disk('public')->exists($ponto->imagem)) {
+                Storage::disk('public')->delete($ponto->imagem);
+            }
+            $caminhoImagem = null;
+        }
+
+        DB::transaction(function () use ($dados, $ponto, $caminhoImagem) {
             $ponto->update([
                 'nome' => $dados['nome'],
                 'descricao' => $dados['descricao'] ?? null,
+                'imagem' => $caminhoImagem,
                 'cep' => $dados['cep'] ?? null,
                 'endereco' => $dados['endereco'],
                 'numero' => $dados['numero'] ?? null,
@@ -205,6 +231,10 @@ class PontoDeColetaController extends Controller
     public function destroy(PontoDeColeta $ponto): RedirectResponse
     {
         $this->autorizarAcessoAoPonto($ponto);
+
+        if ($ponto->imagem && Storage::disk('public')->exists($ponto->imagem)) {
+            Storage::disk('public')->delete($ponto->imagem);
+        }
 
         $ponto->delete();
 

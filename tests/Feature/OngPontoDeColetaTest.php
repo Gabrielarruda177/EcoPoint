@@ -9,7 +9,9 @@ use App\Models\User;
 use Database\Seeders\AdminUserSeeder;
 use Database\Seeders\MaterialAceitoSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class OngPontoDeColetaTest extends TestCase
@@ -332,6 +334,8 @@ class OngPontoDeColetaTest extends TestCase
      */
     public function test_ong_pode_atualizar_seu_perfil_institucional(): void
     {
+        Storage::fake('public');
+
         [$usuario, $ong] = $this->criarUsuarioEOng('Nome Original', 'ong@original.org');
         $cnpjOriginal = $ong->cnpj;
 
@@ -340,6 +344,8 @@ class OngPontoDeColetaTest extends TestCase
         $responseGet->assertSee('Perfil Institucional');
         $responseGet->assertSee('Nome Original');
 
+        $logoFile = UploadedFile::fake()->image('logo_institucional.png');
+
         $responsePut = $this->actingAs($usuario)->put(route('ong.perfil.update'), [
             'nome' => 'Tentativa de Mudar Nome Direto',
             'cnpj' => '00.000.000/0000-00',
@@ -347,6 +353,7 @@ class OngPontoDeColetaTest extends TestCase
             'telefone' => '(11) 91111-2222',
             'email_contato' => 'novo@ong.org',
             'descricao' => 'Nova descrição institucional.',
+            'logo' => $logoFile,
         ]);
 
         $responsePut->assertRedirect(route('ong.perfil.edit'));
@@ -423,6 +430,58 @@ class OngPontoDeColetaTest extends TestCase
         $response->assertSee('Métricas da Sua Organização');
         $response->assertSee('Status Operacional dos Pontos');
         $response->assertSee('Pontos de Coleta por Cidade');
+    }
+
+    /**
+     * Testa o upload, atualização e exclusão da imagem de um ponto de coleta.
+     */
+    public function test_ong_pode_gerenciar_imagem_do_ponto_de_coleta(): void
+    {
+        Storage::fake('public');
+
+        [$usuario, $ong] = $this->criarUsuarioEOng('ONG EcoLivros', 'ecolivros@ong.org');
+
+        $imagemInicial = UploadedFile::fake()->image('fachada_ponto.jpg');
+
+        $responsePost = $this->actingAs($usuario)->post(route('ong.pontos.store'), [
+            'nome' => 'Ponto Central Biblioteca',
+            'endereco' => 'Avenida Principal, 100',
+            'cidade' => 'São Paulo',
+            'estado' => 'SP',
+            'imagem' => $imagemInicial,
+        ]);
+
+        $responsePost->assertRedirect(route('ong.pontos.index'));
+
+        $ponto = PontoDeColeta::where('nome', 'Ponto Central Biblioteca')->first();
+        $this->assertNotNull($ponto);
+        $this->assertNotNull($ponto->imagem);
+        Storage::disk('public')->assertExists($ponto->imagem);
+
+        $imagemAntiga = $ponto->imagem;
+
+        // Atualizar com nova imagem
+        $novaImagem = UploadedFile::fake()->image('nova_fachada.png');
+        $responsePut = $this->actingAs($usuario)->put(route('ong.pontos.update', $ponto), [
+            'nome' => 'Ponto Central Biblioteca',
+            'endereco' => 'Avenida Principal, 100',
+            'cidade' => 'São Paulo',
+            'estado' => 'SP',
+            'imagem' => $novaImagem,
+        ]);
+
+        $responsePut->assertRedirect(route('ong.pontos.index'));
+        $ponto->refresh();
+
+        Storage::disk('public')->assertMissing($imagemAntiga);
+        Storage::disk('public')->assertExists($ponto->imagem);
+
+        // Ao deletar o ponto, a imagem deve ser removida do disco
+        $imagemParaExcluir = $ponto->imagem;
+        $responseDelete = $this->actingAs($usuario)->delete(route('ong.pontos.destroy', $ponto));
+        $responseDelete->assertRedirect(route('ong.pontos.index'));
+
+        Storage::disk('public')->assertMissing($imagemParaExcluir);
     }
 }
 
