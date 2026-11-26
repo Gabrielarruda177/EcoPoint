@@ -49,6 +49,32 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
 
+        'fale_conosco' => [
+            'transport' => 'smtp',
+            'scheme' => env('MAIL_SCHEME'),
+            'url' => env('MAIL_URL'),
+            'host' => env('MAIL_FALECONOSCO_HOST', env('MAIL_HOST', 'smtp.gmail.com')),
+            'port' => env('MAIL_FALECONOSCO_PORT', env('MAIL_PORT', 587)),
+            'encryption' => env('MAIL_FALECONOSCO_ENCRYPTION', env('MAIL_ENCRYPTION', 'tls')),
+            'username' => env('MAIL_FALECONOSCO_USERNAME', env('MAIL_USERNAME')),
+            'password' => env('MAIL_FALECONOSCO_PASSWORD', env('MAIL_PASSWORD')),
+            'timeout' => null,
+            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+        ],
+
+        'ong' => [
+            'transport' => 'smtp',
+            'scheme' => env('MAIL_SCHEME'),
+            'url' => env('MAIL_URL'),
+            'host' => env('MAIL_ONG_HOST', env('MAIL_HOST', 'smtp.gmail.com')),
+            'port' => env('MAIL_ONG_PORT', env('MAIL_PORT', 587)),
+            'encryption' => env('MAIL_ONG_ENCRYPTION', env('MAIL_ENCRYPTION', 'tls')),
+            'username' => env('MAIL_ONG_USERNAME'),
+            'password' => env('MAIL_ONG_PASSWORD'),
+            'timeout' => null,
+            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+        ],
+
         'ses' => [
             'transport' => 'ses',
         ],
@@ -114,5 +140,15 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Support Email Address
+    |--------------------------------------------------------------------------
+    |
+    | Destination email address for public contact form messages.
+    |
+    */
+    'support_address' => env('MAIL_SUPPORT_ADDRESS', 'ecopointssuporte@gmail.com'),
 
 ];

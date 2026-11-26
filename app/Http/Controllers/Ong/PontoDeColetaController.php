@@ -8,22 +8,49 @@ use App\Models\PontoDeColeta;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PontoDeColetaController extends Controller
 {
     /**
-     * Lista apenas os pontos de coleta pertencentes à ONG autenticada.
+     * Lista apenas os pontos de coleta pertencentes à ONG autenticada com suporte a filtros e busca.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         $ong = auth()->user()->ong;
 
-        $pontos = $ong
-            ? $ong->pontosDeColeta()->with('materiaisAceitos')->latest()->paginate(10)
-            : PontoDeColeta::whereRaw('1 = 0')->paginate(10);
+        $query = $ong
+            ? $ong->pontosDeColeta()->with('materiaisAceitos')->latest()
+            : PontoDeColeta::whereRaw('1 = 0');
 
-        return view('ong.pontos.index', compact('ong', 'pontos'));
+        if ($busca = $request->input('busca')) {
+            $query->where(function ($q) use ($busca) {
+                $q->where('nome', 'like', "%{$busca}%")
+                  ->orWhere('endereco', 'like', "%{$busca}%")
+                  ->orWhere('bairro', 'like', "%{$busca}%")
+                  ->orWhere('cidade', 'like', "%{$busca}%")
+                  ->orWhere('estado', 'like', "%{$busca}%");
+            });
+        }
+
+        if ($request->filled('status')) {
+            $status = $request->input('status');
+            if ($status === 'ativos') {
+                $query->where('ativo', true);
+            } elseif ($status === 'inativos') {
+                $query->where('ativo', false);
+            }
+        }
+
+        $totalGeral = $ong ? $ong->pontosDeColeta()->count() : 0;
+        $totalAtivos = $ong ? $ong->pontosDeColeta()->where('ativo', true)->count() : 0;
+        $totalInativos = $ong ? $ong->pontosDeColeta()->where('ativo', false)->count() : 0;
+
+        $pontos = $query->paginate(10)->withQueryString();
+        $materiais = MaterialAceito::orderBy('nome')->get();
+
+        return view('ong.pontos.index', compact('ong', 'pontos', 'totalGeral', 'totalAtivos', 'totalInativos', 'materiais'));
     }
 
     /**
@@ -61,6 +88,8 @@ class PontoDeColetaController extends Controller
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'horario_funcionamento' => ['nullable', 'string', 'max:255'],
             'telefone_contato' => ['nullable', 'string', 'max:20'],
+            'imagem' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
+            'remover_imagem' => ['nullable', 'boolean'],
             'ativo' => ['nullable', 'boolean'],
             'materiais' => ['nullable', 'array'],
             'materiais.*' => ['integer', 'exists:materiais_aceitos,id'],
@@ -73,10 +102,16 @@ class PontoDeColetaController extends Controller
             'materiais.*.exists' => 'O material acadêmico selecionado é inválido.',
         ]);
 
-        DB::transaction(function () use ($dados, $ong) {
+        $caminhoImagem = null;
+        if ($request->hasFile('imagem')) {
+            $caminhoImagem = $request->file('imagem')->store('pontos', 'public');
+        }
+
+        DB::transaction(function () use ($dados, $ong, $caminhoImagem) {
             $ponto = $ong->pontosDeColeta()->create([
                 'nome' => $dados['nome'],
                 'descricao' => $dados['descricao'] ?? null,
+                'imagem' => $caminhoImagem,
                 'cep' => $dados['cep'] ?? null,
                 'endereco' => $dados['endereco'],
                 'numero' => $dados['numero'] ?? null,
@@ -135,6 +170,8 @@ class PontoDeColetaController extends Controller
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'horario_funcionamento' => ['nullable', 'string', 'max:255'],
             'telefone_contato' => ['nullable', 'string', 'max:20'],
+            'imagem' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:3072'],
+            'remover_imagem' => ['nullable', 'boolean'],
             'ativo' => ['nullable', 'boolean'],
             'materiais' => ['nullable', 'array'],
             'materiais.*' => ['integer', 'exists:materiais_aceitos,id'],
@@ -147,10 +184,25 @@ class PontoDeColetaController extends Controller
             'materiais.*.exists' => 'O material acadêmico selecionado é inválido.',
         ]);
 
-        DB::transaction(function () use ($dados, $ponto) {
+        $caminhoImagem = $ponto->imagem;
+
+        if ($request->hasFile('imagem')) {
+            if ($ponto->imagem && Storage::disk('public')->exists($ponto->imagem)) {
+                Storage::disk('public')->delete($ponto->imagem);
+            }
+            $caminhoImagem = $request->file('imagem')->store('pontos', 'public');
+        } elseif ($request->boolean('remover_imagem')) {
+            if ($ponto->imagem && Storage::disk('public')->exists($ponto->imagem)) {
+                Storage::disk('public')->delete($ponto->imagem);
+            }
+            $caminhoImagem = null;
+        }
+
+        DB::transaction(function () use ($dados, $ponto, $caminhoImagem) {
             $ponto->update([
                 'nome' => $dados['nome'],
                 'descricao' => $dados['descricao'] ?? null,
+                'imagem' => $caminhoImagem,
                 'cep' => $dados['cep'] ?? null,
                 'endereco' => $dados['endereco'],
                 'numero' => $dados['numero'] ?? null,
@@ -180,11 +232,33 @@ class PontoDeColetaController extends Controller
     {
         $this->autorizarAcessoAoPonto($ponto);
 
+        if ($ponto->imagem && Storage::disk('public')->exists($ponto->imagem)) {
+            Storage::disk('public')->delete($ponto->imagem);
+        }
+
         $ponto->delete();
 
         return redirect()
             ->route('ong.pontos.index')
             ->with('success', 'Ponto de coleta excluído com sucesso!');
+    }
+
+    /**
+     * Alterna o status (ativo/inativo) de um ponto de coleta da ONG.
+     */
+    public function toggleStatus(PontoDeColeta $ponto): RedirectResponse
+    {
+        $this->autorizarAcessoAoPonto($ponto);
+
+        $ponto->update([
+            'ativo' => ! $ponto->ativo,
+        ]);
+
+        $statusNome = $ponto->ativo ? 'ativado' : 'desativado';
+
+        return redirect()
+            ->route('ong.pontos.index')
+            ->with('success', "Ponto de coleta \"{$ponto->nome}\" {$statusNome} com sucesso!");
     }
 
     /**

@@ -32,7 +32,7 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.ongs.store') }}" method="POST">
+        <form action="{{ route('admin.ongs.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="form-section">
@@ -57,7 +57,7 @@
 
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="cnpj" class="form-label">CNPJ (Opcional)</label>
+                        <label for="cnpj" class="form-label">CNPJ <span class="required-mark">*</span></label>
                         <input 
                             type="text" 
                             name="cnpj" 
@@ -65,7 +65,10 @@
                             class="form-control"
                             value="{{ old('cnpj') }}" 
                             placeholder="00.000.000/0000-00"
+                            maxlength="18"
+                            required
                         >
+                        <span class="form-hint">Máscara padrão: 00.000.000/0000-00. Dado fixo após o cadastro.</span>
                     </div>
 
                     <div class="form-group">
@@ -103,6 +106,18 @@
                         class="form-control"
                         placeholder="Breve resumo da missão e das atividades da ONG..."
                     >{{ old('descricao') }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="logo" class="form-label">Logo / Imagem da Instituição (Opcional)</label>
+                    <input 
+                        type="file" 
+                        name="logo" 
+                        id="logo" 
+                        class="form-control"
+                        accept="image/png, image/jpeg, image/jpg, image/webp"
+                    >
+                    <span class="form-hint">Formatos suportados: PNG, JPG, JPEG, WEBP. Tamanho máximo: 2MB.</span>
                 </div>
             </div>
 
@@ -248,4 +263,53 @@
         </form>
     </div>
 </div>
+
+<script>
+    const cnpjInput = document.getElementById('cnpj');
+    if (cnpjInput) {
+        cnpjInput.addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '').substring(0, 14);
+            if (v.length > 12) {
+                v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{1,2})$/, '$1.$2.$3/$4-$5');
+            } else if (v.length > 8) {
+                v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,4})$/, '$1.$2.$3/$4');
+            } else if (v.length > 5) {
+                v = v.replace(/^(\d{2})(\d{3})(\d{0,3})$/, '$1.$2.$3');
+            } else if (v.length > 2) {
+                v = v.replace(/^(\d{2})(\d{0,3})$/, '$1.$2');
+            }
+            e.target.value = v;
+        });
+    }
+
+    const cepInput = document.getElementById('cep');
+    if (cepInput) {
+        cepInput.addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '').substring(0, 8);
+            if (v.length > 5) {
+                v = v.replace(/^(\d{5})(\d)/, '$1-$2');
+            }
+            e.target.value = v;
+        });
+    }
+
+    const telInput = document.getElementById('telefone');
+    if (telInput) {
+        telInput.addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '').substring(0, 11);
+            if (v.length > 10) {
+                v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+            } else if (v.length > 5) {
+                v = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/, '($1) $2-$3');
+            } else if (v.length > 2) {
+                v = v.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
+            }
+            e.target.value = v;
+        });
+    }
+</script>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/utils/form-helpers.js') }}?v=1.0"></script>
 @endsection

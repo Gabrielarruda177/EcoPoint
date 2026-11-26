@@ -1,4 +1,149 @@
 
+/* ========================================================
+   PALETA TERROSA DA ONG (BASEADA NA IMAGEM 2)
+   #3B2A1F - Café Escuro Profundo
+   #6F4E37 - Marrom Café Aveludado
+   #B08968 - Caramelo / Camelo Quente
+   #D4B996 - Bege Amêndoa / Areia
+   #EDE3D4 - Creme Quente / Aveia
+   #FFF9F0 - Marfim Suave / Branco Quente
+   ======================================================== */
+
+.ong-body {
+    --eco-forest-deep: #3B2A1F;
+    --eco-green-forest: #6F4E37;
+    --eco-forest-muted: #B08968;
+    --eco-forest-tint: #EDE3D4;
+    --eco-teal: #6F4E37;
+    --eco-sky: #B08968;
+    --eco-sky-tint: #FFF9F0;
+
+    --bg-canvas: #FAF6F0;
+    --bg-surface: #FFFFFF;
+    --border-soft: #EDE3D4;
+    --text-primary: #3B2A1F;
+    --text-secondary: #6F4E37;
+    --text-muted: #B08968;
+
+    --ong-coffee-dark: #3B2A1F;
+    --ong-coffee-rich: #6F4E37;
+    --ong-caramel: #B08968;
+    --ong-sand: #D4B996;
+    --ong-cream: #EDE3D4;
+    --ong-ivory: #FFF9F0;
+    --ong-canvas: #FAF6F0;
+
+    background-color: var(--ong-canvas);
+    color: var(--ong-coffee-dark);
+    line-height: 1.6;
+}
+
+/* SIDEBAR E TOPBAR MOBILE ESPECÍFICOS DA ONG */
+.ong-body .admin-sidebar {
+    background: linear-gradient(180deg, #3B2A1F 0%, #251B14 100%);
+    border-right: 1px solid rgba(212, 185, 150, 0.18);
+}
+
+.ong-body .admin-mobile-topbar {
+    background: linear-gradient(90deg, #3B2A1F 0%, #251B14 100%);
+    border-bottom: 1px solid rgba(212, 185, 150, 0.18);
+}
+
+.ong-body .sidebar-brand-icon,
+.ong-body .mobile-brand-icon {
+    background: #FFF9F0;
+    border-radius: 8px;
+}
+
+.ong-body .sidebar-link:hover {
+    background-color: rgba(237, 227, 212, 0.12);
+    color: #FFF9F0;
+}
+
+.ong-body .sidebar-link.active {
+    background-color: #6F4E37;
+    color: #FFF9F0;
+    box-shadow: 0 4px 12px rgba(59, 42, 31, 0.35);
+}
+
+.ong-body .sidebar-link.active .sidebar-icon {
+    color: #FFF9F0;
+}
+
+.ong-body .sidebar-badge-count {
+    background-color: #B08968;
+    color: #FFF9F0;
+}
+
+.ong-body .mobile-user-avatar,
+.ong-body .sidebar-user-avatar {
+    background: linear-gradient(135deg, #B08968 0%, #6F4E37 100%);
+    color: #FFF9F0;
+}
+
+.ong-body .brand-badge {
+    background: rgba(237, 227, 212, 0.18);
+    color: #D4B996;
+    border: 1px solid rgba(212, 185, 150, 0.25);
+}
+
+.ong-body .mobile-brand-eco {
+    color: #D4B996;
+}
+
+/* BADGES DA ONG */
+.ong-body .badge {
+    display: inline-block;
+    padding: 0.28rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.ong-body .badge-ong {
+    background: #EDE3D4;
+    color: #3B2A1F;
+    border: 1px solid #D4B996;
+}
+
+.ong-body .badge-material {
+    display: inline-flex;
+    align-items: center;
+    background: #FFF9F0;
+    color: #6F4E37;
+    border: 1px solid #D4B996;
+    font-size: 0.76rem;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-weight: 600;
+    margin: 2px 3px 2px 0;
+}
+
+/* STATUS PILLS */
+.ong-body .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.ong-body .status-active {
+    background: #E8F8EC;
+    color: #1E7E34;
+    border: 1px solid #B8E7C0;
+}
+
+.ong-body .status-inactive {
+    background: #FDF0F0;
+    color: #C53030;
+    border: 1px solid #F8B4B4;
+}
+
 :where(.ong-main-wrapper) *,
 :where(.ong-main-wrapper) *::before,
 :where(.ong-main-wrapper) *::after {
@@ -6,25 +151,6 @@
     margin: 0;
     padding: 0;
 }
-
-.ong-body {
-    line-height: 1.6;
-}
-
-.badge {
-    display: inline-block;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    background: #e2e8f0;
-    color: #4a5568;
-}
-
-.badge-ong {
-    background: #c6f6d5;
-    color: #22543d;
-}
-
 
 :where(.ong-main-wrapper) input,
 :where(.ong-main-wrapper) textarea,

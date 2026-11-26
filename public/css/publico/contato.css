@@ -1,0 +1,502 @@
+/* ============================================================
+   EcoPoint — Página Pública: Fale Conosco
+   public/css/publico/contato.css
+   ============================================================ */
+
+/* Diretório / Breadcrumb */
+.diretorio-section {
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: 25px auto 10px;
+    padding: 0 20px;
+}
+
+.diretorio-section a {
+    text-decoration: none;
+    color: #1e3a1a;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.diretorio-section a:hover {
+    color: #2f693a;
+    text-decoration: underline;
+}
+
+.diretorio-section span {
+    font-size: 0.85rem;
+    color: #4a5568;
+    display: inline-flex;
+    align-items: center;
+}
+
+.diretorio-section span i {
+    font-size: 10px;
+    padding: 0 10px;
+    color: #718096;
+}
+
+/* Container Principal */
+.contato-container {
+    max-width: 1200px;
+    margin: 10px auto 60px;
+    padding: 0 20px;
+}
+
+/* Cabeçalho da Página */
+.contato-header {
+    text-align: center;
+    max-width: 780px;
+    margin: 15px auto 40px;
+}
+
+.contato-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffffff;
+    color: #1e3a1a;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(47, 105, 58, 0.2);
+    margin-bottom: 14px;
+}
+
+.contato-titulo {
+    font-size: 2.3rem;
+    font-weight: 800;
+    color: #1e3a1a;
+    margin-bottom: 14px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.contato-subtitulo {
+    font-size: 1.05rem;
+    color: #3b4e36;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Grid de Conteúdo */
+.contato-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+/* ------------------------------------------------------------
+   Painel Lateral de Informações
+------------------------------------------------------------ */
+.contato-info-panel {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px 28px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(47, 105, 58, 0.15);
+}
+
+.info-card-header {
+    margin-bottom: 26px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.info-card-header h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1e3a1a;
+    margin-bottom: 4px;
+}
+
+.info-card-header p {
+    font-size: 0.9rem;
+    color: #718096;
+}
+
+.info-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-bottom: 30px;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.info-icon {
+    width: 44px;
+    height: 44px;
+    background-color: #d4eead;
+    color: #1e3a1a;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+.info-item:hover .info-icon {
+    transform: scale(1.08);
+}
+
+.info-text {
+    flex: 1;
+}
+
+.info-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #718096;
+    margin-bottom: 2px;
+}
+
+.info-link {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #2f693a;
+    text-decoration: none;
+    word-break: break-all;
+    transition: color 0.2s ease;
+}
+
+.info-link:hover {
+    color: #1e3a1a;
+    text-decoration: underline;
+}
+
+.info-value {
+    display: block;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #1a202c;
+}
+
+.info-desc {
+    font-size: 0.82rem;
+    color: #64748b;
+    margin-top: 2px;
+    line-height: 1.4;
+}
+
+/* Banner de ONG dentro do painel lateral */
+.info-banner-ong {
+    background: linear-gradient(135deg, #1e3a1a 0%, #2f693a 100%);
+    border-radius: 12px;
+    padding: 22px 20px;
+    color: #ffffff;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.banner-icon {
+    font-size: 1.8rem;
+    color: #d4eead;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.banner-content h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+
+.banner-content p {
+    font-size: 0.82rem;
+    color: #e2f0d9;
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+.btn-banner-ong {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #1e3a1a;
+    background-color: #d4eead;
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-banner-ong:hover {
+    background-color: #ffffff;
+    transform: translateX(2px);
+}
+
+/* ------------------------------------------------------------
+   Formulário de Contato
+------------------------------------------------------------ */
+.contato-form-section {
+    width: 100%;
+}
+
+.form-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 36px 34px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(47, 105, 58, 0.15);
+}
+
+.form-card-header {
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.form-card-header h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1e3a1a;
+    margin-bottom: 6px;
+}
+
+.form-card-header p {
+    font-size: 0.95rem;
+    color: #718096;
+}
+
+/* Grupos de Formulário */
+.form-contato {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.required-indicator {
+    color: #e53e3e;
+    font-weight: bold;
+}
+
+.input-wrapper,
+.textarea-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    color: #718096;
+    font-size: 0.95rem;
+    pointer-events: none;
+    transition: color 0.2s ease;
+}
+
+.input-wrapper input {
+    width: 100%;
+    height: 48px;
+    padding: 10px 14px 10px 42px;
+    font-size: 0.95rem;
+    color: #1a202c;
+    background-color: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.25s ease;
+    font-family: inherit;
+}
+
+.textarea-wrapper textarea {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    color: #1a202c;
+    background-color: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    outline: none;
+    resize: vertical;
+    min-height: 130px;
+    font-family: inherit;
+    line-height: 1.5;
+    transition: all 0.25s ease;
+}
+
+.input-wrapper input:focus,
+.textarea-wrapper textarea:focus {
+    background-color: #ffffff;
+    border-color: #2f693a;
+    box-shadow: 0 0 0 3.5px rgba(47, 105, 58, 0.15);
+}
+
+.input-wrapper input:focus ~ .input-icon {
+    color: #2f693a;
+}
+
+/* Erro e Feedback */
+.form-group.has-error input,
+.form-group.has-error textarea {
+    border-color: #e53e3e;
+    background-color: #fff5f5;
+}
+
+.form-group.has-error input:focus,
+.form-group.has-error textarea:focus {
+    box-shadow: 0 0 0 3.5px rgba(229, 62, 62, 0.15);
+}
+
+.input-feedback.error {
+    font-size: 0.8rem;
+    color: #e53e3e;
+    font-weight: 500;
+    margin-top: 3px;
+    display: block;
+}
+
+.textarea-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #718096;
+    margin-top: 4px;
+}
+
+.textarea-hint {
+    color: #718096;
+}
+
+.contador-caracteres {
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.78rem;
+    color: #a0aec0;
+}
+
+/* Botão de Submissão */
+.form-actions {
+    margin-top: 10px;
+}
+
+.btn-submit-contato {
+    width: 100%;
+    height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #2f693a 0%, #1e3a1a 100%);
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(30, 58, 26, 0.25);
+    transition: all 0.25s ease;
+}
+
+.btn-submit-contato:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(30, 58, 26, 0.35);
+    background: linear-gradient(135deg, #26552f 0%, #172c14 100%);
+}
+
+.btn-submit-contato:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn-submit-contato:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+
+.privacidade-nota {
+    font-size: 0.8rem;
+    color: #718096;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 14px;
+    line-height: 1.45;
+}
+
+.privacidade-nota i {
+    color: #2f693a;
+    font-size: 0.95rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------
+   Responsividade
+------------------------------------------------------------ */
+@media (max-width: 960px) {
+    .contato-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .contato-titulo {
+        font-size: 1.9rem;
+    }
+
+    .contato-info-panel,
+    .form-card {
+        padding: 26px 22px;
+    }
+}
+
+@media (max-width: 540px) {
+    .contato-container {
+        margin: 5px auto 40px;
+        padding: 0 14px;
+    }
+
+    .contato-titulo {
+        font-size: 1.6rem;
+    }
+
+    .contato-subtitulo {
+        font-size: 0.95rem;
+    }
+
+    .form-card {
+        padding: 22px 16px;
+    }
+
+    .btn-submit-contato {
+        height: 48px;
+        font-size: 0.98rem;
+    }
+}

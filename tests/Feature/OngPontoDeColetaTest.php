@@ -9,7 +9,9 @@ use App\Models\User;
 use Database\Seeders\AdminUserSeeder;
 use Database\Seeders\MaterialAceitoSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class OngPontoDeColetaTest extends TestCase
@@ -328,40 +330,158 @@ class OngPontoDeColetaTest extends TestCase
     }
 
     /**
-     * Testa se a ONG consegue visualizar e atualizar seu perfil institucional.
+     * Testa se a ONG consegue visualizar e atualizar seu perfil institucional (campos autônomos).
      */
     public function test_ong_pode_atualizar_seu_perfil_institucional(): void
     {
+        Storage::fake('public');
+
         [$usuario, $ong] = $this->criarUsuarioEOng('Nome Original', 'ong@original.org');
+        $cnpjOriginal = $ong->cnpj;
 
         $responseGet = $this->actingAs($usuario)->get(route('ong.perfil.edit'));
         $responseGet->assertStatus(200);
-        $responseGet->assertSee('Perfil Institucional da Organização');
+        $responseGet->assertSee('Perfil Institucional');
         $responseGet->assertSee('Nome Original');
 
+        $logoFile = UploadedFile::fake()->image('logo_institucional.png');
+
         $responsePut = $this->actingAs($usuario)->put(route('ong.perfil.update'), [
-            'nome' => 'Nome da ONG Atualizado',
-            'cnpj' => '99.888.777/0001-66',
+            'nome' => 'Tentativa de Mudar Nome Direto',
+            'cnpj' => '00.000.000/0000-00',
+            'email' => 'novo_login@original.org',
             'telefone' => '(11) 91111-2222',
             'email_contato' => 'novo@ong.org',
             'descricao' => 'Nova descrição institucional.',
+            'logo' => $logoFile,
         ]);
 
         $responsePut->assertRedirect(route('ong.perfil.edit'));
         $responsePut->assertSessionHas('success', 'Perfil da instituição atualizado com sucesso!');
 
+        // Campos diretos atualizados
         $this->assertDatabaseHas('ongs', [
             'id' => $ong->id,
-            'nome' => 'Nome da ONG Atualizado',
-            'cnpj' => '99.888.777/0001-66',
+            'nome' => 'Nome Original', // Nome mantido inalterado
+            'cnpj' => $cnpjOriginal,   // CNPJ inalterado
             'telefone' => '(11) 91111-2222',
             'email_contato' => 'novo@ong.org',
+            'descricao' => 'Nova descrição institucional.',
         ]);
 
         $this->assertDatabaseHas('users', [
             'id' => $usuario->id,
-            'name' => 'Nome da ONG Atualizado',
+            'email' => 'novo_login@original.org',
         ]);
+    }
+
+    /**
+     * Testa se a ONG consegue alternar o status do seu ponto de coleta.
+     */
+    public function test_ong_pode_alternar_status_do_seu_ponto(): void
+    {
+        [$usuario, $ong] = $this->criarUsuarioEOng();
+        $ponto = PontoDeColeta::create([
+            'ong_id' => $ong->id,
+            'nome' => 'Ponto Alternar',
+            'endereco' => 'Rua das Flores',
+            'numero' => '123',
+            'cidade' => 'São Paulo',
+            'estado' => 'SP',
+            'ativo' => true,
+        ]);
+
+        $response = $this->actingAs($usuario)->patch(route('ong.pontos.toggleStatus', $ponto));
+        $response->assertRedirect(route('ong.pontos.index'));
+        $response->assertSessionHas('success');
+
+        $this->assertDatabaseHas('pontos_de_coleta', [
+            'id' => $ponto->id,
+            'ativo' => false,
+        ]);
+
+        $response2 = $this->actingAs($usuario)->patch(route('ong.pontos.toggleStatus', $ponto));
+        $response2->assertRedirect(route('ong.pontos.index'));
+        $this->assertDatabaseHas('pontos_de_coleta', [
+            'id' => $ponto->id,
+            'ativo' => true,
+        ]);
+    }
+
+    /**
+     * Testa se a dashboard da ONG carrega com métricas e gráficos.
+     */
+    public function test_dashboard_da_ong_carrega_com_sucesso(): void
+    {
+        [$usuario, $ong] = $this->criarUsuarioEOng();
+        PontoDeColeta::create([
+            'ong_id' => $ong->id,
+            'nome' => 'Ponto 1',
+            'endereco' => 'Avenida Paulista',
+            'numero' => '1000',
+            'cidade' => 'São Paulo',
+            'estado' => 'SP',
+            'ativo' => true,
+        ]);
+
+        $response = $this->actingAs($usuario)->get(route('ong.dashboard'));
+        $response->assertStatus(200);
+        $response->assertSee('Painel da Instituição');
+        $response->assertSee('Métricas da Sua Organização');
+        $response->assertSee('Status Operacional dos Pontos');
+        $response->assertSee('Pontos de Coleta por Cidade');
+    }
+
+    /**
+     * Testa o upload, atualização e exclusão da imagem de um ponto de coleta.
+     */
+    public function test_ong_pode_gerenciar_imagem_do_ponto_de_coleta(): void
+    {
+        Storage::fake('public');
+
+        [$usuario, $ong] = $this->criarUsuarioEOng('ONG EcoLivros', 'ecolivros@ong.org');
+
+        $imagemInicial = UploadedFile::fake()->image('fachada_ponto.jpg');
+
+        $responsePost = $this->actingAs($usuario)->post(route('ong.pontos.store'), [
+            'nome' => 'Ponto Central Biblioteca',
+            'endereco' => 'Avenida Principal, 100',
+            'cidade' => 'São Paulo',
+            'estado' => 'SP',
+            'imagem' => $imagemInicial,
+        ]);
+
+        $responsePost->assertRedirect(route('ong.pontos.index'));
+
+        $ponto = PontoDeColeta::where('nome', 'Ponto Central Biblioteca')->first();
+        $this->assertNotNull($ponto);
+        $this->assertNotNull($ponto->imagem);
+        Storage::disk('public')->assertExists($ponto->imagem);
+
+        $imagemAntiga = $ponto->imagem;
+
+        // Atualizar com nova imagem
+        $novaImagem = UploadedFile::fake()->image('nova_fachada.png');
+        $responsePut = $this->actingAs($usuario)->put(route('ong.pontos.update', $ponto), [
+            'nome' => 'Ponto Central Biblioteca',
+            'endereco' => 'Avenida Principal, 100',
+            'cidade' => 'São Paulo',
+            'estado' => 'SP',
+            'imagem' => $novaImagem,
+        ]);
+
+        $responsePut->assertRedirect(route('ong.pontos.index'));
+        $ponto->refresh();
+
+        Storage::disk('public')->assertMissing($imagemAntiga);
+        Storage::disk('public')->assertExists($ponto->imagem);
+
+        // Ao deletar o ponto, a imagem deve ser removida do disco
+        $imagemParaExcluir = $ponto->imagem;
+        $responseDelete = $this->actingAs($usuario)->delete(route('ong.pontos.destroy', $ponto));
+        $responseDelete->assertRedirect(route('ong.pontos.index'));
+
+        Storage::disk('public')->assertMissing($imagemParaExcluir);
     }
 }
 

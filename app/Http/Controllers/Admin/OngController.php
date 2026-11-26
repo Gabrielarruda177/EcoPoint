@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Ong;
 use App\Models\User;
+use App\Models\SolicitacaoAlteracaoOng;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,7 @@ use Illuminate\View\View;
 use App\Mail\OngCredenciaisMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -24,11 +26,13 @@ class OngController extends Controller
      */
     public function index(): View
     {
-        $ongs = Ong::with('user')
+        $ongs = Ong::with(['user', 'pontosDeColeta'])
             ->latest()
             ->paginate(10);
 
-        return view('admin.ongs.index', compact('ongs'));
+        $totalPendentes = SolicitacaoAlteracaoOng::where('status', 'pendente')->count();
+
+        return view('admin.ongs.index', compact('ongs', 'totalPendentes'));
     }
 
     /**
@@ -47,11 +51,12 @@ class OngController extends Controller
     {
         $dados = $request->validate([
             'nome' => ['required', 'string', 'max:255'],
-            'cnpj' => ['nullable', 'string', 'max:18'],
+            'cnpj' => ['required', 'string', 'max:18'],
             'telefone' => ['nullable', 'string', 'max:20'],
             'email_contato' => ['nullable', 'email', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'descricao' => ['nullable', 'string'],
+            'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'cep' => ['nullable', 'string', 'max:9'],
             'endereco' => ['nullable', 'string', 'max:255'],
             'numero' => ['nullable', 'string', 'max:20'],
@@ -61,10 +66,15 @@ class OngController extends Controller
             'estado' => ['nullable', 'string', 'max:2'],
         ]);
 
+        $caminhoLogo = null;
+        if ($request->hasFile('logo')) {
+            $caminhoLogo = $request->file('logo')->store('ongs', 'public');
+        }
+
         $senhaTemporaria = Str::random(14);
 
         try {
-            DB::transaction(function () use ($dados, $senhaTemporaria) {
+            DB::transaction(function () use ($dados, $senhaTemporaria, $caminhoLogo) {
                 $usuario = User::create([
                     'name' => $dados['nome'],
                     'email' => $dados['email'],
@@ -79,6 +89,7 @@ class OngController extends Controller
                     'telefone' => $dados['telefone'] ?? null,
                     'email_contato' => $dados['email_contato'] ?? null,
                     'descricao' => $dados['descricao'] ?? null,
+                    'logo' => $caminhoLogo,
                     'cep' => $dados['cep'] ?? null,
                     'endereco' => $dados['endereco'] ?? null,
                     'numero' => $dados['numero'] ?? null,
@@ -90,6 +101,10 @@ class OngController extends Controller
                 ]);
             });
         } catch (Throwable $e) {
+            if ($caminhoLogo && Storage::disk('public')->exists($caminhoLogo)) {
+                Storage::disk('public')->delete($caminhoLogo);
+            }
+
             Log::error('Erro ao cadastrar ONG no banco: ' . $e->getMessage());
 
             return redirect()
@@ -155,6 +170,8 @@ class OngController extends Controller
             ],
             'senha' => ['nullable', 'string', 'min:8', 'confirmed'],
             'descricao' => ['nullable', 'string'],
+            'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'remover_logo' => ['nullable', 'boolean'],
             'cep' => ['nullable', 'string', 'max:9'],
             'endereco' => ['nullable', 'string', 'max:255'],
             'numero' => ['nullable', 'string', 'max:20'],
@@ -164,7 +181,21 @@ class OngController extends Controller
             'estado' => ['nullable', 'string', 'max:2'],
         ]);
 
-        DB::transaction(function () use ($dados, $ong) {
+        $caminhoLogo = $ong->logo;
+
+        if ($request->hasFile('logo')) {
+            if ($ong->logo && Storage::disk('public')->exists($ong->logo)) {
+                Storage::disk('public')->delete($ong->logo);
+            }
+            $caminhoLogo = $request->file('logo')->store('ongs', 'public');
+        } elseif ($request->boolean('remover_logo')) {
+            if ($ong->logo && Storage::disk('public')->exists($ong->logo)) {
+                Storage::disk('public')->delete($ong->logo);
+            }
+            $caminhoLogo = null;
+        }
+
+        DB::transaction(function () use ($dados, $ong, $caminhoLogo) {
             $usuario = $ong->user;
 
             if ($usuario) {
@@ -184,6 +215,7 @@ class OngController extends Controller
                 'telefone' => $dados['telefone'] ?? null,
                 'email_contato' => $dados['email_contato'] ?? null,
                 'descricao' => $dados['descricao'] ?? null,
+                'logo' => $caminhoLogo,
                 'cep' => $dados['cep'] ?? null,
                 'endereco' => $dados['endereco'] ?? null,
                 'numero' => $dados['numero'] ?? null,
@@ -206,6 +238,16 @@ class OngController extends Controller
     {
         DB::transaction(function () use ($ong) {
             $usuario = $ong->user;
+
+            if ($ong->logo && Storage::disk('public')->exists($ong->logo)) {
+                Storage::disk('public')->delete($ong->logo);
+            }
+
+            foreach ($ong->pontosDeColeta as $ponto) {
+                if ($ponto->imagem && Storage::disk('public')->exists($ponto->imagem)) {
+                    Storage::disk('public')->delete($ponto->imagem);
+                }
+            }
 
             $ong->pontosDeColeta()->delete();
 

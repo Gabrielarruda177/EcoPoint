@@ -16,6 +16,7 @@ use App\Http\Controllers\Ong\PontoDeColetaController as OngPontoDeColetaControll
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\OngController as AdminOngController;
+use App\Http\Controllers\Admin\SolicitacaoAlteracaoController as AdminSolicitacaoAlteracaoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,7 @@ Route::prefix('ong')->name('ong.')->middleware(['auth', 'perfil:ong'])->group(fu
     // Edição do perfil institucional da própria ONG
     Route::get('/perfil', [OngPerfilController::class, 'edit'])->name('perfil.edit');
     Route::put('/perfil', [OngPerfilController::class, 'update'])->name('perfil.update');
+    Route::post('/perfil/solicitar-alteracao', [OngPerfilController::class, 'solicitarAlteracao'])->name('perfil.solicitar');
 
     // Gerenciamento dos pontos de coleta da própria ONG (CRUD básico)
     Route::get('/pontos', [OngPontoDeColetaController::class, 'index'])->name('pontos.index');
@@ -69,6 +71,7 @@ Route::prefix('ong')->name('ong.')->middleware(['auth', 'perfil:ong'])->group(fu
     Route::post('/pontos', [OngPontoDeColetaController::class, 'store'])->name('pontos.store');
     Route::get('/pontos/{ponto}/editar', [OngPontoDeColetaController::class, 'edit'])->name('pontos.edit');
     Route::put('/pontos/{ponto}', [OngPontoDeColetaController::class, 'update'])->name('pontos.update');
+    Route::patch('/pontos/{ponto}/status', [OngPontoDeColetaController::class, 'toggleStatus'])->name('pontos.toggleStatus');
     Route::delete('/pontos/{ponto}', [OngPontoDeColetaController::class, 'destroy'])->name('pontos.destroy');
 });
 
@@ -86,4 +89,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'perfil:admin'])->gr
 
     // Alternar status ativo/inativo da ONG
     Route::patch('/ongs/{ong}/status', [AdminOngController::class, 'toggleStatus'])->name('ongs.toggleStatus');
+
+    // Solicitações de alteração cadastral enviadas pelas ONGs
+    Route::get('/solicitacoes', [AdminSolicitacaoAlteracaoController::class, 'index'])->name('solicitacoes.index');
+    Route::patch('/solicitacoes/{solicitacao}/aprovar', [AdminSolicitacaoAlteracaoController::class, 'aprovar'])->name('solicitacoes.aprovar');
+    Route::patch('/solicitacoes/{solicitacao}/recusar', [AdminSolicitacaoAlteracaoController::class, 'recusar'])->name('solicitacoes.recusar');
 });

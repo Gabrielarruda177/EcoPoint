@@ -26,6 +26,7 @@ class Ong extends Model
         'telefone',
         'email_contato',
         'descricao',
+        'logo',
         'cep',
         'endereco',
         'numero',
@@ -47,6 +48,14 @@ class Ong extends Model
     }
 
     /**
+     * Retorna a URL completa da logo da ONG ou null caso não possua.
+     */
+    public function getLogoUrlAttribute(): ?string
+    {
+        return $this->logo ? asset('storage/' . $this->logo) : null;
+    }
+
+    /**
      * Relacionamento: A ONG pertence a um Usuário (responsável pelo login).
      */
     public function user(): BelongsTo
@@ -60,5 +69,13 @@ class Ong extends Model
     public function pontosDeColeta(): HasMany
     {
         return $this->hasMany(PontoDeColeta::class);
+    }
+
+    /**
+     * Relacionamento: Solicitações de alteração de dados cadastrais (nome, endereço).
+     */
+    public function solicitacoesAlteracao(): HasMany
+    {
+        return $this->hasMany(SolicitacaoAlteracaoOng::class, 'ong_id');
     }
 }
