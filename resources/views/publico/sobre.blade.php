@@ -11,9 +11,9 @@
     <main>
         <section id="master">
             <div id="content">
-                <p>EDUCAÇÃO E SUSTENTABILIDADE</p>
+                <p id="p-back">EDUCAÇÃO E SUSTENTABILIDADE</p>
 
-                <p>Uma nova história começa quando um livro circula</p>
+                <p id="title">Uma nova história começa quando um livro circula</p>
                 <p class="paragrafo">
                     <span class="destaque">EcoPoints</span> é uma plataforma acadêmica desenvolvida para aproximar cidadão que desejam 
                     doar livros didáticos, acadêmicos e apostilas para instituições e ONGs comprometidas com a democratização do conhecimento.            
