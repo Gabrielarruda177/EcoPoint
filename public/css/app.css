@@ -33,6 +33,9 @@ body {
     line-height: 1.6;
     background: #D4EEAD;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* ---- Header ---- */
@@ -185,6 +188,10 @@ header .nav-container nav #nav-btn-login:hover p {
     animation: pula 0.5s ease;
 }
 
+main {
+    flex: 1;
+}
+
 /* ---- Card ---- */
 .card {
     background: white;
@@ -209,21 +216,23 @@ footer {
 
 .footer-content {
     display: flex;
-    gap: 100px;
+    gap: 50px;
 
     justify-content: center;
     text-align: left;
 }
 
-.sobre-nos-footer, .ecopoints-footer, .fale-conosco-footer {
+.sobre-nos-footer, .ecopoints-footer, .areas-restritas-footer,
+.fale-conosco-footer, .academico-footer{
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 
-    width: 300px;
+    width: 200px;
 }
 
-.sobre-nos-footer p, .ecopoints-footer ul, .fale-conosco-footer ul{
+.sobre-nos-footer p, .ecopoints-footer ul, .areas-restritas-footer ul,
+.fale-conosco-footer ul, .academico-footer p{
     font-size: 0.8rem;
 }
 
@@ -233,13 +242,40 @@ footer {
     border-bottom: none;
 }
 
+.sobre-nos-footer{
+    width: 250px;
+}
+
+.sobre-nos-footer img{
+    width: 140.6px;
+    height: 40px;
+
+    object-fit: cover;
+    object-position: center;
+
+    padding: 0;
+    margin: 0;
+}
+
 .sobre-nos-footer p{
     width: 100%;
     overflow-wrap: break-word;
     word-break: break-word;
 }
 
-.ecopoints-footer ul li a{
+.sobre-nos-footer a{
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    text-decoration: none;
+    color: #F4F4F4;
+}
+
+.ecopoints-footer {
+    width: 150px;
+}
+
+.ecopoints-footer ul li a, .areas-restritas-footer ul li a{
     color: #f7fafc;
 }
 
