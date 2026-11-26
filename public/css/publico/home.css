@@ -7,7 +7,7 @@
 /*Estilização Início*/
 
 #inicio {
-    margin-block: 5rem;
+    margin-block: 4rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -54,11 +54,11 @@
 }
 
 #inicio #resume #subtitle {
-    width: 54rem;
+    width: 100%;
     font-size: 28px;
     color: #667558;
     margin: 1.5rem 0;
-    padding: 0.2rem 1.7rem 0.2rem 0;
+    padding: 0.2rem 0;
 }
 
 #inicio #resume #click {
@@ -84,26 +84,21 @@
     text-align: center;
 }
 
+#inicio #resume #click a:hover {
+    animation: pular 0.5s ease;
+
+}
+
 #inicio #resume #click #a-back-blue {
     color: white;
     background-color: #55AFE1;
     box-shadow: 5px 6px 12px #7e7e7e72;
 }
 
-#inicio #resume #click #a-back-blue:hover {
-    animation: pular 0.5s ease;
-
-}
-
-
 #inicio #resume #click #a-noback {
     color: #4E5A4C;
     border: 1px solid #fff;
     box-shadow: 5px 6px 12px #b3b3b362;
-}
-
-#inicio #resume #click #a-noback:hover {
-    animation: pular 0.5s ease;
 }
 
 #inicio #resume #add-info {
@@ -509,6 +504,45 @@
     color: #fff;
     font-weight: bold;
     font-size: 17px;
+}
+
+@media (max-width: 1555px) {
+    #inicio #resume #p-back {
+        font-size: 15px;
+        width: 300px;
+        align-self: center;
+    }
+
+    #inicio #resume #principal {
+        font-size: 50px;
+    }
+
+    #inicio #resume #subtitle {
+        font-size: 26px;
+    }
+
+    #inicio #resume #click {
+        padding-block: 2.5rem ;
+    }
+
+    #inicio #resume #click a {
+        font-size: 16px;
+        margin-bottom: 2rem;
+    }
+
+    #inicio #resume #click a:hover {
+        animation: none;
+        transform: scale(1.1);
+        font-size: 16px;
+    }
+
+    #inicio #resume #add-info .block .title {
+        font-size: 28px;
+    }
+
+    #inicio #resume #add-info .block .subtitle {
+        font-size: 17px;
+    }
 }
 
 @keyframes pular {

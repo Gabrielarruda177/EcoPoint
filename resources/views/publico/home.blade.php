@@ -61,7 +61,7 @@
                 <p>📍</p>
             </div>
             
-            <a id="link" href="#" target="_blank">
+            <a id="link" href="#">
                 <p>Ver informações completas →</p>
             </a>
         </div>
