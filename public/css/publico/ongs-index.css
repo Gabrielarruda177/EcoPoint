@@ -1,208 +1,345 @@
-#as-ongs{
-    margin-top: 100px;
-    min-height: 100vh;
+#as-ongs {
+    margin-block: 80px;
+    padding: 0 5%;
 }  
 
-
-.container-asOngs{
-    border: 0;
-    border-radius: 15px;
-    background-color: #ababab;
-
-
+.container-asOngs {
+    border: 1px solid #d5e6c3;
+    border-radius: 20px;
+    background-color: #d7d7d7; /* Branco puro como o card principal da Home */
+    box-shadow: 0 10px 30px rgba(46, 71, 45, 0.06);
     width: 100%;
-    min-height: 400px;
-
-
+    min-height: 450px;
     position: relative;
-    padding: 25px;
-}
-
-
-.container-asOngs h1{
-    font-size: 50px;
-    font-family: 'Sugo Font Family', sans-serif;
-    color: #535353;
-   
-    position: absolute;
-    top: -40px;
-    left: 40px;
-    margin: 0;
-}
-
-
-.barraPesquisa-asOngs{
-    border: 0;
-    border-radius: 15px;
-    background-color: #e2e8f0;
-
-
-    width: 40%;
-    height: 35px;
-
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.7rem;
-
-
-    margin: 25px auto;
-    padding: 0.2rem 0.7rem;
+    padding: 40px 35px 50px 35px;
     box-sizing: border-box;
 }
 
-
-.barraPesquisa-asOngs input{
-    width: 75%;
-    height: 20px;
-    color: #535353;
-
-
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
+.container-asOngs h1 {
+    font-size: 52px;
+    font-family: 'Sugo Font Family', sans-serif;
+    color: #2f6f2e; /* Verde escuro da logo e títulos da Home */
+    position: absolute;
+    top: -36px;
+    left: 35px;
+    margin: 0;
+    letter-spacing: 1px;
 }
 
+/* --- Barra de Pesquisa --- */
+.barraPesquisa-asOngs {
+    border: 1px solid #c5dcb0;
+    border-radius: 12px;
+    background-color: #f6faf2;
+    width: 100%;
+    max-width: 480px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 10px auto 45px auto;
+    padding: 0 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
 
-.barraPesquisa-asOngs input:focus{
+.barraPesquisa-asOngs:focus-within {
+    border-color: #2f6f2e;
+    box-shadow: 0 0 0 3px rgba(47, 111, 46, 0.12);
+}
+
+.barraPesquisa-asOngs input {
+    flex: 1;
+    height: 100%;
+    color: #2e472d;
+    font-size: 14px;
+    background-color: transparent;
+    border: none;
+}
+
+.barraPesquisa-asOngs input::placeholder {
+    color: #799477;
+}
+
+.barraPesquisa-asOngs input:focus {
     outline: none;
 }
 
-
 input[type="search"]::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-  appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
+.barraPesquisa-asOngs button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #2f6f2e;
+    font-size: 16px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
 
+.barraPesquisa-asOngs button:hover {
+    transform: scale(1.1);
+}
 
-
-.limpar-ong i{
+.limpar-ong i {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    line-height: 0;
-
-
     font-size: 10px;
-    color: #e2e8f0;
-
-
-    width: 15px;
-    height: 15px;
-    border: none;
-    background-color: #535353;
+    color: #ffffff;
+    width: 18px;
+    height: 18px;
+    background-color: #536e51;
     border-radius: 50%;
-
-
-    cursor: pointer;
 }
 
-
-.barraPesquisa-asOngs button{
-    background-color: transparent;
-    border: none;
-
-
-    font-size: 15px;
-    color: #535353;
+/* --- Grid de Cards --- */
+.box-ongs {
+    display: flex;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 28px;
+    justify-content: center;
 }
 
-
-.barraPesquisa-asOngs button:hover, i:hover{
-    font-size: 16px;
-    color: #ababab;
+/* --- Card Individual --- */
+.card-ong {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #f4f9ee; /* Off-white esverdeado */
+    border: 1px solid #dcead0;
+    border-radius: 50px 18px 18px 50px; /* Arredondado na esquerda para acompanhar o círculo */
+    height: 92px;
+    padding: 10px 18px 10px 105px; /* Espaço à esquerda reservado para o círculo */
+    box-sizing: border-box;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    min-width: 30rem;
 }
 
+.card-ong:hover {
+    transform: translateY(-3px);
+    border-color: #8cc657;
+    box-shadow: 0 6px 15px rgba(47, 111, 46, 0.12);
+}
 
-.box-ongs{
+/* Círculo da Logo */
+.ong-logo {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6cc24a 0%, #2f6f2e 100%);
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 50px;
-    flex-wrap: wrap;
-    margin-top: 50px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.ong-logo span {
+    font-family: 'Sugo Font Family', sans-serif;
+    font-size: 28px;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+.ong-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Conteúdo de Texto */
+.ong-info {
+    flex: 1;
+    min-width: 0; /* Evita que textos longos quebrem o flex */
+    padding-right: 12px;
+}
+
+.ong-info h2 {
+    font-family: 'Sugo Font Family', sans-serif;
+    font-size: 20px;
+    color: #2e472d; /* Verde musgo escuro */
+    margin: 0 0 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ong-info p {
+    font-size: 11px;
+    line-height: 1.3;
+    color: #536e51; /* Verde oliva médio */
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limita a 2 linhas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Botão/Ícone da Seta */
+.ong-seta {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #e3f1d8;
+    color: #2f6f2e;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Azul de destaque dos botões da Home ao passar o mouse */
+.card-ong:hover .ong-seta {
+    background-color: #52a8e2;
+    color: #ffffff;
+}
+
+/* --- Mensagens de Vazio --- */
+.sem-ongs {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #2e472d;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 #nenhuma-ong {
     display: none; 
+    grid-column: 1 / -1;
     text-align: center;
-    width: 50%; 
-    padding: 30px; 
-    background-color: #8a8a8a;
-    border-radius: 20px;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 500px;
+    padding: 25px; 
+    background-color: #eef6e6;
+    border: 1px solid #c5dcb0;
+    border-radius: 16px;
 }
 
 #nenhuma-ong p {
-    color: #ffffff;
-    font-size: 35px;
-    font-family: 'Arimo';
-    font-weight: bolder;
+    color: #2e472d;
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
 }
 
-.ong1, .ong2, .ong3{
-    width: 25%;
-    height: 100px;
-    box-sizing: border-box;
+/* ===== RESPONSIVIDADE ===== */
 
+/* Notebooks pequenos e tablets na horizontal */
+@media (max-width: 1100px) {
+    #as-ongs {
+        margin-block: 60px;
+    }
 
-    border: none;
-    border-radius: 15px;
-    background-color: #e2e8f0;
+    .container-asOngs {
+        padding: 36px 28px 40px 28px;
+    }
 
+    .container-asOngs h1 {
+        left: 28px;
+    }
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-
-    padding: 10px 25px;
-    overflow-wrap: break-word;
+    .box-ongs {
+        gap: 22px;
+    }
 }
 
+/* Tablets em pé */
+@media (max-width: 768px) {
+    #as-ongs {
+        margin-block: 50px;
+        padding: 0 4%;
+    }
 
-.box-ongs div h2{
-    font-size: 20px;
+    .container-asOngs {
+        padding: 34px 20px 36px 20px;
+        min-height: auto;
+        border-radius: 18px;
+    }
+
+    .container-asOngs h1 {
+        font-size: 44px;
+        top: -30px;
+        left: 20px;
+    }
+
+    .barraPesquisa-asOngs {
+        max-width: 100%;
+        margin: 10px auto 35px auto;
+    }
+
+    .box-ongs {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .card-ong {
+        min-width: 0;
+        width: 100%;
+        height: 84px;
+        padding-left: 96px;
+    }
+
+    .ong-logo {
+        width: 84px;
+        height: 84px;
+    }
+
+    .ong-info h2 {
+        font-size: 18px;
+    }
+
+    .ong-info p {
+        font-size: 12px;
+    }
 }
 
+/* Celulares */
+@media (max-width: 600px) {
+    #as-ongs {
+        margin-block: 40px;
+        padding: 0 3%;
+    }
 
-.box-ongs div p{
-    font-size: 8px;
-}
+    .container-asOngs {
+        padding: 30px 16px 28px 16px;
+        border-radius: 16px;
+    }
 
+    .container-asOngs h1 {
+        font-size: 38px;
+        top: -26px;
+        left: 16px;
+        letter-spacing: 0.5px;
+    }
 
-.box-ongs div a{
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    align-self: flex-end;
+    .barraPesquisa-asOngs {
+        height: 46px;
+        margin: 8px 0 28px 0;
+    }
 
+    .barraPesquisa-asOngs input {
+        font-size: 16px; /* evita zoom automático no iOS */
+    }
 
-    font-size: 10px;
-    font-weight: 100;
-    color: #e2e8f0;
-    text-decoration: none;
-
-
-    width: 15px;
-    height: 15px;
-    border: none;
-    background-color: #535353;
-    border-radius: 50%;
-
-
-    margin-top: 5px;
-}
-
-
-.box-ongs div a i{
-    -webkit-text-stroke: 0.3px #e2e8f0;
-}
-
-
-.container-asOngs button{
-    width: 30%;
-    height: 35px;
-    border-radius: 180px;
+    .card-ong {
+        height: 78px;
+        padding: 8px 12px 8px 84px;
+        border-radius: 40px 14px 14px 40px;
+    }
 }

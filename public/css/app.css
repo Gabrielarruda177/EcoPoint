@@ -20,6 +20,9 @@ body {
     line-height: 1.6;
     background: #D4EEAD;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* ---- Header ---- */
@@ -289,4 +292,8 @@ footer {
         transform: translateY(0);
         font-size: 17px;
     }
+}
+
+main {
+    flex: 1; /* Faz o conteúdo principal crescer e empurrar o rodapé para o final */
 }
