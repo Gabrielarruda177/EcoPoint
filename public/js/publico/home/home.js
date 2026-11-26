@@ -386,7 +386,7 @@ function iniciarCarrosselHero() {
         }
 
         if (pElement) {
-            pElement.innerHTML = `📍 - ${ponto.cidade || nomeOng} · ${statusTexto}`;
+            pElement.innerHTML = `📍 ${ponto.cidade || nomeOng} · ${statusTexto}`;
         }
 
         if (nomeEcopointEl) {
