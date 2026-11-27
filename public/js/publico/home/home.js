@@ -12,6 +12,7 @@ let centroAtual = {
 };
 
 let listaPontos = [];
+let DADOS_BANCO = { pontos: [], ongs: [] };
 
 // ==========================================
 // 1. MAPA SIMPLIFICADO (HERO)
@@ -105,15 +106,12 @@ map.on('style.load', () => {
                 ]);
             }
         } 
-        catch (e) {
-
-        }
+        catch (e) {}
     });
 });
 
 map.addControl(new maplibregl.NavigationControl());
 
-// Marcador da posição do usuário (Preto/Azul)
 const wrapperMarcador = document.createElement('div');
 wrapperMarcador.className = 'main-box-pin';
 const loMarcador = document.createElement('div');
@@ -133,7 +131,7 @@ const marcadorUsuario = new maplibregl.Marker({
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 async function carregarPontosDoBanco() {
-    const pontos = window.DADOS_BANCO?.pontos || [];
+    const pontos = DADOS_BANCO.pontos || [];
 
     if (pontos.length === 0) return;
 
@@ -142,7 +140,6 @@ async function carregarPontosDoBanco() {
         let lat = parseFloat(ponto.latitude);
         let lng = parseFloat(ponto.longitude);
 
-        // Se o ponto ainda não tiver lat/lng no banco, geocodifica pelo endereço
         if (isNaN(lat) || isNaN(lng)) {
             const enderecoCompleto = `${ponto.endereco}, ${ponto.numero || ''} - ${ponto.bairro || ''}, ${ponto.cidade || 'São Paulo'} - ${ponto.estado || 'SP'}`;
             const coords = await geocodificarNominatim(enderecoCompleto);
@@ -151,7 +148,6 @@ async function carregarPontosDoBanco() {
                 lat = coords.lat;
                 lng = coords.lng;
             }
-            // Respeita a política de 1 req/seg do Nominatim para não tomar bloqueio 403
             await sleep(1100);
         }
 
@@ -160,7 +156,6 @@ async function carregarPontosDoBanco() {
         }
     }
 
-    // Seleciona o primeiro ponto automaticamente para preencher o card lateral (#simple-desc)
     if (listaPontos.length > 0) {
         atualizarPainelLateral(listaPontos[0].dados);
     }
@@ -181,7 +176,6 @@ function criarMarcadorEcoponto(ponto, lat, lng) {
         .setLngLat([lng, lat])
         .addTo(map);
 
-    // Ao clicar no marcador, atualiza o card #simple-desc
     el.addEventListener('click', () => {
         atualizarPainelLateral(ponto);
         map.flyTo({ center: [lng, lat], zoom: 16 });
@@ -212,10 +206,8 @@ function atualizarPainelLateral(ponto) {
     estadoEl.style.backgroundColor = estaAberto ? '#E2F3D1' : '#fde8e8';
     estadoEl.style.color = estaAberto ? '#36682B' : '#9b1c1c';
 
-    // Nome do Ecoponto
     nomeEl.textContent = ponto.nome || `Ecoponto ${ponto.ong?.nome || ''}`;
 
-    // Endereço formatado
     const rua = ponto.endereco || '';
     const num = ponto.numero ? `, ${ponto.numero}` : '';
     const bairro = ponto.bairro ? ` - ${ponto.bairro}` : '';
@@ -223,23 +215,14 @@ function atualizarPainelLateral(ponto) {
     const uf = ponto.estado ? ` - ${ponto.estado}` : '';
     enderecoEl.textContent = `${rua}${num}${bairro}${cidade}${uf}`;
 
-    // Ponto de referência (usa complemento ou ponto_referencia do seu banco)
     referenciaEl.textContent = ponto.ponto_referencia || ponto.complemento || 'Sem ponto de referência informado';
-
-    // Horário de funcionamento
     horarioEl.textContent = ponto.horario_funcionamento || 'Consulte horários com a ONG';
-
-    // Telefone
-    telefoneEl.innerHTML = `<span class="principal">Telefone: </span>${ponto.ong?.telefone   || 'Não informada'}`;
-
-    // Nome da ONG responsável
+    telefoneEl.innerHTML = `<span class="principal">Telefone: </span>${ponto.ong?.telefone || 'Não informada'}`;
     ongEl.textContent = `ONG Responsável: ${ponto.ong?.nome || 'Não informada'}`;
 
-    // Ação do botão "Ver Detalhes Completos"
     btnDetails.onclick = () => {
         window.location.href = `/pontos/${ponto.id}`; 
     };
-
 }
 
 // ==========================================
@@ -302,7 +285,6 @@ localizar.addEventListener('click', () => {
     }
 });
 
-// Permite buscar apertando Enter no input
 local.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         e.preventDefault();
@@ -324,8 +306,8 @@ function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
 }
 
 function aplicarFiltros() {
-    const raioMax = distance.value; // 'all', '2', '5', '10', '25'
-    const ongId = ongs.value;       // 'all' ou ID da ONG
+    const raioMax = distance.value;
+    const ongId = ongs.value;
 
     listaPontos.forEach(ponto => {
         const dist = calcularDistanciaKm(centroAtual.lat, centroAtual.lng, ponto.lat, ponto.lng);
@@ -348,17 +330,13 @@ centralizar.addEventListener('click', () => {
     });
 });
 
-// Inicia o carregamento dos marcadores do MySQL
-carregarPontosDoBanco();
-
 // ==========================================
 // 6. CARROSSEL DE PONTOS NO MAPA HERO
 // ==========================================
-
 let indiceHeroAtual = 0;
 
 function iniciarCarrosselHero() {
-    const pontosBanco = window.DADOS_BANCO?.pontos || [];
+    const pontosBanco = DADOS_BANCO.pontos || [];
     if (pontosBanco.length === 0) return;
 
     const pElement = document.querySelector("#resumed-map p");
@@ -370,6 +348,8 @@ function iniciarCarrosselHero() {
 
     function atualizarHero() {
         const ponto = pontosBanco[indiceHeroAtual];
+        if (!ponto) return;
+
         const nomeOng = ponto.ong?.nome || "ONG Parceira";
         const statusTexto = (ponto.ativo !== false) ? "Aberto" : "Fechado";
         
@@ -386,7 +366,7 @@ function iniciarCarrosselHero() {
         }
 
         if (pElement) {
-            pElement.innerHTML = `📍 - ${ponto.cidade || nomeOng} · ${statusTexto}`;
+            pElement.innerHTML = `📍 ${ponto.cidade || nomeOng} · ${statusTexto}`;
         }
 
         if (nomeEcopointEl) {
@@ -415,8 +395,24 @@ function iniciarCarrosselHero() {
     }
 
     atualizarHero();
-
     setInterval(atualizarHero, 12000);
 }
 
-setTimeout(iniciarCarrosselHero, 500);
+// ==========================================
+// 7. INICIALIZAÇÃO ASSÍNCRONA DA API
+// ==========================================
+async function inicializarDados() {
+    try {
+        const resposta = await fetch('/api/pontos-coleta');
+        const dados = await resposta.json();
+        DADOS_BANCO.pontos = dados.pontos;
+        DADOS_BANCO.ongs = dados.ongs;
+
+        await carregarPontosDoBanco();
+        iniciarCarrosselHero();
+    } catch (erro) {
+        console.error('Erro ao carregar dados do banco:', erro);
+    }
+}
+
+inicializarDados();

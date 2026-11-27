@@ -28,7 +28,7 @@
                     <p>Localize um Ecoponto agora ↓</p>
                 </a>
 
-                <a href="#as-ongs" id="a-noback">
+                <a href="{{ route('publico.contato') }}" id="a-noback">
                     <p>Cadastrar minha ONG</p>
                 </a>
             </div>
@@ -61,7 +61,7 @@
                 <p>📍</p>
             </div>
             
-            <a id="link" href="#" target="_blank">
+            <a id="link" href="#">
                 <p>Ver informações completas →</p>
             </a>
         </div>
@@ -142,12 +142,6 @@
         </div>
     </section>
 
-    <script>
-        window.DADOS_BANCO = {
-            pontos: @json($pontos),
-            ongs: @json($ongs)
-        };
-    </script>
     <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
     <script src="{{ asset('js/publico/home/home.js') }}"></script>
 
