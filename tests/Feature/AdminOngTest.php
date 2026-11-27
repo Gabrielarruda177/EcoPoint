@@ -227,9 +227,10 @@ class AdminOngTest extends TestCase
         $logoInicial = UploadedFile::fake()->image('logo_ong.png');
 
         $response = $this->actingAs($admin)->post(route('admin.ongs.store'), [
-            'nome' => 'ONG Planeta Verde',
+            'nome'  => 'ONG Planeta Verde',
             'email' => 'contato@planetaverde.org',
-            'logo' => $logoInicial,
+            'cnpj'  => '12.345.678/0001-90',
+            'logo'  => $logoInicial,
         ]);
 
         $response->assertRedirect(route('admin.ongs.index'));

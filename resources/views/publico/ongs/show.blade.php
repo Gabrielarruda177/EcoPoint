@@ -3,123 +3,166 @@
 @section('titulo', $ong->nome ?? 'Perfil da ONG')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/publico/ongs-show.css') }}?v=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"> <!--Font Awesome 6 free-->
+    <link rel="stylesheet" href="{{ asset('css/publico/ongs-show.css') }}?v=2.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 @endsection
 
 @section('conteudo')
-    <!--<div class="card">
-        <h2>Perfil Institucional da ONG</h2>
-        <p>Histórico, informações de contato e relação dos pontos de coleta mantidos pela instituição.</p>
-        <hr class="ong-show-divider">
-        <p class="ong-show-placeholder">(Estrutura inicial pronta para exibição do perfil da ONG)</p>
-    </div>-->
+<div class="ong-show-wrapper">
 
-    <main>
+    {{-- BREADCRUMB --}}
+    <nav class="ong-breadcrumb">
+        <a href="{{ route('publico.ongs.index') }}">ONGs</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>{{ $ong->nome }}</span>
+    </nav>
 
-    <!--============================================================
-        1. DIRETÓRIO DAS PÁGINAS
-        ============================================================-->
-        <section class="diretorio-section">
-            <a href="#">
-                As ONGS
-            </a>
-            <a>
-                <i class="fa-solid fa-chevron-right"></i>
-                {{$ong->nome}}
-            </a>
+    {{-- HERO --}}
+    <div class="ong-hero">
+        <div class="ong-hero-logo">
+            <img 
+                src="{{ ($ong->logo && file_exists(public_path('storage/' . $ong->logo))) ? asset('storage/' . $ong->logo) : asset('img/icon-ecopoints.webp') }}" 
+                alt="Logo {{ $ong->nome }}"
+                onerror="this.onerror=null; this.src='{{ asset('img/icon-ecopoints.webp') }}';"
+            >
+        </div>
+        <div class="ong-hero-info">
+            <span class="ong-hero-label">Instituição Parceira</span>
+            <h1 class="ong-hero-name">{{ $ong->nome }}</h1>
+            @if($ong->descricao)
+                <p class="ong-hero-desc">{{ $ong->descricao }}</p>
+            @endif
+        </div>
+    </div>
 
-        </section>
+    {{-- GRID PRINCIPAL --}}
+    <div class="ong-main-grid">
 
-    <!--============================================================
-        2. CONTEÚDO DA PÁGINA
-        ============================================================-->
-        <section id="content-section">
-
-        <!--============================================================
-            2.1 LEFT CONTENT
-            ============================================================-->
-            <div class="left-content-container">
-
-                <h2>{{$ong->nome}}</h2>
-
-            <!--============================================================
-                2.1.1 SOBRE A ONG
-                ============================================================-->
-                <div class="sobre-container">
-
-                    <h3>Sobre a ONG</h3>
-
-                    <p>
-                        {{$ong->descricao}}
-                    </p>
-
-                </div>       
-                
-            <!--============================================================
-                2.1.2 ECOPONTOS DA ONG
-                ============================================================-->
-                <div class="ecopontos-container">
-
-                    <h3>Ecopontos da ONG</h3>
-
-                    <div class="ecopontos-cards">
-                        @forelse($ong->pontosDeColeta as $ecoponto)
-                        <a href="{{ url('/pontos/' . $ecoponto->id) }}" class="ecoponto-card">
-
-                            <div class="card-infos-box">
-
-                                <img src="{{ $ecoponto->imagem ? asset('storage/' . $ecoponto->imagem) : asset('img/bibliotecas.png') }}" alt="Foto {{ $ecoponto->nome }}">
-
-                                <p> {{ $ecoponto->nome }} </p> <!--BACK END-->
-
-                            </div>
-
-                                <span href> Ver mais detalhes <i class="fa-solid fa-chevron-right"></i> </span>
-
-                        </a>
-
-                        @empty
-                            <p>Esta ONG ainda não possui ecopontos cadastrados.</p>
-                        @endforelse
+        {{-- COLUNA ESQUERDA --}}
+        <div class="ong-col-left">
+            <section class="ong-section">
+                <div class="ong-section-header">
+                    <div class="ong-section-icon">
+                        <i class="fa-solid fa-location-dot"></i>
                     </div>
-
+                    <div>
+                        <h2 class="ong-section-title">Ecopontos de Coleta</h2>
+                        <p class="ong-section-subtitle">Locais onde você pode entregar seus livros e apostilas</p>
+                    </div>
                 </div>
 
+                <div class="ecopontos-grid">
+                    @forelse($ong->pontosDeColeta as $ecoponto)
+                        <a href="{{ url('/pontos/' . $ecoponto->id) }}" class="ecoponto-card">
+                            <div class="ecoponto-thumb">
+                                <img 
+                                    src="{{ ($ecoponto->imagem && file_exists(public_path('storage/' . $ecoponto->imagem))) ? asset('storage/' . $ecoponto->imagem) : asset('img/bibliotecas.png') }}" 
+                                    alt="Foto {{ $ecoponto->nome }}"
+                                    onerror="this.onerror=null; this.src='{{ asset('img/bibliotecas.png') }}';"
+                                >
+                                @if($ecoponto->ativo)
+                                    <span class="ecoponto-badge-ativo">Ativo</span>
+                                @else
+                                    <span class="ecoponto-badge-inativo">Inativo</span>
+                                @endif
+                            </div>
+                            <div class="ecoponto-body">
+                                <h3 class="ecoponto-name">{{ $ecoponto->nome }}</h3>
+                                @if($ecoponto->endereco)
+                                    <p class="ecoponto-addr">
+                                        <i class="fa-solid fa-map-pin"></i>
+                                        {{ $ecoponto->endereco }}{{ $ecoponto->cidade ? ', ' . $ecoponto->cidade : '' }}
+                                    </p>
+                                @endif
+                                @if($ecoponto->horario_funcionamento)
+                                    <p class="ecoponto-horario">
+                                        <i class="fa-regular fa-clock"></i>
+                                        {{ $ecoponto->horario_funcionamento }}
+                                    </p>
+                                @endif
+                            </div>
+                            <div class="ecoponto-footer">
+                                <span class="ecoponto-link">Ver detalhes <i class="fa-solid fa-arrow-right"></i></span>
+                            </div>
+                        </a>
+                    @empty
+                        <div class="ecopontos-empty">
+                            <i class="fa-solid fa-box-open"></i>
+                            <p>Esta ONG ainda não possui ecopontos cadastrados.</p>
+                        </div>
+                    @endforelse
+                </div>
+            </section>
+        </div>
+
+        {{-- COLUNA DIREITA --}}
+        <aside class="ong-col-right">
+            <div class="ong-contact-card">
+                <div class="ong-contact-logo">
+                    <img 
+                        src="{{ ($ong->logo && file_exists(public_path('storage/' . $ong->logo))) ? asset('storage/' . $ong->logo) : asset('img/icon-ecopoints.webp') }}" 
+                        alt="Logo {{ $ong->nome }}"
+                        onerror="this.onerror=null; this.src='{{ asset('img/icon-ecopoints.webp') }}';"
+                    >
+                </div>
+                <h3 class="ong-contact-name">{{ $ong->nome }}</h3>
+
+                <div class="ong-contact-divider"></div>
+
+                <ul class="ong-contact-list">
+                    @if($ong->telefone)
+                        <li>
+                            <span class="ong-contact-icon"><i class="fa-solid fa-phone"></i></span>
+                            <div>
+                                <span class="ong-contact-label">Telefone</span>
+                                <span class="ong-contact-val">{{ $ong->telefone }}</span>
+                            </div>
+                        </li>
+                    @endif
+                    @if($ong->email_contato)
+                        <li>
+                            <span class="ong-contact-icon"><i class="fa-solid fa-envelope"></i></span>
+                            <div>
+                                <span class="ong-contact-label">E-mail</span>
+                                <a href="mailto:{{ $ong->email_contato }}" class="ong-contact-val ong-contact-link">{{ $ong->email_contato }}</a>
+                            </div>
+                        </li>
+                    @endif
+                    @if($ong->endereco)
+                        <li>
+                            <span class="ong-contact-icon"><i class="fa-solid fa-location-dot"></i></span>
+                            <div>
+                                <span class="ong-contact-label">Endereço</span>
+                                <span class="ong-contact-val">{{ $ong->endereco }}</span>
+                            </div>
+                        </li>
+                    @endif
+                    @if($ong->cep)
+                        <li>
+                            <span class="ong-contact-icon"><i class="fa-solid fa-map"></i></span>
+                            <div>
+                                <span class="ong-contact-label">CEP</span>
+                                <span class="ong-contact-val">{{ $ong->cep }}</span>
+                            </div>
+                        </li>
+                    @endif
+                </ul>
+
+                <div class="ong-contact-stats">
+                    <div class="ong-stat">
+                        <span class="ong-stat-num">{{ $ong->pontosDeColeta->count() }}</span>
+                        <span class="ong-stat-label">Ecopontos</span>
+                    </div>
+                    <div class="ong-stat">
+                        <span class="ong-stat-num">{{ $ong->pontosDeColeta->where('ativo', true)->count() }}</span>
+                        <span class="ong-stat-label">Ativos</span>
+                    </div>
+                </div>
             </div>
+        </aside>
 
-        <!--============================================================
-            2.2 RIGHT CONTENT
-            ============================================================-->
-            <div class="right-content-container">
+    </div>
+</div>
 
-                <div class="main-ong-box">
-
-                    <img src="{{ $ong->logo ? asset('storage/' . $ong->logo) : asset('img/icon-ecopoints.webp') }}" alt="Logo {{ $ong->nome }}">
-
-                    <h3>{{$ong->nome}}</h3>
-
-                </div>
-
-                <div class="itens-ong-box">
-
-                    <p> <i class="fa-solid fa-phone"></i> {{$ong->telefone}} <p>
-
-                    <p> <i class="fa-solid fa-envelope"></i> {{$ong->email_contato}}<p> <!--BACK END-->
-
-                    <p>
-                        <i class="fa-regular fa-clock" style="-webkit-text-stroke: 0.2px currentColor;"></i>
-                        {{$ong->cep}} <!--BACK END-->
-                    <p> 
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-    <script src="{{ asset('js/publico/ongs/show.js') }}"></script>
-
+<script src="{{ asset('js/publico/ongs/show.js') }}"></script>
 @endsection

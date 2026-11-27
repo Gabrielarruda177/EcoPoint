@@ -1,170 +1,267 @@
 @extends('layouts.app')
 
 @section('titulo', 'Entrar no Sistema')
+@section('semFooter', true)
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/auth/login.css') }}?v=1.2">
+    <link rel="stylesheet" href="{{ asset('css/auth/login.css') }}?v=5.0">
 @endsection
 
 @section('conteudo')
-<div class="login-container">
-    <div class="login-card">
-        <div class="login-header">
-            <span id="role-badge" class="badge {{ old('perfil', 'admin') === 'admin' ? 'badge-admin' : 'badge-ong' }}">
-                {{ old('perfil', 'admin') === 'admin' ? 'Perfil: Administrador' : 'Perfil: Instituição Parceira' }}
-            </span>
-            <h1 class="login-title">Entrar no EcoPoint</h1>
-            <p id="role-subtitle" class="login-subtitle">
-                {{ old('perfil', 'admin') === 'admin' 
-                    ? 'Acesso restrito para administração e moderação geral do sistema.' 
-                    : 'Acesso institucional para gerenciar pontos de coleta e dados da sua ONG.' }}
-            </p>
-        </div>
+@php
+    $isOngInicial = old('perfil', 'admin') === 'ong';
+@endphp
 
-        @if (session('status'))
-            <div class="login-alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
+<div class="login-stage {{ $isOngInicial ? 'ong-theme' : '' }}" id="loginStage">
+    <div class="auth-wrapper {{ $isOngInicial ? 'ong-active' : '' }}" id="authWrapper">
 
-        @if ($errors->any())
-            <div class="login-alert-error">
-                <ul class="login-alert-list">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <form action="{{ route('login.attempt') }}" method="POST" id="form-login">
-            @csrf
-
-            <!-- Seletor de Perfil (Admin vs ONG) -->
-            <div class="role-selector">
-                <label class="role-pill role-admin {{ old('perfil', 'admin') === 'admin' ? 'active' : '' }}" id="label-role-admin">
-                    <input 
-                        type="radio" 
-                        name="perfil" 
-                        value="admin" 
-                        {{ old('perfil', 'admin') === 'admin' ? 'checked' : '' }}
-                        onchange="setPerfil('admin')"
-                    >
-                    <span>🛡️ Administrador</span>
-                </label>
-
-                <label class="role-pill role-ong {{ old('perfil') === 'ong' ? 'active' : '' }}" id="label-role-ong">
-                    <input 
-                        type="radio" 
-                        name="perfil" 
-                        value="ong" 
-                        {{ old('perfil') === 'ong' ? 'checked' : '' }}
-                        onchange="setPerfil('ong')"
-                    >
-                    <span>🏢 ONG Parceira</span>
-                </label>
-            </div>
-
-            <div class="login-form-group">
-                <label for="email" class="login-label">
-                    E-mail de Acesso
-                </label>
-                <input 
-                    type="email" 
-                    name="email" 
-                    id="email" 
-                    class="login-input"
-                    value="{{ old('email') }}" 
-                    required 
-                    autofocus
-                    placeholder="{{ old('perfil', 'admin') === 'admin' ? 'admin@ecopoint.com' : 'ong@ecopoint.com' }}"
-                >
-            </div>
-
-            <div class="login-form-group">
-                <label for="password" class="login-label">
-                    Senha
-                </label>
-                <input 
-                    type="password" 
-                    name="password" 
-                    id="password" 
-                    class="login-input"
-                    required 
-                    placeholder="••••••••"
-                >
-            </div>
-
-            <label class="login-remember">
-                <input type="checkbox" name="remember" id="remember">
-                Lembrar-me neste dispositivo
-            </label>
-
-            <button type="submit" class="login-btn-submit" id="btn-submit-text">
-                {{ old('perfil', 'admin') === 'admin' ? 'Entrar como Administrador' : 'Entrar como ONG' }}
+        {{-- Seletor Mobile --}}
+        <div class="mobile-switch-bar">
+            <button type="button" class="mobile-switch-tab {{ !$isOngInicial ? 'active-admin' : '' }}" id="mobileTabAdmin" onclick="switchAuthMode('admin')">
+                Administrador
             </button>
-        </form>
+            <button type="button" class="mobile-switch-tab {{ $isOngInicial ? 'active-ong' : '' }}" id="mobileTabOng" onclick="switchAuthMode('ong')">
+                ONG Parceira
+            </button>
+        </div>
 
-        <!-- Caixa de Credenciais Prontas do Seeder -->
-        <div class="login-credentials-box">
-            <div class="login-credentials-title">
-                🔑 Credenciais Rápidas de Teste (Seeders):
-            </div>
-            <div class="credentials-grid">
-                <div class="credential-item" onclick="fillCredentials('admin', 'admin@ecopoint.com', 'admin123')">
-                    <div class="credential-item-title credential-admin">🛡️ Administrador</div>
-                    <div class="credential-item-code">admin@ecopoint.com</div>
-                    <div class="credential-item-code">Senha: admin123</div>
-                    <span class="btn-fill-hint">&darr; Preencher Admin</span>
-                </div>
+        {{-- Cortina Diagonal --}}
+        <div class="diagonal-curtain" aria-hidden="true"></div>
 
-                <div class="credential-item" onclick="fillCredentials('ong', 'ong@ecopoint.com', 'ong123')">
-                    <div class="credential-item-title credential-ong">🏢 ONG Parceira</div>
-                    <div class="credential-item-code">ong@ecopoint.com</div>
-                    <div class="credential-item-code">Senha: ong123</div>
-                    <span class="btn-fill-hint">&darr; Preencher ONG</span>
+        {{-- Formulário Administrador --}}
+        <div class="form-box admin-box">
+            <div class="form-inner">
+                <span class="login-badge-pill badge-pill-admin">Perfil: Administrador</span>
+                <h1 class="login-title">Entrar no EcoPoint</h1>
+                <p class="login-subtitle">
+                    Acesso restrito para administração, cadastro de instituições e aprovação de solicitações.
+                </p>
+
+                @if (session('status') && !$isOngInicial)
+                    <div class="login-alert-success">{{ session('status') }}</div>
+                @endif
+
+                @if ($errors->any() && !$isOngInicial)
+                    <div class="login-alert-error">
+                        <ul class="login-alert-list">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('login.attempt') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="perfil" value="admin">
+
+                    <div class="login-form-group">
+                        <label for="admin-email" class="login-label">E-mail de Acesso</label>
+                        <div class="login-input-wrap">
+                            <svg class="login-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            <input
+                                type="email"
+                                name="email"
+                                id="admin-email"
+                                class="login-input"
+                                value="{{ !$isOngInicial ? old('email') : '' }}"
+                                required
+                                placeholder="admin@ecopoint.com"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="login-form-group">
+                        <label for="admin-password" class="login-label">Senha</label>
+                        <div class="login-input-wrap">
+                            <svg class="login-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <input
+                                type="password"
+                                name="password"
+                                id="admin-password"
+                                class="login-input"
+                                required
+                                placeholder="••••••••"
+                            >
+                        </div>
+                    </div>
+
+                    <label class="login-remember">
+                        <input type="checkbox" name="remember">
+                        Lembrar-me neste dispositivo
+                    </label>
+
+                    <button type="submit" class="login-btn-submit">
+                        Entrar como Administrador
+                    </button>
+                </form>
+
+                <div class="quick-cred-card" onclick="preencherAcesso('admin', 'admin@ecopoint.com', 'admin123')">
+                    <div class="quick-cred-info">
+                        <strong>Acesso Rápido (Seeder)</strong>
+                        <span>admin@ecopoint.com &middot; Senha: admin123</span>
+                    </div>
+                    <span class="quick-cred-action">Preencher &rarr;</span>
                 </div>
             </div>
         </div>
+
+        {{-- Boas-vindas Administrador --}}
+        <div class="info-box admin-info">
+            <div class="info-logo-pill">
+                <img src="{{ asset('img/logo-ecopoints.png') }}" alt="EcoPoints" class="info-logo-img">
+            </div>
+            <h2 class="info-heading">Bem-vindo de volta!</h2>
+            <p class="info-sub">
+                Gerencie organizações parceiras, valide solicitações cadastrais e acompanhe a rede de coleta de livros em todo o país.
+            </p>
+            <button type="button" class="info-switch-btn" onclick="switchAuthMode('ong')">
+                Sou uma ONG Parceira
+            </button>
+        </div>
+
+        {{-- Boas-vindas ONG --}}
+        <div class="info-box ong-info">
+            <div class="info-logo-pill">
+                <img src="{{ asset('img/logo-ecopoints.png') }}" alt="EcoPoints" class="info-logo-img">
+            </div>
+            <h2 class="info-heading">Portal da Instituição</h2>
+            <p class="info-sub">
+                Acesse o painel da sua ONG para gerenciar pontos de coleta, visualizar métricas operacionais e atualizar seus canais de contato.
+            </p>
+            <button type="button" class="info-switch-btn" onclick="switchAuthMode('admin')">
+                Acessar como Administrador
+            </button>
+        </div>
+
+        {{-- Formulário ONG Parceira --}}
+        <div class="form-box ong-box">
+            <div class="form-inner">
+                <span class="login-badge-pill badge-pill-ong">Perfil: Instituição Parceira</span>
+                <h1 class="login-title">Entrar no EcoPoint</h1>
+                <p class="login-subtitle">
+                    Acesso institucional para gerenciar pontos de coleta e dados da sua organização.
+                </p>
+
+                @if (session('status') && $isOngInicial)
+                    <div class="login-alert-success">{{ session('status') }}</div>
+                @endif
+
+                @if ($errors->any() && $isOngInicial)
+                    <div class="login-alert-error">
+                        <ul class="login-alert-list">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('login.attempt') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="perfil" value="ong">
+
+                    <div class="login-form-group">
+                        <label for="ong-email" class="login-label">E-mail Institucional</label>
+                        <div class="login-input-wrap">
+                            <svg class="login-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            <input
+                                type="email"
+                                name="email"
+                                id="ong-email"
+                                class="login-input"
+                                value="{{ $isOngInicial ? old('email') : '' }}"
+                                required
+                                placeholder="ong@ecopoint.com"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="login-form-group">
+                        <label for="ong-password" class="login-label">Senha</label>
+                        <div class="login-input-wrap">
+                            <svg class="login-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <input
+                                type="password"
+                                name="password"
+                                id="ong-password"
+                                class="login-input"
+                                required
+                                placeholder="••••••••"
+                            >
+                        </div>
+                    </div>
+
+                    <label class="login-remember">
+                        <input type="checkbox" name="remember">
+                        Lembrar-me neste dispositivo
+                    </label>
+
+                    <button type="submit" class="login-btn-submit login-btn-ong">
+                        Entrar como ONG
+                    </button>
+                </form>
+
+                <div class="quick-cred-card" onclick="preencherAcesso('ong', 'ong@ecopoint.com', 'ong123')">
+                    <div class="quick-cred-info">
+                        <strong>Acesso Rápido (Seeder)</strong>
+                        <span>ong@ecopoint.com &middot; Senha: ong123</span>
+                    </div>
+                    <span class="quick-cred-action">Preencher &rarr;</span>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
 <script>
-    function setPerfil(perfil) {
-        const badge = document.getElementById('role-badge');
-        const subtitle = document.getElementById('role-subtitle');
-        const emailInput = document.getElementById('email');
-        const submitBtn = document.getElementById('btn-submit-text');
-        const labelAdmin = document.getElementById('label-role-admin');
-        const labelOng = document.getElementById('label-role-ong');
+    function switchAuthMode(mode) {
+        const wrapper = document.getElementById('authWrapper');
+        const stage = document.getElementById('loginStage');
+        const tabAdmin = document.getElementById('mobileTabAdmin');
+        const tabOng = document.getElementById('mobileTabOng');
 
-        if (perfil === 'admin') {
-            labelAdmin.classList.add('active');
-            labelOng.classList.remove('active');
-            badge.className = 'badge badge-admin';
-            badge.textContent = 'Perfil: Administrador';
-            subtitle.textContent = 'Acesso restrito para administração e moderação geral do sistema.';
-            emailInput.placeholder = 'admin@ecopoint.com';
-            submitBtn.textContent = 'Entrar como Administrador';
+        if (mode === 'ong') {
+            wrapper.classList.add('ong-active');
+            stage.classList.add('ong-theme');
+            document.body.classList.add('login-ong-theme');
+            if (tabAdmin) tabAdmin.className = 'mobile-switch-tab';
+            if (tabOng) tabOng.className = 'mobile-switch-tab active-ong';
         } else {
-            labelOng.classList.add('active');
-            labelAdmin.classList.remove('active');
-            badge.className = 'badge badge-ong';
-            badge.textContent = 'Perfil: Instituição Parceira';
-            subtitle.textContent = 'Acesso institucional para gerenciar pontos de coleta e dados da sua ONG.';
-            emailInput.placeholder = 'ong@ecopoint.com';
-            submitBtn.textContent = 'Entrar como ONG';
+            wrapper.classList.remove('ong-active');
+            stage.classList.remove('ong-theme');
+            document.body.classList.remove('login-ong-theme');
+            if (tabAdmin) tabAdmin.className = 'mobile-switch-tab active-admin';
+            if (tabOng) tabOng.className = 'mobile-switch-tab';
         }
     }
 
-    function fillCredentials(perfil, email, senha) {
-        const radio = document.querySelector(`input[name="perfil"][value="${perfil}"]`);
-        if (radio) {
-            radio.checked = true;
-            setPerfil(perfil);
+    @if ($isOngInicial)
+        document.body.classList.add('login-ong-theme');
+    @endif
+
+    function preencherAcesso(perfil, email, senha) {
+        switchAuthMode(perfil);
+        if (perfil === 'ong') {
+            document.getElementById('ong-email').value = email;
+            document.getElementById('ong-password').value = senha;
+        } else {
+            document.getElementById('admin-email').value = email;
+            document.getElementById('admin-password').value = senha;
         }
-        document.getElementById('email').value = email;
-        document.getElementById('password').value = senha;
     }
 </script>
 @endsection

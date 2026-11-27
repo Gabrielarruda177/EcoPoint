@@ -111,15 +111,6 @@
 
             <div class="sidebar-divider"></div>
 
-            <a href="{{ route('publico.pontos.index') }}" class="sidebar-link" target="_blank" title="Ver no Mapa Público">
-                <span class="sidebar-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
-                    </svg>
-                </span>
-                <span class="sidebar-label">Mapa Público</span>
-            </a>
-
             <a href="{{ route('publico.home') }}" class="sidebar-link" target="_blank" title="Página Inicial do EcoPoints">
                 <span class="sidebar-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">

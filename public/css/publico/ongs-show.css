@@ -1,225 +1,455 @@
-/* ============================================================
-   EcoPoint — Página Pública: Detalhes da ONG
-   public/css/publico/ongs-show.css
-   ============================================================ */
+/* ONG SHOW — Página Pública de Perfil da Instituição */
 
-/* Divider 
-.ong-show-divider {
-    margin: 1rem 0;
-    border: 0;
-    border-top: 1px solid #e2e8f0;
+/* WRAPPER */
+.ong-show-wrapper {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
 }
 
- Placeholder note 
-.ong-show-placeholder {
-    color: #718096;
-    font-style: italic;
-}*/
-
-main{
-    max-width: 1100px;
-    margin: 50px auto;
-}
-
-h2{
-    font-size: 2.15rem;
-}
-
-h3{
-    font-size: 1rem;
-    margin-bottom: 2px;
-    padding-bottom: 0;
-}
-
-p{
-    font-size: 0.9rem;
-    margin: 0;
-    padding: 0;
-}
-
-/*============================================================
-    1. DIRETÓRIO DAS PÁGINAS
-============================================================*/
-.diretorio-section{
-    display: flex;
-
-    margin-bottom: 0;
-}
-
-.diretorio-section a{
-    text-decoration: none;
-    color: #000;
-    font-size: 0.8rem;
-}
-
-.diretorio-section a i{
-    font-size: 8px;
-    padding: 0px 8px;
-}
-
-/*============================================================
-    2. CONTEÚDO DA PÁGINA
-============================================================*/
-
-#content-section{
-    display: flex;
-    gap: 10%;
-}
-
-/*============================================================
-    2.1 LEFT CONTENT
-  ============================================================*/
-
-.left-content-container{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-
-    box-sizing: border-box;
-    width: 60%;
-    height: auto;
-}
-
-/*============================================================
-    2.1.1 SOBRE A ONG
-============================================================*/
-
-.sobre-container {
-    max-width: 100%;
-}
-
-.sobre-container p{
-    height: auto;
-    word-wrap: break-word;
-}
-
-/*============================================================
-    2.1.2 ECOPONTOS DA ONG
-============================================================*/
-.ecopontos-container, .ecopontos-cards{
-    width: 100%;
-}
-
-.ecopontos-container h3{
-    margin-bottom: 8px;
-}
-
-.ecopontos-cards{
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
-  gap: 10px;
-}
-
-.ecoponto-card{
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    box-sizing: border-box;
-    text-decoration: none;
-    height: auto;
-    border-radius: 15px;
-    color: #000;
-    padding: 14px 20px;
-    outline: none;
-    background-color: #fbfbfb;
-}
-
-.card-infos-box{
+/* BREADCRUMB */
+.ong-breadcrumb {
     display: inline-flex;
-    gap: 10px;
-
-    width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: #557040;
+    margin-bottom: 2rem;
 }
 
-.card-infos-box img{
-    width: 60px;
-    height: 40px;
-
-    background-color: #c7c7c7;
-
-    object-fit: cover;
-    object-position: center;
-
-    border-radius: 15px;   
-}
-
-.card-infos-box p{
+.ong-breadcrumb a {
+    color: #3A7229;
+    text-decoration: none;
     font-weight: 600;
+    transition: color 0.2s;
 }
 
-.ecoponto-card span{
-    font-size: 0.8rem;
-    text-decoration: none;
+.ong-breadcrumb a:hover { color: #2a5a1a; }
 
-    display: inline-flex;
+.ong-breadcrumb i {
+    font-size: 0.6rem;
+    color: #90ac7f;
+}
+
+.ong-breadcrumb span {
+    color: #445c35;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+}
+
+/* HERO */
+.ong-hero {
+    display: flex;
     align-items: center;
-    align-self: flex-end;
-    gap: 10px;
-
-    color:#fbfbfb;
-    background-color: #c7c7c7;
-    border-radius: 15px;
-
-    padding: 1px 8px; 
+    gap: 2rem;
+    background: linear-gradient(135deg, #2a5a1a 0%, #3A7229 50%, #466F37 100%);
+    border-radius: 20px;
+    padding: 2.5rem 2.8rem;
+    color: #fff;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 8px 30px rgba(42, 90, 26, 0.18);
+    position: relative;
+    overflow: hidden;
 }
 
-.ecoponto-card span i{
-    font-size: 8px;
+.ong-hero::after {
+    content: '';
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
 }
 
-/*============================================================
-    2.2 RIGHT CONTENT
-============================================================*/
-
-.right-content-container {
-    background-color: #fbfbfb;
-    border-radius: 5px;
-
-    width: 30%;
-    height: auto;
-
-    padding: 30px 40px;
-
+.ong-hero-logo {
+    flex-shrink: 0;
+    width: 90px;
+    height: 90px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.25);
     display: flex;
-    flex-direction: column;
-    gap: 24px;
-
-    box-sizing: border-box;
-}
-
-.main-ong-box {
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    overflow: hidden;
 }
 
-.main-ong-box img{
-    width: 100px;
-    height: 100px;
-
-    background-color: #c7c7c7;
-
-    object-fit: cover;
-    object-position: center;
-
-    border-radius: 15px;   
-}
-
-.itens-ong-box{
-    width:  100%;
+.ong-hero-logo img {
+    width: 100%;
     height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
 }
 
-.itens-ong-box i{
-    font-size: 0.8rem;
-    width: 1rem;
-    
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+.ong-hero-label {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.75);
+    background: rgba(255,255,255,0.12);
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 0.6rem;
+}
 
-    margin-right: 10px;
+.ong-hero-name {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.ong-hero-desc {
+    color: rgba(255,255,255,0.82);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin: 0;
+    max-width: 620px;
+}
+
+/* GRID PRINCIPAL */
+.ong-main-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* SEÇÃO */
+.ong-section {
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #e8f0e3;
+    padding: 2rem;
+    box-shadow: 0 2px 12px rgba(42, 90, 26, 0.05);
+}
+
+.ong-section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #f0f5ec;
+}
+
+.ong-section-icon {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #3A7229, #466F37);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.ong-section-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #1e3d12;
+    margin: 0 0 0.2rem 0;
+}
+
+.ong-section-subtitle {
+    font-size: 0.84rem;
+    color: #6b8c5c;
+    margin: 0;
+}
+
+/* GRID DE ECOPONTOS */
+.ecopontos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.ecoponto-card {
+    display: flex;
+    flex-direction: column;
+    background: #f8fdf5;
+    border: 1px solid #deecd5;
+    border-radius: 14px;
+    text-decoration: none;
+    color: #1e3d12;
+    overflow: hidden;
+    transition: all 0.22s ease;
+    box-shadow: 0 1px 4px rgba(42, 90, 26, 0.06);
+}
+
+.ecoponto-card:hover {
+    border-color: #3A7229;
+    box-shadow: 0 6px 22px rgba(42, 90, 26, 0.12);
+    transform: translateY(-3px);
+}
+
+.ecoponto-thumb {
+    position: relative;
+    width: 100%;
+    height: 130px;
+    overflow: hidden;
+    background: #d4e8c8;
+}
+
+.ecoponto-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.ecoponto-card:hover .ecoponto-thumb img { transform: scale(1.05); }
+
+.ecoponto-badge-ativo,
+.ecoponto-badge-inativo {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.ecoponto-badge-ativo {
+    background: rgba(42, 90, 26, 0.88);
+    color: #fff;
+}
+
+.ecoponto-badge-inativo {
+    background: rgba(100, 100, 100, 0.75);
+    color: #fff;
+}
+
+.ecoponto-body {
+    padding: 1rem 1rem 0.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.ecoponto-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1e3d12;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.ecoponto-addr,
+.ecoponto-horario {
+    font-size: 0.78rem;
+    color: #557040;
+    margin: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    line-height: 1.4;
+}
+
+.ecoponto-addr i,
+.ecoponto-horario i {
+    color: #3A7229;
+    font-size: 0.72rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.ecoponto-footer {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #e8f0e3;
+}
+
+.ecoponto-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #3A7229;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: gap 0.2s ease;
+}
+
+.ecoponto-card:hover .ecoponto-link { gap: 0.65rem; }
+.ecoponto-link i { font-size: 0.72rem; }
+
+.ecopontos-empty {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 3rem;
+    color: #90ac7f;
+}
+
+.ecopontos-empty i { font-size: 2.5rem; }
+.ecopontos-empty p { font-size: 0.9rem; margin: 0; }
+
+/* CARD DE CONTATO (RIGHT) */
+.ong-contact-card {
+    background: #fff;
+    border: 1px solid #e8f0e3;
+    border-radius: 18px;
+    padding: 1.75rem;
+    box-shadow: 0 2px 12px rgba(42, 90, 26, 0.05);
+    position: sticky;
+    top: 1.5rem;
+}
+
+.ong-contact-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 0 auto 1rem;
+    border: 2px solid #deecd5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f7eb;
+}
+
+.ong-contact-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ong-contact-name {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #1e3d12;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.ong-contact-divider {
+    height: 1px;
+    background: #f0f5ec;
+    margin: 1.25rem 0;
+}
+
+.ong-contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ong-contact-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.ong-contact-icon {
+    width: 32px;
+    height: 32px;
+    background: #f0f7eb;
+    border: 1px solid #deecd5;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3A7229;
+    font-size: 0.78rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.ong-contact-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+    color: #90ac7f;
+    margin-bottom: 1px;
+}
+
+.ong-contact-val {
+    display: block;
+    font-size: 0.85rem;
+    color: #2a4a1e;
+    font-weight: 500;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.ong-contact-link {
+    color: #3A7229;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.ong-contact-link:hover { color: #1e3d12; text-decoration: underline; }
+
+.ong-contact-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #f0f5ec;
+}
+
+.ong-stat {
+    background: #f8fdf5;
+    border: 1px solid #deecd5;
+    border-radius: 10px;
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+}
+
+.ong-stat-num {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #3A7229;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.ong-stat-label {
+    display: block;
+    font-size: 0.72rem;
+    color: #6b8c5c;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+    .ong-main-grid { grid-template-columns: 1fr; }
+    .ong-contact-card { position: static; order: -1; }
+    .ong-hero { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+    .ong-hero-desc { max-width: 100%; }
+}
+
+@media (max-width: 600px) {
+    .ong-hero-name { font-size: 1.5rem; }
+    .ong-section { padding: 1.25rem; }
+    .ecopontos-grid { grid-template-columns: 1fr; }
 }

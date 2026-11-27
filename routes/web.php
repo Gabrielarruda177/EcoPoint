@@ -43,8 +43,7 @@ Route::name('publico.')->group(function () {
     Route::get('/fale-conosco', [PublicoHomeController::class, 'contato'])->name('contato');
     Route::post('/fale-conosco', [PublicoHomeController::class, 'enviarContato'])->name('contato.enviar');
 
-    // Consulta de pontos de coleta e detalhes
-    Route::get('/pontos', [PublicoPontoDeColetaController::class, 'index'])->name('pontos.index');
+    // Consulta de detalhes de pontos de coleta
     Route::get('/pontos/{ponto}', [PublicoPontoDeColetaController::class, 'show'])->name('pontos.show');
 
     // Consulta do perfil institucional da ONG

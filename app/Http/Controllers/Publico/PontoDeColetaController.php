@@ -11,14 +11,6 @@ use Illuminate\View\View;
 class PontoDeColetaController extends Controller
 {
     /**
-     * Lista todos os pontos de coleta ativos para consulta pública.
-     */
-    public function index(): View
-    {
-        return view('publico.pontos.index');
-    }
-
-    /**
      * Exibe os detalhes e informações de um ponto de coleta específico.
      */
     public function show(PontoDeColeta $ponto): View

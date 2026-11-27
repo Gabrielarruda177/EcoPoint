@@ -3,7 +3,7 @@
 @section('titulo', 'Cadastrar Ponto de Coleta')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/ong/pontos.css') }}?v=1.1">
+    <link rel="stylesheet" href="{{ asset('css/ong/pontos.css') }}?v=3.2">
 @endsection
 
 @section('conteudo')
@@ -246,15 +246,36 @@
                 </div>
 
                 <div class="form-group" style="margin-top: 1rem;">
-                    <label for="imagem" class="form-label">Foto / Imagem do Ponto de Coleta (Opcional)</label>
-                    <input 
-                        type="file" 
-                        name="imagem" 
-                        id="imagem" 
-                        class="form-control" 
-                        accept="image/png, image/jpeg, image/jpg, image/webp"
-                    >
-                    <span class="form-hint">Foto da fachada ou totem de coleta (PNG, JPG, WEBP até 3MB). Ajuda os doadores a identificarem o local.</span>
+                    <label class="form-label">Foto / Imagem do Ponto de Coleta (Opcional)</label>
+
+                    <div class="img-upload-zone" id="imgUploadZone">
+                        <input 
+                            type="file" 
+                            name="imagem" 
+                            id="imagem" 
+                            class="img-upload-input" 
+                            accept="image/png, image/jpeg, image/jpg, image/webp"
+                        >
+
+                        <div class="img-upload-placeholder" id="imgPlaceholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                            <span class="img-upload-title">Clique para selecionar uma foto</span>
+                            <span class="img-upload-hint">PNG, JPG ou WEBP · até 3MB</span>
+                        </div>
+
+                        <div class="img-upload-preview" id="imgPreview" style="display: none;">
+                            <img id="imgPreviewThumb" src="" alt="Prévia">
+                            <div class="img-upload-overlay">
+                                <span class="img-upload-change-label">Clique para trocar a foto</span>
+                                <button type="button" class="img-upload-remove-btn" id="imgRemoveBtn" title="Remover imagem">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                    Remover
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -273,4 +294,60 @@
 
 @section('scripts')
     <script src="{{ asset('js/utils/form-helpers.js') }}?v=1.0"></script>
+    <script>
+        (function () {
+            const zone      = document.getElementById('imgUploadZone');
+            const input     = document.getElementById('imagem');
+            const placeholder = document.getElementById('imgPlaceholder');
+            const preview   = document.getElementById('imgPreview');
+            const thumb     = document.getElementById('imgPreviewThumb');
+            const removeBtn = document.getElementById('imgRemoveBtn');
+
+            zone.addEventListener('click', function (e) {
+                if (e.target === removeBtn || removeBtn.contains(e.target)) return;
+                input.click();
+            });
+
+            zone.addEventListener('dragover', function (e) {
+                e.preventDefault();
+                zone.classList.add('drag-over');
+            });
+
+            zone.addEventListener('dragleave', function () { zone.classList.remove('drag-over'); });
+
+            zone.addEventListener('drop', function (e) {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    input.files = e.dataTransfer.files;
+                    setPreview(file);
+                }
+            });
+
+            input.addEventListener('change', function () {
+                if (this.files[0]) setPreview(this.files[0]);
+            });
+
+            removeBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                input.value = '';
+                thumb.src = '';
+                preview.style.display = 'none';
+                placeholder.style.display = '';
+                zone.classList.remove('has-image');
+            });
+
+            function setPreview(file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    thumb.src = e.target.result;
+                    placeholder.style.display = 'none';
+                    preview.style.display = '';
+                    zone.classList.add('has-image');
+                };
+                reader.readAsDataURL(file);
+            }
+        })();
+    </script>
 @endsection
