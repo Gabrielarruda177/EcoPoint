@@ -6,6 +6,7 @@
     <title>EcoPoints - @yield('titulo', 'Mapeamento de Coleta de Livros e Apostilas')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=1.0">
     <link rel="shortcut icon" href="{{ asset('img/icon-ecopoints.webp') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"> <!--Font Awesome 6 free-->
     @yield('styles')
     @stack('styles')
 </head>
@@ -25,10 +26,10 @@
             </button>
                     
             <nav id="nav-links">
-                <a href="{{ route('publico.home') }}">INÍCIO</a>
-                <a href="{{ route('publico.sobre') }}">SOBRE NÓS</a>
-                <a href="{{ route('publico.ongs.index') }}">ONGS</a>
-                <a href="{{ route('publico.contato')}}">FALE CONOSCO</a>
+                <h2> <a href="{{ route('publico.home') }}">INÍCIO</a> </h2>
+                <h2> <a href="{{ route('publico.sobre') }}">SOBRE NÓS</a> </h2>
+                <h2> <a href="{{ route('publico.ongs.index') }}">AS ONGS</a> </h2>
+                <h2> <a href="{{ route('publico.contato')}}">FALE CONOSCO</a> </h2>
 
                 @auth
                     @if(auth()->user()->isAdmin())
@@ -73,8 +74,72 @@
     </main>
 
     <footer>
-        <p>EcoPoint &copy; {{ date('Y') }} - Sistema de Mapeamento de Pontos de Coleta de Livros e Apostilas Acadêmicas.</p>
 
+        <div class="footer-content">
+
+            <div class="sobre-nos-footer">
+
+                <img src="{{ asset('img/logotipo.png') }}" alt="logotipo"></img>
+
+                
+
+            <!--<h2>SOBRE NÓS</h2>-->
+
+                <p>Uma plataforma acadêmica que busca aproximar cidadãos e ONGs para doação de livros didáticos/acadêmicos e apostilas.</p>
+
+                <a href="{{ route('publico.home') }}#local"> SEU LIVRO, NO PRÓXIMO PONTO > </a>
+
+            </div>
+
+            <div class="ecopoints-footer">
+
+                <h2>ECOPOINTS</h2>
+
+                <ul>
+                    <li> <a href="{{ route('publico.home') }}">Início</a> </li>
+                    <li> <a href="{{ route('publico.sobre') }}">Sobre Nós</a> </li>
+                    <li> <a href="{{ route('publico.ongs.index') }}">As ONGs</a> </li>
+                    <li> <a href="{{ route('publico.contato')}}">Fale Conosco</a> </li>
+                </ul>        
+
+            </div>
+
+            <div class="areas-restritas-footer">
+
+                <h2>ÁREAS RESTRITAS</h2>
+
+                <ul>
+                    <li> <a href="{{ route('admin.dashboard') }}"> Acesso restrito ADM </a> </li>
+                    <li> <a href="{{ route('ong.dashboard') }}"> Acesso restrito ONG </a> </li>
+                    <li> <a href="{{ route('admin.ongs.create') }}"> Cadastrar nova ONG </a> </li>
+                    <li> <a href="{{ route('ong.pontos.create') }}"> Cadastrar novo ecoponto </a> </li>
+                </ul>
+
+            </div>
+
+            <div class="fale-conosco-footer">
+
+                <h2>FALE CONOSCO</h2>
+
+                <ul>
+                    <li> <i class="fa-solid fa-phone"></i> (11) 9910-6070 </li>
+                    <li> <i class="fa-brands fa-whatsapp"></i> (11) 99100-6070 </li>
+                    <li> <i class="fa-solid fa-envelope"></i> ecopoints@eco.com.br </li>
+                </ul>
+
+            </div>
+
+            <div class="academico-footer">
+
+                <h3>ACADÊMICO</h3>
+
+                <p>Projeto de Mapeamento de Pontos de Coleta para Livros e Materiais Didáticos desenvolvido para Fatec Itaquera.</p>
+
+            </div>
+
+        </div>
+
+        <p class="copyright-txt">EcoPoint &copy; {{ date('Y') }} - Sistema de Mapeamento de Pontos de Coleta de Livros e Apostilas Acadêmicas.</p>
         
     </footer>
 

@@ -12,6 +12,19 @@
     padding: 0;
 }
 
+h2{
+    font-size: 1.2rem;
+}
+
+i{
+    font-size: 0.9rem;
+    width: 1rem;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Body */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -175,6 +188,10 @@ header .nav-container nav #nav-btn-login:hover p {
     animation: pula 0.5s ease;
 }
 
+main {
+    flex: 1;
+}
+
 /* ---- Card ---- */
 .card {
     background: white;
@@ -186,12 +203,95 @@ header .nav-container nav #nav-btn-login:hover p {
 
 /* ---- Footer ---- */
 footer {
-    text-align: center;
-    padding: 2rem;
-    color: #718096;
-    font-size: 0.9rem;
+    color: #f7fafc;
     border-top: 1px solid #e2e8f0;
     background: #80654A;
+
+    padding: 2rem 12rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.footer-content {
+    display: flex;
+    gap: 50px;
+
+    justify-content: center;
+    text-align: left;
+}
+
+.sobre-nos-footer, .ecopoints-footer, .areas-restritas-footer,
+.fale-conosco-footer, .academico-footer{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    width: 200px;
+}
+
+.sobre-nos-footer p, .ecopoints-footer ul, .areas-restritas-footer ul,
+.fale-conosco-footer ul, .academico-footer p{
+    font-size: 0.8rem;
+}
+
+.sobre-nos-footer p, footer ul, footer li, footer a{
+    list-style: none;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.sobre-nos-footer{
+    width: 250px;
+}
+
+.sobre-nos-footer img{
+    width: 140.6px;
+    height: 40px;
+
+    object-fit: cover;
+    object-position: center;
+
+    padding: 0;
+    margin: 0;
+}
+
+.sobre-nos-footer p{
+    width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.sobre-nos-footer a{
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    text-decoration: none;
+    color: #F4F4F4;
+}
+
+.ecopoints-footer {
+    width: 150px;
+}
+
+.ecopoints-footer ul li a, .areas-restritas-footer ul li a{
+    color: #f7fafc;
+}
+
+.fale-conosco-footer ul li i{
+    margin-right: 10px;
+}
+
+.fale-conosco-footer .fa-phone,
+.fale-conosco-footer .fa-envelope{
+    font-size: 0.75rem;
+    width: 0.85rem;
+}
+
+footer .copyright-txt{
+    text-align: center;
+    font-size: 0.7rem;
 }
 
 /* ---- Badges ---- */
