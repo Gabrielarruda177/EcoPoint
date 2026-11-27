@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="{{ asset('img/icon-ecopoints.webp') }}" type="image/x-icon">
 
     <link rel="stylesheet" href="{{ asset('css/admin/sidebar.css') }}?v=4.0">
-    <link rel="stylesheet" href="{{ asset('css/ong/layout.css') }}?v=1.0">
+    <link rel="stylesheet" href="{{ asset('css/ong/layout.css') }}?v=2.0">
     @yield('styles')
     @stack('styles')
 </head>
@@ -69,7 +69,6 @@
                     <span class="brand-title">
                         <span class="brand-eco">Eco</span><span class="brand-points">Points</span>
                     </span>
-                    <span class="brand-badge">Painel da ONG</span>
                 </div>
             </a>
 

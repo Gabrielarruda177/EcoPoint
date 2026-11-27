@@ -16,10 +16,17 @@
             <span class="badge badge-admin">Perfil: Administrador</span>
             <h1 class="ongs-title">Gerenciamento de ONGs</h1>
             <p class="ongs-subtitle">
-                Consulte, edite, ative/desative ou exclua as organizações parceiras cadastradas.
+                Consulte os dados completos, ative/desative ou exclua as organizações parceiras cadastradas.
             </p>
         </div>
-        <div>
+        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+            <a href="{{ route('admin.solicitacoes.index') }}" class="btn-new-ong" style="background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.35); box-shadow: none;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                Solicitações
+                @if(isset($totalPendentes) && $totalPendentes > 0)
+                    <span style="background: #f59e0b; color: #fff; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.75rem; margin-left: 4px;">{{ $totalPendentes }}</span>
+                @endif
+            </a>
             <a href="{{ route('admin.ongs.create') }}" class="btn-new-ong">
                 + Nova ONG
             </a>
@@ -81,24 +88,28 @@
                             </td>
                             <td class="th-actions">
                                 <div class="actions-group">
-                                    {{-- Botão que abre o Modal de Edição na própria página --}}
+                                    {{-- Botão que abre o Modal de Detalhes da Instituição --}}
                                     <button type="button" 
-                                            class="btn-action btn-action-edit" 
-                                            title="Editar dados da ONG"
-                                            data-action="{{ route('admin.ongs.update', $ong) }}"
+                                            class="btn-action btn-action-detalhes" 
+                                            title="Visualizar detalhes completos da ONG"
                                             data-nome="{{ $ong->nome }}"
-                                            data-email="{{ $ong->user->email ?? '' }}"
-                                            data-cnpj="{{ $ong->cnpj }}"
-                                            data-telefone="{{ $ong->telefone }}"
-                                            data-email-contato="{{ $ong->email_contato }}"
-                                            data-cidade="{{ $ong->cidade }}"
-                                            data-estado="{{ $ong->estado }}"
-                                            data-endereco="{{ $ong->endereco }}"
-                                            data-numero="{{ $ong->numero }}"
-                                            data-bairro="{{ $ong->bairro }}"
-                                            data-cep="{{ $ong->cep }}"
-                                            onclick="abrirModalEditar(this)">
-                                        Editar
+                                            data-cnpj="{{ $ong->cnpj ?: 'Não informado' }}"
+                                            data-telefone="{{ $ong->telefone ?: 'Não informado' }}"
+                                            data-email-contato="{{ $ong->email_contato ?: 'Não informado' }}"
+                                            data-email-login="{{ $ong->user->email ?? 'Não cadastrado' }}"
+                                            data-endereco="{{ $ong->endereco ?: 'Não informado' }}"
+                                            data-numero="{{ $ong->numero ?: 'S/N' }}"
+                                            data-complemento="{{ $ong->complemento ?: '' }}"
+                                            data-bairro="{{ $ong->bairro ?: 'Não informado' }}"
+                                            data-cidade="{{ $ong->cidade ?: 'Não informada' }}"
+                                            data-estado="{{ $ong->estado ?: '—' }}"
+                                            data-cep="{{ $ong->cep ?: 'Não informado' }}"
+                                            data-descricao="{{ $ong->descricao ?: 'Nenhuma descrição cadastrada.' }}"
+                                            data-status="{{ $ong->ativo ? 'Ativo' : 'Inativo' }}"
+                                            data-pontos-count="{{ $ong->pontosDeColeta->count() }}"
+                                            data-criado-em="{{ $ong->created_at->format('d/m/Y \à\s H:i') }}"
+                                            onclick="abrirModalDetalhes(this)">
+                                        Detalhes
                                     </button>
 
                                     {{-- Botão que dispara o Modal de Alterar Status --}}
@@ -209,6 +220,122 @@
                     Sim, excluir
                 </button>
             </form>
+        </div>
+    </div>
+</div>
+
+{{-- ============================================================
+     MODAL DE DETALHES COMPLETOS DA ONG
+     ============================================================ --}}
+<div id="modalDetalhesOng" class="vibe-modal-overlay" style="display: none;">
+    <div class="vibe-modal-dialog vibe-modal-dialog-large" role="dialog" aria-modal="true" aria-labelledby="modalDetalhesTitulo">
+        <button type="button" class="vibe-modal-close-btn" onclick="fecharModalDetalhes()" title="Fechar Modal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+        <div class="vibe-modal-header">
+            <div class="vibe-modal-icon" style="margin-bottom: 8px;">
+                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#2F6929" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+            </div>
+            <h3 id="modalDetalhesTitulo" class="vibe-modal-title">Detalhes da Instituição</h3>
+            <p class="vibe-modal-subtitle">Consulta completa de dados cadastrais, localização e operação</p>
+        </div>
+
+        <div class="vibe-modal-body">
+            <div class="detalhes-grid">
+                {{-- Bloco 1: Identificação --}}
+                <div class="detalhes-block">
+                    <div class="detalhes-block-title">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Identificação & Registro
+                    </div>
+                    <div class="detalhes-item">
+                        <span class="detalhes-label">Nome Oficial:</span>
+                        <span id="detalheNome" class="detalhes-val-strong"></span>
+                    </div>
+                    <div class="detalhes-item">
+                        <span class="detalhes-label">CNPJ (Identificador Fixo):</span>
+                        <span id="detalheCnpj" class="detalhes-val-cnpj"></span>
+                    </div>
+                    <div class="detalhes-item">
+                        <span class="detalhes-label">Status da Entidade:</span>
+                        <span id="detalheStatus" class="status-pill status-active"></span>
+                    </div>
+                </div>
+
+                {{-- Bloco 2: Contato e Acesso --}}
+                <div class="detalhes-block">
+                    <div class="detalhes-block-title">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        Contato & Acesso
+                    </div>
+                    <div class="detalhes-item">
+                        <span class="detalhes-label">E-mail de Login do Usuário:</span>
+                        <span id="detalheEmailLogin" class="detalhes-val-email"></span>
+                    </div>
+                    <div class="detalhes-item">
+                        <span class="detalhes-label">E-mail de Contato Público:</span>
+                        <span id="detalheEmailContato" class="detalhes-val"></span>
+                    </div>
+                    <div class="detalhes-item">
+                        <span class="detalhes-label">Telefone:</span>
+                        <span id="detalheTelefone" class="detalhes-val"></span>
+                    </div>
+                </div>
+
+                {{-- Bloco 3: Localização --}}
+                <div class="detalhes-block full-width">
+                    <div class="detalhes-block-title">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        Endereço Oficial
+                    </div>
+                    <div class="detalhes-item">
+                        <span class="detalhes-label">Endereço / Logradouro:</span>
+                        <span id="detalheEnderecoCompleto" class="detalhes-val"></span>
+                    </div>
+                    <div class="detalhes-item">
+                        <span class="detalhes-label">CEP:</span>
+                        <span id="detalheCep" class="detalhes-val"></span>
+                    </div>
+                </div>
+
+                {{-- Bloco 4: Operação e Histórico --}}
+                <div class="detalhes-block full-width">
+                    <div class="detalhes-block-title">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        Operação no Sistema
+                    </div>
+                    <div style="display: flex; gap: 2.5rem; flex-wrap: wrap;">
+                        <div class="detalhes-item">
+                            <span class="detalhes-label">Pontos de Coleta Vinculados:</span>
+                            <strong id="detalhePontosCount" style="color: #1D3D1A; font-size: 1.15rem;"></strong>
+                        </div>
+                        <div class="detalhes-item">
+                            <span class="detalhes-label">Data de Cadastro no Sistema:</span>
+                            <span id="detalheCriadoEm" class="detalhes-val"></span>
+                        </div>
+                    </div>
+                    <div class="detalhes-item" style="margin-top: 0.65rem;">
+                        <span class="detalhes-label">Descrição Institucional:</span>
+                        <div id="detalheDescricao" class="detalhes-desc-box"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="vibe-modal-footer">
+            <button type="button" class="vibe-btn-cancel" onclick="fecharModalDetalhes()">
+                Fechar
+            </button>
         </div>
     </div>
 </div>
@@ -358,6 +485,47 @@
         }
     }
 
+    // MODAL DE DETALHES COMPLETOS
+    function abrirModalDetalhes(btn) {
+        const modal = document.getElementById('modalDetalhesOng');
+        if (!modal) return;
+
+        document.getElementById('detalheNome').textContent = btn.dataset.nome || '—';
+        document.getElementById('detalheCnpj').textContent = btn.dataset.cnpj || '—';
+
+        const statusEl = document.getElementById('detalheStatus');
+        const isAtivo = btn.dataset.status === 'Ativo';
+        statusEl.textContent = btn.dataset.status || '—';
+        statusEl.className = 'status-pill ' + (isAtivo ? 'status-active' : 'status-inactive');
+
+        document.getElementById('detalheEmailLogin').textContent = btn.dataset.emailLogin || '—';
+        document.getElementById('detalheEmailContato').textContent = btn.dataset.emailContato || '—';
+        document.getElementById('detalheTelefone').textContent = btn.dataset.telefone || '—';
+
+        let enderecoCompleto = btn.dataset.endereco;
+        if (btn.dataset.numero) enderecoCompleto += ', ' + btn.dataset.numero;
+        if (btn.dataset.complemento) enderecoCompleto += ' (' + btn.dataset.complemento + ')';
+        if (btn.dataset.bairro) enderecoCompleto += ' — ' + btn.dataset.bairro;
+        if (btn.dataset.cidade || btn.dataset.estado) enderecoCompleto += ', ' + (btn.dataset.cidade || '') + ' / ' + (btn.dataset.estado || '');
+        document.getElementById('detalheEnderecoCompleto').textContent = enderecoCompleto || '—';
+        document.getElementById('detalheCep').textContent = btn.dataset.cep || '—';
+
+        document.getElementById('detalhePontosCount').textContent = btn.dataset.pontosCount + ' ponto(s)';
+        document.getElementById('detalheCriadoEm').textContent = btn.dataset.criadoEm || '—';
+        document.getElementById('detalheDescricao').textContent = btn.dataset.descricao || 'Nenhuma descrição informada.';
+
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function fecharModalDetalhes() {
+        const modal = document.getElementById('modalDetalhesOng');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+
     // MODAL DE EDITAR (NA PRÓPRIA PÁGINA)
     function abrirModalEditar(btn) {
         const modal = document.getElementById('modalEditarOng');
@@ -397,10 +565,12 @@
         const modalStatus = document.getElementById('modalStatusOng');
         const modalExcluir = document.getElementById('modalExcluirOng');
         const modalEditar = document.getElementById('modalEditarOng');
+        const modalDetalhes = document.getElementById('modalDetalhesOng');
 
         if (modalStatus && e.target === modalStatus) fecharModalStatus();
         if (modalExcluir && e.target === modalExcluir) fecharModalExclusao();
         if (modalEditar && e.target === modalEditar) fecharModalEditar();
+        if (modalDetalhes && e.target === modalDetalhes) fecharModalDetalhes();
     });
 
     // Fechar ao teclar ESC
@@ -409,6 +579,7 @@
             fecharModalStatus();
             fecharModalExclusao();
             fecharModalEditar();
+            fecharModalDetalhes();
         }
     });
 </script>

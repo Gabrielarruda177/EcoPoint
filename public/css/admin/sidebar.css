@@ -10,7 +10,7 @@
     --eco-sky: #3BA9E6;           
     --eco-sky-tint: #EFF8FD;
 
-    --bg-canvas: #F5F7F5;
+    --bg-canvas: #F4F8F4;
     --bg-surface: #FFFFFF;
     --border-soft: #E2E8E2;
     --text-primary: #1D2B1E;
@@ -319,6 +319,18 @@ body.admin-body {
     background-color: rgba(255, 255, 255, 0.15);
     color: #FFFFFF;
     font-weight: 600;
+}
+
+.sidebar-badge-count {
+    margin-left: auto;
+    background-color: #f59e0b;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    line-height: 1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-link.active::before {

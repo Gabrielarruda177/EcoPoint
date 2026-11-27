@@ -14,17 +14,43 @@ use Illuminate\View\View;
 class PontoDeColetaController extends Controller
 {
     /**
-     * Lista apenas os pontos de coleta pertencentes à ONG autenticada.
+     * Lista apenas os pontos de coleta pertencentes à ONG autenticada com suporte a filtros e busca.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         $ong = auth()->user()->ong;
 
-        $pontos = $ong
-            ? $ong->pontosDeColeta()->with('materiaisAceitos')->latest()->paginate(10)
-            : PontoDeColeta::whereRaw('1 = 0')->paginate(10);
+        $query = $ong
+            ? $ong->pontosDeColeta()->with('materiaisAceitos')->latest()
+            : PontoDeColeta::whereRaw('1 = 0');
 
-        return view('ong.pontos.index', compact('ong', 'pontos'));
+        if ($busca = $request->input('busca')) {
+            $query->where(function ($q) use ($busca) {
+                $q->where('nome', 'like', "%{$busca}%")
+                  ->orWhere('endereco', 'like', "%{$busca}%")
+                  ->orWhere('bairro', 'like', "%{$busca}%")
+                  ->orWhere('cidade', 'like', "%{$busca}%")
+                  ->orWhere('estado', 'like', "%{$busca}%");
+            });
+        }
+
+        if ($request->filled('status')) {
+            $status = $request->input('status');
+            if ($status === 'ativos') {
+                $query->where('ativo', true);
+            } elseif ($status === 'inativos') {
+                $query->where('ativo', false);
+            }
+        }
+
+        $totalGeral = $ong ? $ong->pontosDeColeta()->count() : 0;
+        $totalAtivos = $ong ? $ong->pontosDeColeta()->where('ativo', true)->count() : 0;
+        $totalInativos = $ong ? $ong->pontosDeColeta()->where('ativo', false)->count() : 0;
+
+        $pontos = $query->paginate(10)->withQueryString();
+        $materiais = MaterialAceito::orderBy('nome')->get();
+
+        return view('ong.pontos.index', compact('ong', 'pontos', 'totalGeral', 'totalAtivos', 'totalInativos', 'materiais'));
     }
 
     /**
@@ -215,6 +241,24 @@ class PontoDeColetaController extends Controller
         return redirect()
             ->route('ong.pontos.index')
             ->with('success', 'Ponto de coleta excluído com sucesso!');
+    }
+
+    /**
+     * Alterna o status (ativo/inativo) de um ponto de coleta da ONG.
+     */
+    public function toggleStatus(PontoDeColeta $ponto): RedirectResponse
+    {
+        $this->autorizarAcessoAoPonto($ponto);
+
+        $ponto->update([
+            'ativo' => ! $ponto->ativo,
+        ]);
+
+        $statusNome = $ponto->ativo ? 'ativado' : 'desativado';
+
+        return redirect()
+            ->route('ong.pontos.index')
+            ->with('success', "Ponto de coleta \"{$ponto->nome}\" {$statusNome} com sucesso!");
     }
 
     /**
