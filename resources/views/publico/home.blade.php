@@ -142,12 +142,6 @@
         </div>
     </section>
 
-    <script>
-        window.DADOS_BANCO = {
-            pontos: @json($pontos),
-            ongs: @json($ongs)
-        };
-    </script>
     <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
     <script src="{{ asset('js/publico/home/home.js') }}"></script>
 

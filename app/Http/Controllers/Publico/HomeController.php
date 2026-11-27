@@ -26,6 +26,17 @@ class HomeController extends Controller
         return view('publico.home', compact('pontos', 'ongs'));
     }
 
+    public function apiPontos()
+    {
+        $pontos = PontoDeColeta::with(['ong', 'materiaisAceitos'])->get();
+        $ongs = Ong::all();
+
+        return response()->json([
+            'pontos' => $pontos,
+            'ongs' => $ongs
+        ]);
+    }
+
     /**
      * Exibe a página institucional Sobre Nós.
      */

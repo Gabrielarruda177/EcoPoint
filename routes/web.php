@@ -38,6 +38,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->midd
 Route::name('publico.')->group(function () {
     // Página inicial do sistema
     Route::get('/', [PublicoHomeController::class, 'index'])->name('home');
+    Route::get('/api/pontos-coleta', [PublicoHomeController::class, 'apiPontos'])->name('api.pontos');
     Route::get('/sobre-nos', [PublicoHomeController::class, 'sobre'])->name('sobre');
     Route::get('/fale-conosco', [PublicoHomeController::class, 'contato'])->name('contato');
     Route::post('/fale-conosco', [PublicoHomeController::class, 'enviarContato'])->name('contato.enviar');

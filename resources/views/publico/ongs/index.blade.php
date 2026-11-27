@@ -55,10 +55,5 @@
         </div>    
     </section>
 
-    <script>
-        window.DADOS_BANCO = {
-            ongs: @json($ongs)
-        }
-    </script>
     <script src="{{ asset('js/publico/ongs/index.js') }}"></script>
 @endsection
